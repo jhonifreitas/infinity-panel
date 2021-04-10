@@ -43,8 +43,6 @@ export class LoginFormComponent implements OnInit {
         this._util.message('E-mail ou senha inválido!', 'warn');
       });
       this.loading = false;
-    } else {
-      this._util.message('Verifique os dados antes de salvar!', 'warn');
-    }
+    } else this._util.message('Verifique os dados antes de salvar!', 'warn');
   }
 }

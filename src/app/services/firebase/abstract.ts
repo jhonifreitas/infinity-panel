@@ -45,7 +45,7 @@ export abstract class FirebaseAbstract<T extends Base> {
     object.deletedAt = null;
     delete object.id;
 
-    return this.collection().add(object).then(doc => {return doc.id});
+    return this.collection().add(object).then(doc => doc.id);
   }
 
   async update(id: string, data: Partial<T>): Promise<void> {
@@ -177,11 +177,9 @@ export abstract class FirebaseAbstract<T extends Base> {
 
     filters.splice(0, 1);
 
-    for (const filter of filters) {
-      query = query.where(filter.field, filter.operator, filter.value);
-    }
+    for (const filter of filters) query = query.where(filter.field, filter.operator, filter.value);
 
-    if(orderBy) query = query.orderBy(orderBy, orderDirection);
+    if (orderBy) query = query.orderBy(orderBy, orderDirection);
 
     const { docs } = await query.get();
     return docs.map(doc => this.toObject(doc));
@@ -198,11 +196,9 @@ export abstract class FirebaseAbstract<T extends Base> {
 
         filters.splice(0, 1);
 
-        for (const filter of filters) {
-          query = query.where(filter.field, filter.operator, filter.value);
-        }
+        for (const filter of filters) query = query.where(filter.field, filter.operator, filter.value);
 
-        if(orderBy) query = query.orderBy(orderBy, orderDirection);
+        if (orderBy) query = query.orderBy(orderBy, orderDirection);
 
         return query;
       })
@@ -233,47 +229,30 @@ export abstract class FirebaseAbstract<T extends Base> {
   }
 
   private transformTimestampToDate(obj: any): any {
-    if (null === obj || 'object' !== typeof obj) {
-      return obj;
-    }
+    if (null === obj || 'object' !== typeof obj) return obj;
 
-    if (obj instanceof firebase.firestore.Timestamp) {
-      return obj.toDate();
-    }
+    if (obj instanceof firebase.firestore.Timestamp) return obj.toDate();
 
     if (obj instanceof Array) {
       const copy = [];
-      for (let i = 0, len = obj.length; i < len; i++) {
-        copy[i] = this.transformTimestampToDate(obj[i]);
-      }
+      for (let i = 0, len = obj.length; i < len; i++) copy[i] = this.transformTimestampToDate(obj[i]);
       return copy;
     }
 
     if (obj instanceof Object) {
       const copy: any = {};
-      for (const attr in obj) {
-        if (obj.hasOwnProperty(attr)) {
-          copy[attr] = this.transformTimestampToDate(obj[attr]);
-        }
-      }
-
+      for (const attr in obj) if (obj.hasOwnProperty(attr)) copy[attr] = this.transformTimestampToDate(obj[attr]);
       return copy;
     }
 
-    throw new Error(
-      'The object could not be transformed! Type is not supported.'
-    );
+    throw new Error('The object could not be transformed! Type is not supported.');
   }
 
   protected cloneObject(obj: any): any {
     let copy: any;
-    if (null == obj || 'object' !== typeof obj) {
-      return obj;
-    }
+    if (null == obj || 'object' !== typeof obj) return obj;
 
-    if (obj instanceof firebase.firestore.FieldValue) {
-      return obj;
-    }
+    if (obj instanceof firebase.firestore.FieldValue) return obj;
     if (obj instanceof Date) {
       copy = new Date();
       copy.setTime(obj.getTime());
@@ -282,25 +261,15 @@ export abstract class FirebaseAbstract<T extends Base> {
 
     if (obj instanceof Array) {
       copy = [];
-      for (let i = 0, len = obj.length; i < len; i++) {
-        copy[i] = this.cloneObject(obj[i]);
-      }
+      for (let i = 0, len = obj.length; i < len; i++) copy[i] = this.cloneObject(obj[i]);
       return copy;
     }
 
     if (obj instanceof Object) {
       copy = {};
-      for (const attr in obj) {
-        if (obj.hasOwnProperty(attr)) {
-          copy[attr] = this.cloneObject(obj[attr]);
-        }
-      }
+      for (const attr in obj) if (obj.hasOwnProperty(attr)) copy[attr] = this.cloneObject(obj[attr]);
 
-      for (const prop in copy) {
-        if (copy[prop] === undefined) {
-          delete copy[prop];
-        }
-      }
+      for (const prop in copy) if (copy[prop] === undefined) delete copy[prop];
 
       return copy;
     }

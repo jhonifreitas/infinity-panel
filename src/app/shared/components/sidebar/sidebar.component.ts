@@ -47,11 +47,7 @@ export class SidebarComponent implements OnInit {
         clearInterval(interval);
         for (const item of this.menu) {
           item.hidden = !this.hasPermission(item);
-          if (item.subItems) {
-            for (const subItem of item.subItems) {
-              subItem.hidden = !this.hasPermission(subItem);
-            }
-          }
+          if (item.subItems) for (const subItem of item.subItems) subItem.hidden = !this.hasPermission(subItem);
         }
       }
     }, 500);
@@ -61,24 +57,15 @@ export class SidebarComponent implements OnInit {
     const width = window.innerWidth;
     if (width <= 960 && !this.toggleSideBarForMe.closed) {
       this.toggleSideBarForMe.emit();
-      setTimeout(() => {
-        window.dispatchEvent(
-          new Event('resize')
-        );
-      }, 300);
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
     }
   }
 
   hasPermission(item: MenuItem): boolean {
     if (item.subItems) {
-      for (const subItem of item.subItems) {
-        if (this._permission.check(subItem.permission.page, subItem.permission.role)) {
-          return true;
-        }
-      }
+      for (const subItem of item.subItems)
+        if (this._permission.check(subItem.permission.page, subItem.permission.role)) return true;
       return false;
-    } else {
-      return this._permission.check(item.permission.page, item.permission.role);
-    }
+    } else return this._permission.check(item.permission.page, item.permission.role);
   }
 }

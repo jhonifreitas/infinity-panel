@@ -47,7 +47,9 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 // import { MatSelectFilterModule } from 'mat-select-filter';
 // LOTTIE
 import { LottieModule } from 'ngx-lottie';
-export function playerFactory(): Promise<any> {return import('lottie-web')}
+export function playerFactory(): Promise<any> {
+  return import('lottie-web');
+}
 
 // DEFAULT
 import { DefaultComponent } from './layout.component';

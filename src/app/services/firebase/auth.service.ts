@@ -19,9 +19,8 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       this.auth.signInWithEmailAndPassword(email, password).then(credential => {
         this._user.getById(credential.user.uid).then(user => {
-          if (user) {
-            resolve(user);
-          } else {
+          if (user) resolve(user);
+          else {
             this.signOut();
             reject('User not found!');
           }

@@ -14,10 +14,10 @@ export class PermissionService {
   ) { }
 
   check(page: Page, role: string): boolean {
-    if (this._storage.getUser.type == 'administrator') return true;
+    if (this._storage.getUser.type === 'administrator') return true;
     const permission = this._storage.getPermissions.find(perm => perm.page === page && perm.role === role);
-    const group = this._storage.getGroups.find(
-      group => group['_permissions'].find(perm => perm.page === page && perm.role === role));
-    return permission != undefined || group != undefined;
+    const permGroup = this._storage.getGroups.find(
+      group => group.permissions.find(perm => perm.page === page && perm.role === role));
+    return permission !== undefined || permGroup !== undefined;
   }
 }

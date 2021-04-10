@@ -48,9 +48,7 @@ export class UtilService {
 
   form(component: ComponentType<unknown>, object: any): Promise<any> {
     let maxWidth = '95vw';
-    if (window.innerWidth > 960) {
-      maxWidth = '50vw';
-    }
+    if (window.innerWidth > 960) maxWidth = '50vw';
     return new Promise(resolve => {
       const dialog = this.dialog.open(component, {
         maxWidth,
@@ -97,9 +95,7 @@ export class UtilService {
         const byteString = window.atob(result.split(',')[1]);
         const arrayBuffer = new ArrayBuffer(byteString.length);
         const int8Array = new Uint8Array(arrayBuffer);
-        for (let i = 0; i < byteString.length; i++) {
-          int8Array[i] = byteString.charCodeAt(i);
-        }
+        for (let i = 0; i < byteString.length; i++) int8Array[i] = byteString.charCodeAt(i);
         const file = new Blob([int8Array], { type: 'image/png' });
         resolve({base64: result, file});
       });

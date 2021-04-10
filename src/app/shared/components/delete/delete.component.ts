@@ -24,9 +24,7 @@ export class DeleteComponent implements OnInit {
 
   validatorConfirm(confirm: FormControl): {invalid: boolean} {
     let result = null;
-    if (confirm.value !== 'SIM') {
-      result = {invalid: true};
-    }
+    if (confirm.value !== 'SIM') result = {invalid: true};
     return result;
   }
 

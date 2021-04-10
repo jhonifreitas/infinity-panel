@@ -4,7 +4,6 @@ import { User } from 'src/app/models/user';
 import { Group } from 'src/app/models/group';
 import { Permission } from 'src/app/models/permission';
 import { GroupService } from './firebase/group.service';
-import { PermissionService } from './firebase/permission.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,33 +12,15 @@ export class StorageService {
 
   constructor(
     private _group: GroupService,
-    private _permission: PermissionService,
   ) { }
 
   // USER
   async setUser(data: User): Promise<void> {
     const groups = [];
-    const permissions = [];
 
-    if (data.permissions) {
-      for (const permission_id of data.permissions) {
-        await this._permission.getById(permission_id).then(permission => {
-          permissions.push(permission);
-        });
-      }
-      this.setPermissions = permissions;
-    }
+    if (data.permissions) this.setPermissions = data.permissions;
     if (data.groups) {
-      for (const group_id of data.groups) {
-        await this._group.getById(group_id).then(async group => {
-          for (const permission_id of group.permissions) {
-            await this._permission.getById(permission_id).then(permission => {
-              group['_permissions'].push(permission);
-            });
-          }
-          groups.push(group);
-        });
-      }
+      for (const groupId of data.groups) await this._group.getById(groupId).then(group => groups.push(group));
       this.setGroups = groups;
     }
     localStorage.setItem('user', JSON.stringify(data));
