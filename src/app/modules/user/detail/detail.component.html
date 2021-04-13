@@ -21,19 +21,14 @@
     <mat-list-item>
       <mat-icon matListIcon>lock</mat-icon>
       <div matLine><strong> Permissões </strong></div>
-      <mat-chip-list *ngIf="object._permissions">
-        <mat-chip *ngFor="let permission of object._permissions" color="primary" selected>{{ permission.page }} - {{ permission.role }}</mat-chip>
+      <mat-chip-list *ngIf="object.permissions">
+        <mat-chip *ngFor="let permission of object.permissions" color="primary" selected>{{ permission.page }} - {{ permission.role }}</mat-chip>
       </mat-chip-list>
-      <div matLine class="info" *ngIf="!object._permissions">---</div>
+      <div matLine class="info" *ngIf="!object.permissions.length">---</div>
     </mat-list-item>
     <mat-list-item>
-      <mat-icon matListIcon color="success" *ngIf="object.superUser">check_circle</mat-icon>
-      <mat-icon matListIcon color="warn" *ngIf="!object.superUser">cancel</mat-icon>
-      <div matLine><strong> Super Usuário </strong></div>
-    </mat-list-item>
-    <mat-list-item>
-      <mat-icon matListIcon color="success" *ngIf="object.active">check_circle</mat-icon>
-      <mat-icon matListIcon color="warn" *ngIf="!object.active">cancel</mat-icon>
+      <mat-icon matListIcon color="warn" *ngIf="object.deletedAt">cancel</mat-icon>
+      <mat-icon matListIcon color="success" *ngIf="!object.deletedAt">check_circle</mat-icon>
       <div matLine><strong> Ativo </strong></div>
     </mat-list-item>
   </mat-list>

@@ -11,7 +11,7 @@
     <mat-form-field>
       <mat-label>Permissões</mat-label>
       <mat-select formControlName="permissions" multiple placeholder="---">
-        <mat-option *ngFor="let permission of permissions" [value]="permission.id">{{ permission.page }} - {{ permission.role }}</mat-option>
+        <mat-option *ngFor="let permission of permissions" [value]="permission.id">{{ permission.name }}</mat-option>
       </mat-select>
       <mat-error>Permissões é obrigatório!</mat-error>
     </mat-form-field>
@@ -19,6 +19,6 @@
 </div>
 <div mat-dialog-actions fxLayoutAlign="end center">
   <button mat-button mat-dialog-close>Cancelar</button>
-  <button mat-raised-button color="primary" [disabled]="formGroup.invalid" *ngIf="!saving" (click)="save()">Salvar</button>
+  <button mat-raised-button color="primary" [disabled]="formGroup.invalid" *ngIf="!saving" (click)="onSubmit()">Salvar</button>
   <mat-progress-spinner mode="indeterminate" diameter="25" *ngIf="saving"></mat-progress-spinner>
 </div>

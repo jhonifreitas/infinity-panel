@@ -26,7 +26,7 @@ export class UserListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<User>;
-  displayedColumns: string[] = ['name', 'email', 'superUser', 'active', 'avatar', 'actions'];
+  displayedColumns: string[] = ['name', 'email', 'active', 'avatar', 'actions'];
 
   canAdd = this._permission.check(Page.GroupPage, PageRole.CanAdd);
   canView = this._permission.check(Page.GroupPage, PageRole.CanView);

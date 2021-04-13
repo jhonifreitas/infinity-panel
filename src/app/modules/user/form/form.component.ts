@@ -22,7 +22,7 @@ export class UserFormComponent implements OnInit {
   saving = false;
   groups: Group[];
   formGroup: FormGroup;
-  permissions: Permission[];
+  permissions: {id: string; name: string}[];
   image: {path: string; new: boolean; file?: Blob};
 
   constructor(
@@ -87,9 +87,12 @@ export class UserFormComponent implements OnInit {
 
   getPermissions(): void {
     this.permissions = [];
-    for (const page of Object.entries(Page))
-      for (const role of Object.entries(PageRole))
-        this.permissions.push({page: page[1], role: role[1]});
+    let id = 0;
+    for (const page of new Permission().getPages)
+      for (const role of new Permission().getPageRoles) {
+        this.permissions.push({id: id.toString(), name: `${page.name} - ${role.name}`});
+        id += 1;
+      }
   }
 
   async takeImage(event: any): Promise<void> {
@@ -98,10 +101,6 @@ export class UserFormComponent implements OnInit {
     this.image = {path: compress.base64, file: compress.file, new: true};
     loader.componentInstance.msg = 'Imagem comprimida!';
     loader.componentInstance.done();
-  }
-
-  async saveImage(id: string): Promise<void> {
-    if (this.image && this.image.new && this.image.file) await this._user.uploadImage(id, this.image.file);
   }
 
   async deleteImage(): Promise<void> {
@@ -113,7 +112,7 @@ export class UserFormComponent implements OnInit {
     else this.image = null;
   }
 
-  async save(): Promise<void> {
+  async onSubmit(): Promise<void> {
     if (this.formGroup.valid) {
       this.saving = true;
       const value = this.formGroup.value;
@@ -122,7 +121,7 @@ export class UserFormComponent implements OnInit {
 
       await this._user.save(this.data).then(async id => {
         if (id) this.data.id = id;
-        await this.saveImage(this.data.id);
+        if (this.image && this.image.new && this.image.file) await this._user.uploadImage(this.data.id, this.image.file);
       });
 
       this.saving = false;

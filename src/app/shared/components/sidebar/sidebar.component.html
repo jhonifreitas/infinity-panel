@@ -11,24 +11,24 @@
 
   <h2 matSubheader>Menu</h2>
 
-  <div *ngFor="let page of pages" [hidden]="page.hidden">
-    <a mat-list-item *ngIf="!page.subPages" (click)="closeSideBar()" routerLinkActive="list-item-active" [routerLink]="page.url">
-      <mat-icon matListIcon>{{ page.icon }}</mat-icon>
-      <h3 matLine>{{ page.title }}</h3>
+  <div *ngFor="let item of menuItems" [hidden]="item.hidden">
+    <a mat-list-item *ngIf="!item.subItems" (click)="closeSideBar()" routerLinkActive="list-item-active" [routerLink]="item.url">
+      <mat-icon matListIcon>{{ item.icon }}</mat-icon>
+      <h3 matLine>{{ item.title }}</h3>
     </a>
 
-    <mat-accordion *ngIf="page.subPages">
+    <mat-accordion *ngIf="item.subItems">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <mat-icon matListIcon>{{ page.icon }}</mat-icon>
-            <span>{{ page.title }}</span>
+            <mat-icon matListIcon>{{ item.icon }}</mat-icon>
+            <span>{{ item.title }}</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div *ngFor="let subpage of page.subPages" [hidden]="subpage.hidden">
-          <a mat-list-item (click)="closeSideBar()" routerLinkActive="list-item-active" [routerLink]="subpage.url">
-            <mat-icon matListIcon>{{ subpage.icon }}</mat-icon>
-            <h3 matLine>{{ subpage.title }}</h3>
+        <div *ngFor="let subItem of item.subItems" [hidden]="subItem.hidden">
+          <a mat-list-item (click)="closeSideBar()" routerLinkActive="list-item-active" [routerLink]="subItem.url">
+            <mat-icon matListIcon>{{ subItem.icon }}</mat-icon>
+            <h3 matLine>{{ subItem.title }}</h3>
           </a>
         </div>
       </mat-expansion-panel>

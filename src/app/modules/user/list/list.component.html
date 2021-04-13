@@ -26,19 +26,11 @@
         <mat-cell *matCellDef="let element"> {{ element.email }} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="superUser">
-        <mat-header-cell mat-sort-header *matHeaderCellDef fxFlex="10" fxLayoutAlign="center center"> Super Usuário </mat-header-cell>
-        <mat-cell *matCellDef="let element" fxFlex="10" fxLayoutAlign="center center">
-          <mat-icon color="success" *ngIf="element.superUser">check_circle</mat-icon>
-          <mat-icon color="warn" *ngIf="!element.superUser">cancel</mat-icon>
-        </mat-cell>
-      </ng-container>
-
       <ng-container matColumnDef="active">
         <mat-header-cell mat-sort-header *matHeaderCellDef fxFlex="10" fxLayoutAlign="center center"> Ativo </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10" fxLayoutAlign="center center">
-          <mat-icon color="success" *ngIf="element.active">check_circle</mat-icon>
-          <mat-icon color="warn" *ngIf="!element.active">cancel</mat-icon>
+          <mat-icon color="warn" *ngIf="element.deletedAt">cancel</mat-icon>
+          <mat-icon color="success" *ngIf="!element.deletedAt">check_circle</mat-icon>
         </mat-cell>
       </ng-container>
   

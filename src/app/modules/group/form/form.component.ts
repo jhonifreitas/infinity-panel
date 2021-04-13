@@ -19,7 +19,7 @@ export class GroupFormComponent implements OnInit {
 
   saving = false;
   formGroup: FormGroup;
-  permissions: Permission[];
+  permissions: {id: string; name: string}[];
 
   constructor(
     private _util: UtilService,
@@ -34,6 +34,7 @@ export class GroupFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getPermissions();
     if (this.data) this.setData();
   }
 
@@ -41,12 +42,22 @@ export class GroupFormComponent implements OnInit {
     return this.formGroup.controls;
   }
 
+  getPermissions() {
+    this.permissions = [];
+    let id = 0;
+    for (const page of new Permission().getPages)
+      for (const role of new Permission().getPageRoles) {
+        this.permissions.push({id: id.toString(), name: `${page.name} - ${role.name}`});
+        id += 1;
+      }
+  }
+
   setData(): void {
     this.controls.name.setValue(this.data.name);
     this.controls.permissions.setValue(this.data.permissions);
   }
 
-  async save(): Promise<void> {
+  async onSubmit(): Promise<void> {
     if (this.formGroup.valid) {
       this.saving = true;
       Object.assign(this.data, this.formGroup.value);

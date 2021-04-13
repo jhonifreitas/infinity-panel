@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Formulário de usuário</h1>
 <div mat-dialog-content>
-  <form [formGroup]="form">
+  <form [formGroup]="formGroup">
 
     <div class="image" *ngIf="image">
       <button mat-mini-fab color="warn" (click)="deleteImage()">
@@ -36,7 +36,7 @@
       <mat-form-field fxFlex="50">
         <mat-label>Permissões</mat-label>
         <mat-select formControlName="permissions" multiple>
-          <mat-option *ngFor="let permission of permissions" [value]="permission.id">{{ permission.page }} - {{ permission.role }}</mat-option>
+          <mat-option *ngFor="let permission of permissions" [value]="permission.id">{{ permission.name }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -49,16 +49,14 @@
       <mat-form-field fxFlex="50">
         <mat-label>Confirme sua senha</mat-label>
         <input matInput type="password" formControlName="confirmPass">
-        <mat-error *ngIf="form.get('confirmPass').hasError('required')">Confirme sua senha é <strong>obrigatório!</strong></mat-error>
-        <mat-error *ngIf="form.get('confirmPass').hasError('passNotSame')">As senhas não <strong>coincidem!</strong></mat-error>
+        <mat-error *ngIf="controls.confirmPass.hasError('required')">Confirme sua senha é <strong>obrigatório!</strong></mat-error>
+        <mat-error *ngIf="controls.confirmPass.hasError('passNotSame')">As senhas não <strong>coincidem!</strong></mat-error>
       </mat-form-field>
     </div>
-    <mat-slide-toggle formControlName="superUser" color="primary">Super Usuário</mat-slide-toggle><br>
-    <mat-slide-toggle formControlName="active" color="primary">Ativo</mat-slide-toggle>
   </form>
 </div>
 <div mat-dialog-actions fxLayoutAlign="end center">
   <button mat-button mat-dialog-close>Cancelar</button>
-  <button mat-raised-button color="primary" [disabled]="form.invalid" *ngIf="!saving" (click)="save()">Salvar</button>
+  <button mat-raised-button color="primary" [disabled]="formGroup.invalid" *ngIf="!saving" (click)="onSubmit()">Salvar</button>
   <mat-progress-spinner mode="indeterminate" diameter="25" *ngIf="saving"></mat-progress-spinner>
 </div>
