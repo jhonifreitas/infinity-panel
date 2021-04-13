@@ -3,12 +3,31 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './guards/auth.guard';
 
+import { LayoutComponent } from './layout/layout.component';
+import { UserListComponent } from './modules/user/list/list.component';
+import { GroupListComponent } from './modules/group/list/list.component';
+import { LoginFormComponent } from './modules/auth/login/login.component';
+import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { PasswordResetFormComponent } from './modules/auth/password-reset/password-reset.component';
+import { ForgotPasswordFormComponent } from './modules/auth/forgot-password/forgot-password.component';
+
 const routes: Routes = [
 
-  { path: 'entrar', loadChildren: () => import('./modules/auth/auth.module').then( m => m.AuthModule) },
+  { path: 'auth', children: [
+    { path: '', redirectTo: 'entrar', pathMatch: 'full' },
+    { path: 'entrar', component: LoginFormComponent },
+    { path: 'esqueci-senha', component: ForgotPasswordFormComponent },
+    { path: 'redefinir-senha', component: PasswordResetFormComponent },
+  ] },
 
-  { path: '', canActivate: [AuthGuard], loadChildren: () => import('./layout/layout.module').then( m => m.LayoutModule), children: [
-    { path: 'dashboard', loadChildren: () => import('./modules/dashboard/dashboard.module').then( m => m.DashboardModule) },
+  { path: '', canActivate: [AuthGuard], component: LayoutComponent, children: [
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    { path: 'dashboard', component: DashboardComponent },
+
+    { path: 'administracao', children: [
+      { path: 'usuarios', component: UserListComponent },
+      { path: 'grupos', component: GroupListComponent },
+    ] }
   ]},
 
   // ERROR PAGES

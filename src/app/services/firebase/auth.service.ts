@@ -38,4 +38,12 @@ export class AuthService {
       Promise.reject(FirebaseErrorCodeMessages.auth[err.code] || 'Houve um erro ao realizar o login. Por favor, tente novamente.')
     );
   }
+
+  async verifyPasswordResetCode(code: string): Promise<string> {
+    return this.auth.verifyPasswordResetCode(code);
+  }
+
+  async confirmPasswordReset(code: string, newPassword: string): Promise<void> {
+    return this.auth.confirmPasswordReset(code, newPassword);
+  }
 }

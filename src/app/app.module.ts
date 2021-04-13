@@ -1,5 +1,6 @@
 import localePt from '@angular/common/locales/pt';
 import { NgModule, LOCALE_ID } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,7 +13,9 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 import { AppComponent } from './app.component';
+import { LayoutModule } from './layout/layout.module';
 import { AppRoutingModule } from './app-routing.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { environment } from '../environments/environment';
 
 registerLocaleData(localePt);
@@ -22,7 +25,10 @@ registerLocaleData(localePt);
     AppComponent
   ],
   imports: [
+    AuthModule,
+    LayoutModule,
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     AngularFireAuthModule,
     BrowserAnimationsModule,

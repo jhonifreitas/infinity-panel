@@ -32,6 +32,15 @@ import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginato
 // ===============================================================================
 // MODULES =======================================================================
 // ===============================================================================
+import { UserListComponent } from 'src/app/modules/user/list/list.component';
+import { UserFormComponent } from 'src/app/modules/user/form/form.component';
+import { UserDetailComponent } from 'src/app/modules/user/detail/detail.component';
+
+import { GroupListComponent } from 'src/app/modules/group/list/list.component';
+import { GroupFormComponent } from 'src/app/modules/group/form/form.component';
+import { GroupDetailComponent } from 'src/app/modules/group/detail/detail.component';
+
+import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
 import { DeleteComponent } from 'src/app/shared/components/delete/delete.component';
 import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
 
@@ -52,15 +61,22 @@ export function playerFactory(): Promise<any> {
 }
 
 // DEFAULT
-import { DefaultComponent } from './layout.component';
+import { LayoutComponent } from './layout.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { translateMatPaginator } from 'src/app/services/localization.service';
 
 @NgModule({
   declarations: [
+    LayoutComponent,
     DeleteComponent,
     LoadingComponent,
-    DefaultComponent
+    UserListComponent,
+    UserFormComponent,
+    GroupListComponent,
+    GroupFormComponent,
+    DashboardComponent,
+    UserDetailComponent,
+    GroupDetailComponent
   ],
   imports: [
     FormsModule,

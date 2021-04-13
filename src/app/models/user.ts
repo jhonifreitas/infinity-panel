@@ -1,4 +1,5 @@
 import { Base } from './base';
+import { Group } from './group';
 import { Permission } from './permission';
 
 export class User extends Base {
@@ -9,6 +10,8 @@ export class User extends Base {
   permissions: Permission[];
 
   type: 'administrator' | 'common';
+
+  _groups?: Group[];
 
   constructor() {
     super();

@@ -12,7 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { LoginFormComponent } from './login/login.component';
-import { AuthRoutingModule } from './auth-routing.module';
+import { PasswordResetFormComponent } from './password-reset/password-reset.component';
+import { ForgotPasswordFormComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   imports: [
@@ -22,10 +23,13 @@ import { AuthRoutingModule } from './auth-routing.module';
     MatInputModule,
     MatButtonModule,
     FlexLayoutModule,
-    AuthRoutingModule,
     MatFormFieldModule,
     ReactiveFormsModule,
   ],
-  declarations: [LoginFormComponent],
+  declarations: [
+    LoginFormComponent,
+    PasswordResetFormComponent,
+    ForgotPasswordFormComponent
+  ],
 })
 export class AuthModule {}
