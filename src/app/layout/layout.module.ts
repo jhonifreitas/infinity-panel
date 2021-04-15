@@ -40,6 +40,10 @@ import { GroupListComponent } from 'src/app/modules/group/list/list.component';
 import { GroupFormComponent } from 'src/app/modules/group/form/form.component';
 import { GroupDetailComponent } from 'src/app/modules/group/detail/detail.component';
 
+import { StudentListComponent } from 'src/app/modules/student/list/list.component';
+import { StudentFormComponent } from 'src/app/modules/student/form/form.component';
+import { StudentDetailComponent } from 'src/app/modules/student/detail/detail.component';
+
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
 import { DeleteComponent } from 'src/app/shared/components/delete/delete.component';
 import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
@@ -76,7 +80,10 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     GroupFormComponent,
     DashboardComponent,
     UserDetailComponent,
-    GroupDetailComponent
+    GroupDetailComponent,
+    StudentListComponent,
+    StudentFormComponent,
+    StudentDetailComponent
   ],
   imports: [
     FormsModule,

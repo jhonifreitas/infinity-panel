@@ -8,6 +8,7 @@ import { UserListComponent } from './modules/user/list/list.component';
 import { GroupListComponent } from './modules/group/list/list.component';
 import { LoginFormComponent } from './modules/auth/login/login.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { StudentListComponent } from './modules/student/list/list.component';
 import { PasswordResetFormComponent } from './modules/auth/password-reset/password-reset.component';
 import { ForgotPasswordFormComponent } from './modules/auth/forgot-password/forgot-password.component';
 
@@ -23,6 +24,8 @@ const routes: Routes = [
   { path: '', canActivate: [AuthGuard], component: LayoutComponent, children: [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'dashboard', component: DashboardComponent },
+
+    { path: 'alunos', component: StudentListComponent },
 
     { path: 'administracao', children: [
       { path: 'usuarios', component: UserListComponent },

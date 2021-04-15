@@ -2,49 +2,65 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl, ValidatorFn } from '@angular/forms';
 
-import { User } from 'src/app/models/user';
-import { Group } from 'src/app/models/group';
+import { Student } from 'src/app/models/student';
 import { FileUpload } from 'src/app/interfaces/base';
-import { Permission } from 'src/app/models/permission';
 
 import { UtilService } from 'src/app/services/util.service';
-import { UserService } from 'src/app/services/firebase/user.service';
-import { GroupService } from 'src/app/services/firebase/group.service';
+import { StudentService } from 'src/app/services/firebase/student.service';
+import { ValidatorService } from 'src/app/services/validator.service';
 
 @Component({
-  selector: 'app-user-form',
+  selector: 'app-student-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class UserFormComponent implements OnInit {
+export class StudentFormComponent implements OnInit {
 
   saving = false;
-  groups: Group[];
   image: FileUpload;
   formGroup: FormGroup;
-  permissions: {id: string; name: string}[];
+  genres = [
+    {id: 'masc', name: 'Masculino'},
+    {id: 'fem', name: 'Feminino'},
+    {id: 'other', name: 'Outro'},
+  ];
+  civilStatus = [
+    {id: 'single', name: 'Solteiro(a)'},
+    {id: 'married', name: 'Casado(a)'},
+  ];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: User = new User(),
+    @Inject(MAT_DIALOG_DATA) public data: Student = new Student(),
     private _util: UtilService,
-    private _user: UserService,
-    private _group: GroupService,
+    private _student: StudentService,
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<UserFormComponent>,
+    private _validator: ValidatorService,
+    private dialogRef: MatDialogRef<StudentFormComponent>,
   ) {
     this.formGroup = this.formBuilder.group({
+      linkedin: new FormControl(''),
+      facebook: new FormControl(''),
+      instagram: new FormControl(''),
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      groups: new FormControl([]),
-      permissions: new FormControl([]),
+      genre: new FormControl('', Validators.required),
+      cpf: new FormControl('', [Validators.required, this._validator.validatorCPF]),
+      rg: new FormControl('', Validators.required),
+      phone: new FormControl('', [Validators.required, Validators.minLength(11)]),
+      placeBirth: new FormControl('', Validators.required),
+      motherName: new FormControl('', Validators.required),
+      civilStatus: new FormControl('', Validators.required),
+      spouseName: new FormControl('', Validators.required),
+      companyName: new FormControl('', Validators.required),
+      companyPost: new FormControl('', Validators.required),
+      higherCourse: new FormControl('', Validators.required),
+      instituteCourse: new FormControl('', Validators.required),
       password: new FormControl(''),
       confirmPass: new FormControl(''),
     }, {validators: !this.data ? this.validatorPassword : null});
   }
 
   ngOnInit(): void {
-    this.getGroups();
-    this.getPermissions();
     if (this.data) this.setData();
     else {
       this.controls.password.setValidators([Validators.required, Validators.minLength(6)]);
@@ -78,20 +94,6 @@ export class UserFormComponent implements OnInit {
     this.formGroup.patchValue(this.data);
   }
 
-  async getGroups(): Promise<void> {
-    this.groups = await this._group.getAllActive();
-  }
-
-  getPermissions(): void {
-    this.permissions = [];
-    let id = 0;
-    for (const page of new Permission().getPages)
-      for (const role of new Permission().getPageRoles) {
-        this.permissions.push({id: id.toString(), name: `${page.name} - ${role.name}`});
-        id += 1;
-      }
-  }
-
   async takeImage(event: any): Promise<void> {
     const loader = this._util.loading('Comprimindo imagem...');
     const compress = await this._util.uploadCompress(event.addedFiles[0]);
@@ -103,7 +105,7 @@ export class UserFormComponent implements OnInit {
   async deleteImage(): Promise<void> {
     if (!this.image.new)
       this._util.delete().then(async _ => {
-        await this._user.deleteImage(this.data.id);
+        await this._student.deleteImage(this.data.id);
         this.image = null;
       }).catch(_ => {});
     else this.image = null;
@@ -116,13 +118,13 @@ export class UserFormComponent implements OnInit {
       delete value.confirmPass;
       Object.assign(this.data, value);
 
-      await this._user.save(this.data).then(async id => {
+      await this._student.save(this.data).then(async id => {
         if (id) this.data.id = id;
-        if (this.image && this.image.new && this.image.file) await this._user.uploadImage(this.data.id, this.image.file);
+        if (this.image && this.image.new && this.image.file) await this._student.uploadImage(this.data.id, this.image.file);
       });
 
       this.saving = false;
-      this._util.message('Usuário salvo com sucesso!', 'success');
+      this._util.message('Aluno salvo com sucesso!', 'success');
       this.dialogRef.close(true);
     } else this._util.message('Verifique os dados antes de salvar!', 'warn');
   }

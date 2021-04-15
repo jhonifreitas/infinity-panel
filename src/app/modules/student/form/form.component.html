@@ -1,0 +1,152 @@
+<h1 mat-dialog-title>Formulário de aluno</h1>
+<div mat-dialog-content>
+  <form [formGroup]="formGroup">
+
+    <div class="image" *ngIf="image">
+      <button mat-mini-fab color="warn" (click)="deleteImage()">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <img [src]="image.path" alt="">
+    </div>
+    <ngx-dropzone (change)="takeImage($event)" *ngIf="!image">
+      <ngx-dropzone-label>Arraste os arquivos aqui ou clique para fazer o upload.</ngx-dropzone-label>
+    </ngx-dropzone>
+    
+    <div fxLayout="row">
+      <mat-form-field fxFlex="100">
+        <mat-label>Nome completo</mat-label>
+        <input matInput formControlName="name" cdkFocusInitial>
+        <mat-error>Nome completo é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row">
+      <mat-form-field fxFlex="100">
+        <mat-label>E-mail</mat-label>
+        <input matInput formControlName="email">
+        <mat-error>E-mail é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="20px" *ngIf="!data">
+      <mat-form-field fxFlex="50">
+        <mat-label>Senha</mat-label>
+        <input matInput type="password" formControlName="password">
+        <mat-error>Senha é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="50">
+        <mat-label>Confirme sua senha</mat-label>
+        <input matInput type="password" formControlName="confirmPass">
+        <mat-error *ngIf="controls.confirmPass.hasError('required')">Confirme sua senha é <strong>obrigatório!</strong></mat-error>
+        <mat-error *ngIf="controls.confirmPass.hasError('passNotSame')">As senhas não <strong>coincidem!</strong></mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex="50">
+        <mat-label>Gênero</mat-label>
+        <mat-select formControlName="genre">
+          <mat-option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</mat-option>
+        </mat-select>
+        <mat-error>Gênero é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="50">
+        <mat-label>Estado Civil</mat-label>
+        <mat-select formControlName="civilStatus">
+          <mat-option *ngFor="let status of civilStatus" [value]="status.id">{{ status.name }}</mat-option>
+        </mat-select>
+        <mat-error>Estado Civil é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex="50">
+        <mat-label>CPF</mat-label>
+        <input matInput type="text" mask="000.000.000-00" formControlName="cpf">
+        <mat-error *ngIf="controls.cpf.hasError('required')">CPF é <strong>obrigatório!</strong></mat-error>
+        <mat-error *ngIf="controls.cpf.hasError('invalid')">CPF <strong>inválido!</strong></mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="50">
+        <mat-label>RG</mat-label>
+        <input matInput type="text" formControlName="rg">
+        <mat-error *ngIf="controls.cpf.hasError('required')">RG é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex="50">
+        <mat-label>Celular</mat-label>
+        <input matInput type="tel" mask="(00) 00000-0000" formControlName="phone">
+        <mat-error *ngIf="controls.phone.hasError('required')">Celular é <strong>obrigatório!</strong></mat-error>
+        <mat-error *ngIf="controls.phone.hasError('mask')">Celular <strong>inválido!</strong></mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="50">
+        <mat-label>Naturalidade</mat-label>
+        <input matInput type="text" formControlName="placeBirth">
+        <mat-error *ngIf="controls.placeBirth.hasError('required')">Naturalidade é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex="50">
+        <mat-label>Nome da Mãe</mat-label>
+        <input matInput type="text" formControlName="motherName">
+        <mat-error *ngIf="controls.motherName.hasError('required')">Nome da mãe é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="50">
+        <mat-label>Nome do Cônjuge</mat-label>
+        <input matInput type="text" formControlName="spouseName">
+        <mat-error *ngIf="controls.spouseName.hasError('required')">Nome do cônjuge é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+    </div>
+
+    <h4>Empresa</h4>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex="50">
+        <mat-label>Empresa que Trabalha</mat-label>
+        <input matInput type="text" formControlName="companyName">
+        <mat-error *ngIf="controls.companyName.hasError('required')">Nome da empresa é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="50">
+        <mat-label>Cargo que ocupa</mat-label>
+        <input matInput type="text" formControlName="companyPost">
+        <mat-error *ngIf="controls.companyPost.hasError('required')">Cargo é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+    </div>
+
+    <h4>Curso</h4>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex="50">
+        <mat-label>Curso Superior</mat-label>
+        <input matInput type="text" formControlName="higherCourse">
+        <mat-error *ngIf="controls.higherCourse.hasError('required')">Curso superior é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="50">
+        <mat-label>Instituição</mat-label>
+        <input matInput type="text" formControlName="instituteCourse">
+        <mat-error *ngIf="controls.instituteCourse.hasError('required')">Instituição é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+    </div>
+    
+    <h4>Social</h4>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex="30">
+        <mat-label>Linkedin</mat-label>
+        <input matInput type="link" formControlName="linkedin">
+      </mat-form-field>
+      <mat-form-field fxFlex="40">
+        <mat-label>Facebook</mat-label>
+        <input matInput type="link" formControlName="facebook">
+      </mat-form-field>
+      <mat-form-field fxFlex="30">
+        <mat-label>Instagram</mat-label>
+        <input matInput type="link" formControlName="instagram">
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end center">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="formGroup.invalid" *ngIf="!saving" (click)="onSubmit()">Salvar</button>
+  <mat-progress-spinner mode="indeterminate" diameter="25" *ngIf="saving"></mat-progress-spinner>
+</div>

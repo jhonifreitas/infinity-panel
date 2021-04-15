@@ -15,13 +15,12 @@ import { GroupService } from 'src/app/services/firebase/group.service';
 })
 export class GroupFormComponent implements OnInit {
 
-  @Inject(MAT_DIALOG_DATA) public data = new Group();
-
   saving = false;
   formGroup: FormGroup;
   permissions: {id: string; name: string}[];
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Group = new Group(),
     private _util: UtilService,
     private _group: GroupService,
     private formBuilder: FormBuilder,
@@ -53,8 +52,7 @@ export class GroupFormComponent implements OnInit {
   }
 
   setData(): void {
-    this.controls.name.setValue(this.data.name);
-    this.controls.permissions.setValue(this.data.permissions);
+    this.formGroup.patchValue(this.data);
   }
 
   async onSubmit(): Promise<void> {

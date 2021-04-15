@@ -12,7 +12,7 @@
   <h2 matSubheader>Menu</h2>
 
   <div *ngFor="let item of menuItems" [hidden]="item.hidden">
-    <a mat-list-item *ngIf="!item.subItems" (click)="closeSideBar()" routerLinkActive="list-item-active" [routerLink]="item.url">
+    <a mat-list-item *ngIf="!item.subItems" (click)="closeSideBar()" routerLinkActive="mat-list-single-selected-option" [routerLink]="item.url">
       <mat-icon matListIcon>{{ item.icon }}</mat-icon>
       <h3 matLine>{{ item.title }}</h3>
     </a>
@@ -26,7 +26,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngFor="let subItem of item.subItems" [hidden]="subItem.hidden">
-          <a mat-list-item (click)="closeSideBar()" routerLinkActive="list-item-active" [routerLink]="subItem.url">
+          <a mat-list-item (click)="closeSideBar()" routerLinkActive="mat-list-single-selected-option" [routerLink]="subItem.url">
             <mat-icon matListIcon>{{ subItem.icon }}</mat-icon>
             <h3 matLine>{{ subItem.title }}</h3>
           </a>

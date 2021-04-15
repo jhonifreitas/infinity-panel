@@ -10,9 +10,8 @@ import { Group } from 'src/app/models/group';
 })
 export class GroupDetailComponent implements OnInit {
 
-  @Inject(MAT_DIALOG_DATA) public object: Group;
-
   constructor(
+    @Inject(MAT_DIALOG_DATA) public object: Group,
     private dialogRef: MatDialogRef<GroupDetailComponent>,
   ) { }
 

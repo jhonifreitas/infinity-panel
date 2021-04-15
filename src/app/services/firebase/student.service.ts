@@ -2,21 +2,21 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 
-import { User } from 'src/app/models/user';
 import { FirebaseAbstract } from './abstract';
+import { Student } from 'src/app/models/student';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService extends FirebaseAbstract<User> {
+export class StudentService extends FirebaseAbstract<Student> {
 
-  static collectionName = 'users';
+  static collectionName = 'students';
 
   constructor(
     protected db: AngularFirestore,
     private afStorage: AngularFireStorage
   ) {
-    super(db, UserService.collectionName);
+    super(db, StudentService.collectionName);
   }
 
   uploadImage(id: string, file: Blob | File): Promise<string> {

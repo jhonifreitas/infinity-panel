@@ -12,9 +12,8 @@ import { GroupService } from 'src/app/services/firebase/group.service';
 })
 export class UserDetailComponent implements OnInit {
 
-  @Inject(MAT_DIALOG_DATA) public object: User;
-
   constructor(
+    @Inject(MAT_DIALOG_DATA) public object: User,
     private _group: GroupService,
     private dialogRef: MatDialogRef<UserDetailComponent>,
   ) { }
