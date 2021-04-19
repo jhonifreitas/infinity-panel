@@ -7,6 +7,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { UserListComponent } from './modules/user/list/list.component';
 import { GroupListComponent } from './modules/group/list/list.component';
 import { LoginFormComponent } from './modules/auth/login/login.component';
+import { CouponListComponent } from './modules/coupon/list/list.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { StudentListComponent } from './modules/student/list/list.component';
 import { PasswordResetFormComponent } from './modules/auth/password-reset/password-reset.component';
@@ -27,6 +28,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'dashboard', component: DashboardComponent },
 
+    { path: 'cupons', component: CouponListComponent },
     { path: 'alunos', component: StudentListComponent },
     { path: 'assessment', children: [
       { path: '', redirectTo: 'questoes', pathMatch: 'full' },

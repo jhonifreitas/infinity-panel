@@ -44,6 +44,10 @@ import { StudentListComponent } from 'src/app/modules/student/list/list.componen
 import { StudentFormComponent } from 'src/app/modules/student/form/form.component';
 import { StudentDetailComponent } from 'src/app/modules/student/detail/detail.component';
 
+import { CouponListComponent } from 'src/app/modules/coupon/list/list.component';
+import { CouponFormComponent } from 'src/app/modules/coupon/form/form.component';
+import { CouponDetailComponent } from 'src/app/modules/coupon/detail/detail.component';
+
 import { AssessmentQuestionListComponent } from 'src/app/modules/assessment/question/list/list.component';
 import { AssessmentQuestionFormComponent } from 'src/app/modules/assessment/question/form/form.component';
 import { AssessmentQuestionDetailComponent } from 'src/app/modules/assessment/question/detail/detail.component';
@@ -88,9 +92,12 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     GroupFormComponent,
     DashboardComponent,
     UserDetailComponent,
+    CouponListComponent,
+    CouponFormComponent,
     GroupDetailComponent,
     StudentListComponent,
     StudentFormComponent,
+    CouponDetailComponent,
     StudentDetailComponent,
     AssessmentQuestionListComponent,
     AssessmentQuestionFormComponent,
