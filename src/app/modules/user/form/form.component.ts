@@ -22,7 +22,7 @@ export class UserFormComponent implements OnInit {
   groups: Group[];
   image: FileUpload;
   formGroup: FormGroup;
-  permissions: {id: string; name: string}[];
+  permissions: {id: string; name: string; pageId: string; roleId: string}[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: User = new User(),
@@ -73,11 +73,6 @@ export class UserFormComponent implements OnInit {
     return null;
   }
 
-  setData(): void {
-    if (this.data.avatar) this.image = {path: this.data.avatar, new: false};
-    this.formGroup.patchValue(this.data);
-  }
-
   async getGroups(): Promise<void> {
     this.groups = await this._group.getAllActive();
   }
@@ -87,9 +82,16 @@ export class UserFormComponent implements OnInit {
     let id = 0;
     for (const page of new Permission().getPages)
       for (const role of new Permission().getPageRoles) {
-        this.permissions.push({id: id.toString(), name: `${page.name} - ${role.name}`});
+        this.permissions.push({id: id.toString(), name: `${page.name} - ${role.name}`, pageId: page.id, roleId: role.id});
         id += 1;
       }
+  }
+
+  setData(): void {
+    if (this.data.avatar) this.image = {path: this.data.avatar, new: false};
+    const permissions = this.data.permissions.map(
+      perm => this.permissions.findIndex(item => item.pageId === perm.page && item.roleId === perm.role).toString());
+    this.formGroup.patchValue({...this.data, permissions});
   }
 
   async takeImage(event: any): Promise<void> {
@@ -115,6 +117,9 @@ export class UserFormComponent implements OnInit {
       const value = this.formGroup.value;
       delete value.confirmPass;
       Object.assign(this.data, value);
+      this.data.permissions = value.permissions.map(index => {
+        return {page: this.permissions[index].pageId, role: this.permissions[index].roleId};
+      });
 
       await this._user.save(this.data).then(async id => {
         if (id) this.data.id = id;

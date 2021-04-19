@@ -44,16 +44,24 @@ import { StudentListComponent } from 'src/app/modules/student/list/list.componen
 import { StudentFormComponent } from 'src/app/modules/student/form/form.component';
 import { StudentDetailComponent } from 'src/app/modules/student/detail/detail.component';
 
+import { AssessmentQuestionListComponent } from 'src/app/modules/assessment/question/list/list.component';
+import { AssessmentQuestionFormComponent } from 'src/app/modules/assessment/question/form/form.component';
+import { AssessmentQuestionDetailComponent } from 'src/app/modules/assessment/question/detail/detail.component';
+
+import { AssessmentInstructionListComponent } from 'src/app/modules/assessment/instruction/list/list.component';
+import { AssessmentInstructionFormComponent } from 'src/app/modules/assessment/instruction/form/form.component';
+import { AssessmentInstructionDetailComponent } from 'src/app/modules/assessment/instruction/detail/detail.component';
+
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
 import { DeleteComponent } from 'src/app/shared/components/delete/delete.component';
 import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
 
 // MASK
 import { NgxMaskModule } from 'ngx-mask';
+// QUILL
+import { QuillModule } from 'ngx-quill';
 // DROPZONE
 import { NgxDropzoneModule } from 'ngx-dropzone';
-// CKEDITOR
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 // COMPRESS
 import { NgxImageCompressService } from 'ngx-image-compress';
 // SELECT FILTER
@@ -83,7 +91,13 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     GroupDetailComponent,
     StudentListComponent,
     StudentFormComponent,
-    StudentDetailComponent
+    StudentDetailComponent,
+    AssessmentQuestionListComponent,
+    AssessmentQuestionFormComponent,
+    AssessmentQuestionDetailComponent,
+    AssessmentInstructionListComponent,
+    AssessmentInstructionFormComponent,
+    AssessmentInstructionDetailComponent
   ],
   imports: [
     FormsModule,
@@ -97,7 +111,6 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     MatTableModule,
     DragDropModule,
     MatInputModule,
-    CKEditorModule,
     MatChipsModule,
     MatButtonModule,
     MatDialogModule,
@@ -118,6 +131,7 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     MatSlideToggleModule,
     // MatSelectFilterModule,
     MatAutocompleteModule,
+    QuillModule.forRoot(),
     NgxMaskModule.forRoot(),
     MatProgressSpinnerModule,
     LottieModule.forRoot({player: playerFactory, useCache: true})

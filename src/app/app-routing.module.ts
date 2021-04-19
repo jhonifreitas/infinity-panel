@@ -10,7 +10,9 @@ import { LoginFormComponent } from './modules/auth/login/login.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { StudentListComponent } from './modules/student/list/list.component';
 import { PasswordResetFormComponent } from './modules/auth/password-reset/password-reset.component';
+import { AssessmentQuestionListComponent } from './modules/assessment/question/list/list.component';
 import { ForgotPasswordFormComponent } from './modules/auth/forgot-password/forgot-password.component';
+import { AssessmentInstructionListComponent } from './modules/assessment/instruction/list/list.component';
 
 const routes: Routes = [
 
@@ -26,6 +28,11 @@ const routes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
 
     { path: 'alunos', component: StudentListComponent },
+    { path: 'assessment', children: [
+      { path: '', redirectTo: 'questoes', pathMatch: 'full' },
+      { path: 'questoes', component: AssessmentQuestionListComponent },
+      { path: 'instrucoes', component: AssessmentInstructionListComponent },
+    ] },
 
     { path: 'administracao', children: [
       { path: 'usuarios', component: UserListComponent },

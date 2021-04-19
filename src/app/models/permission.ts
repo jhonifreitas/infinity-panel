@@ -45,7 +45,8 @@ export class Permission {
 
 export enum Page {
   UserPage = 'user-page',
-  GroupPage = 'group-page'
+  GroupPage = 'group-page',
+  AssessmentPage = 'assessment-page'
 }
 
 export enum PageRole {

@@ -41,8 +41,8 @@ export class UserListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const users = await this._user.getAll();
-    this.dataSource = new MatTableDataSource<User>(users);
+    const items = await this._user.getAll();
+    this.dataSource = new MatTableDataSource<User>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.loading = false;

@@ -41,8 +41,8 @@ export class StudentListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const students = await this._student.getAll();
-    this.dataSource = new MatTableDataSource<Student>(students);
+    const items = await this._student.getAll();
+    this.dataSource = new MatTableDataSource<Student>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.loading = false;

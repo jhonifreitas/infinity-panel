@@ -17,7 +17,7 @@ export class GroupFormComponent implements OnInit {
 
   saving = false;
   formGroup: FormGroup;
-  permissions: {id: string; name: string}[];
+  permissions: {id: string; name: string; pageId: string; roleId: string;}[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Group = new Group(),
@@ -46,23 +46,29 @@ export class GroupFormComponent implements OnInit {
     let id = 0;
     for (const page of new Permission().getPages)
       for (const role of new Permission().getPageRoles) {
-        this.permissions.push({id: id.toString(), name: `${page.name} - ${role.name}`});
+        this.permissions.push({id: id.toString(), name: `${page.name} - ${role.name}`, pageId: page.id, roleId: role.id});
         id += 1;
       }
   }
 
   setData(): void {
-    this.formGroup.patchValue(this.data);
+    const permissions = this.data.permissions.map(
+      perm => this.permissions.findIndex(item => item.pageId === perm.page && item.roleId === perm.role).toString());
+    this.formGroup.patchValue({...this.data, permissions});
   }
 
   async onSubmit(): Promise<void> {
     if (this.formGroup.valid) {
       this.saving = true;
-      Object.assign(this.data, this.formGroup.value);
+      const value = this.formGroup.value;
+      Object.assign(this.data, value);
+      this.data.permissions = value.permissions.map(index => {
+        return {page: this.permissions[index].pageId, role: this.permissions[index].roleId};
+      });
       await this._group.save(this.data);
 
       this.saving = false;
-      this._util.message('Groupo salvo com sucesso!', 'success');
+      this._util.message('Grupo salvo com sucesso!', 'success');
       this.dialogRef.close(true);
     } else this._util.message('Verifique os dados antes de salvar!', 'warn');
   }

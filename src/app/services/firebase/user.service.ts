@@ -21,7 +21,7 @@ export class UserService extends FirebaseAbstract<User> {
 
   uploadImage(id: string, file: Blob | File): Promise<string> {
     return new Promise(resolve => {
-      const url = `${id}.png`;
+      const url = `${UserService.collectionName}/${id}.png`;
       this.afStorage.ref(url).put(file).then(async (res) => {
         resolve(await res.ref.getDownloadURL());
       });
@@ -30,7 +30,7 @@ export class UserService extends FirebaseAbstract<User> {
 
   deleteImage(id: string): Promise<boolean> {
     return new Promise(resolve => {
-      const url = `${id}.png`;
+      const url = `${UserService.collectionName}/${id}.png`;
       this.afStorage.ref(url).delete().subscribe(async _ => {
         await this.update(id, {avatar: null});
         resolve(true);
