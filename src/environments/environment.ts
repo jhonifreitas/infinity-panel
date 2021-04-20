@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  hostApi: '',
+  hostApi: 'https://southamerica-east1-infinity-neurobusiness.cloudfunctions.net/api',
   firebase: {
     apiKey: 'AIzaSyAZJDByM6bEBPy7udEo0DZ9IJUzP1jpj6k',
     authDomain: 'infinity-neurobusiness.firebaseapp.com',

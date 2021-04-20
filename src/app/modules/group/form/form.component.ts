@@ -34,7 +34,7 @@ export class GroupFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPermissions();
-    if (this.data) this.setData();
+    if (this.data.id) this.setData();
   }
 
   get controls() {

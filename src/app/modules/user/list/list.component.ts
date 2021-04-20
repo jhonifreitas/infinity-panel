@@ -57,7 +57,7 @@ export class UserListComponent implements OnInit {
   }
 
   openForm(object?: User): void {
-    this._util.form(UserFormComponent, object).then(res => {
+    this._util.form(UserFormComponent, object, {minWidth: '40vw'}).then(res => {
       if (res) this.ngOnInit();
     });
   }

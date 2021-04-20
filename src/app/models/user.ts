@@ -9,14 +9,16 @@ export class User extends Base {
   groups: string[];
   permissions: Permission[];
 
-  type: 'administrator' | 'common';
+  authType: 'email';
+  authRole: 'common' | 'administrator' | 'developer';
 
   _groups?: Group[];
 
   constructor() {
     super();
     this.groups = [];
-    this.type = 'common';
     this.permissions = [];
+    this.authType = 'email';
+    this.authRole = 'common';
   }
 }

@@ -57,14 +57,22 @@ export class StudentFormComponent implements OnInit {
       instituteCourse: new FormControl('', Validators.required),
       password: new FormControl(''),
       confirmPass: new FormControl(''),
-    }, {validators: !this.data ? this.validatorPassword : null});
+    }, {validators: !this.data.id ? this.validatorPassword : null});
   }
 
   ngOnInit(): void {
-    if (this.data) this.setData();
+    if (this.data.id) this.setData();
     else {
-      this.controls.password.setValidators([Validators.required, Validators.minLength(6)]);
-      this.controls.confirmPass.setValidators([Validators.required, Validators.minLength(6)]);
+      this.controls.password.setValidators([
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(/[0-9]/),
+        Validators.pattern(/[a-zA-Z]/),
+        Validators.pattern(/[!@#$%&*()_=+;:,.?><\-]/)
+      ]);
+      this.controls.confirmPass.setValidators(Validators.required);
+      this.controls.password.updateValueAndValidity();
+      this.controls.confirmPass.updateValueAndValidity();
     }
   }
 
@@ -82,7 +90,6 @@ export class StudentFormComponent implements OnInit {
     } = null;
 
     if (confirmControl.hasError('required')) result = {required: true};
-    else if (confirmControl.hasError('minlength')) result = {minlength: confirmControl.errors.minlength};
     else if (password !== confirmControl.value) result = {passNotSame: true};
 
     confirmControl.setErrors(result);

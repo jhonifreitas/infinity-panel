@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { ComponentType } from '@angular/cdk/portal';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 
 import { NgxImageCompressService } from 'ngx-image-compress';
 
@@ -46,12 +46,13 @@ export class UtilService {
     });
   }
 
-  form(component: ComponentType<unknown>, object: any): Promise<any> {
+  form(component: ComponentType<unknown>, object: any, options: MatDialogConfig = null): Promise<any> {
     let maxWidth = '95vw';
     if (window.innerWidth > 960) maxWidth = '50vw';
     return new Promise(resolve => {
       const dialog = this.dialog.open(component, {
         maxWidth,
+        ...options,
         data: object
       });
       dialog.afterClosed().subscribe(async (result: any) => {
@@ -60,14 +61,15 @@ export class UtilService {
     });
   }
 
-  detail(component: ComponentType<unknown>, object: any): void {
+  detail(component: ComponentType<unknown>, object: any, options: MatDialogConfig = null): void {
     let maxWidth = '95vw';
     if (window.innerWidth > 960) maxWidth = '50vw';
     this.dialog.open(component, {
       maxWidth,
       data: object,
       minWidth: '30vw',
-      panelClass: 'dialog-view'
+      ...options,
+      panelClass: `dialog-view${options && options.panelClass ? ' '+options.panelClass : ''}`
     });
   }
 

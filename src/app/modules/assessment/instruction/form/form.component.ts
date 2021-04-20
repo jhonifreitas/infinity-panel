@@ -31,7 +31,7 @@ export class AssessmentInstructionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.data) this.setData();
+    if (this.data.id) this.setData();
   }
 
   get controls() {

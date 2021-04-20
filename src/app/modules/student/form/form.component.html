@@ -26,11 +26,13 @@
         <mat-error>E-mail é <strong>obrigatório!</strong></mat-error>
       </mat-form-field>
     </div>
-    <div fxLayout="row" fxLayoutGap="20px" *ngIf="!data">
+    <div fxLayout="row" fxLayoutGap="20px" *ngIf="!data.id">
       <mat-form-field fxFlex="50">
         <mat-label>Senha</mat-label>
         <input matInput type="password" formControlName="password">
-        <mat-error>Senha é <strong>obrigatório!</strong></mat-error>
+        <mat-error *ngIf="controls.password.hasError('required')">Senha é <strong>obrigatório!</strong></mat-error>
+        <mat-error *ngIf="controls.password.hasError('minlength')">A senha deve conter no mínimo <strong>8 caracteres</strong></mat-error>
+        <mat-error *ngIf="controls.password.hasError('pattern')">A senha deve conter <strong>letra, número</strong> e <strong>1 caracter especial</strong></mat-error>
       </mat-form-field>
       <mat-form-field fxFlex="50">
         <mat-label>Confirme sua senha</mat-label>
