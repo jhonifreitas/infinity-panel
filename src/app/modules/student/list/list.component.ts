@@ -56,12 +56,6 @@ export class StudentListComponent implements OnInit {
     if (this.canView) this._util.detail(StudentDetailComponent, object);
   }
 
-  openForm(object?: Student): void {
-    this._util.form(StudentFormComponent, object).then(res => {
-      if (res) this.ngOnInit();
-    });
-  }
-
   async deleteImage(id: string): Promise<void> {
     await this._student.deleteImage(id);
   }

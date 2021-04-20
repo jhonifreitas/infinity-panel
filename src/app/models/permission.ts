@@ -16,6 +16,14 @@ export class Permission {
         return 'Usuário';
       case Page.GroupPage:
         return 'Grupo';
+      case Page.CounponPage:
+        return 'Cupom';
+      case Page.StudentPage:
+        return 'Aluno';
+      case Page.AssessmentQuestionPage:
+        return 'Assement Questão';
+      case Page.AssessmentInstructionPage:
+        return 'Assement Instrução';
     }
   }
 
@@ -47,7 +55,9 @@ export enum Page {
   UserPage = 'user-page',
   GroupPage = 'group-page',
   CounponPage = 'coupon-page',
-  AssessmentPage = 'assessment-page'
+  StudentPage = 'student-page',
+  AssessmentQuestionPage = 'assessment-question-page',
+  AssessmentInstructionPage = 'assessment-instruction-page'
 }
 
 export enum PageRole {

@@ -1,7 +1,9 @@
-<h1 mat-dialog-title>Formulário de aluno</h1>
-<div mat-dialog-content>
-  <form [formGroup]="formGroup">
+<div class="header">
+  <h2 class="title">Formulário de aluno</h2>
+</div>
 
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="mat-card container mat-elevation-z8 p-3 mb-2">
     <div class="image" *ngIf="image">
       <button mat-mini-fab color="warn" (click)="deleteImage()">
         <mat-icon>delete</mat-icon>
@@ -57,7 +59,7 @@
         <mat-error>Estado Civil é <strong>obrigatório!</strong></mat-error>
       </mat-form-field>
     </div>
-
+  
     <div fxLayout="row" fxLayoutGap="20px">
       <mat-form-field fxFlex="50">
         <mat-label>CPF</mat-label>
@@ -71,7 +73,7 @@
         <mat-error *ngIf="controls.cpf.hasError('required')">RG é <strong>obrigatório!</strong></mat-error>
       </mat-form-field>
     </div>
-
+  
     <div fxLayout="row" fxLayoutGap="20px">
       <mat-form-field fxFlex="50">
         <mat-label>Celular</mat-label>
@@ -85,7 +87,7 @@
         <mat-error *ngIf="controls.placeBirth.hasError('required')">Naturalidade é <strong>obrigatório!</strong></mat-error>
       </mat-form-field>
     </div>
-
+  
     <div fxLayout="row" fxLayoutGap="20px">
       <mat-form-field fxFlex="50">
         <mat-label>Nome da Mãe</mat-label>
@@ -98,7 +100,8 @@
         <mat-error *ngIf="controls.spouseName.hasError('required')">Nome do cônjuge é <strong>obrigatório!</strong></mat-error>
       </mat-form-field>
     </div>
-
+  </div>
+  <div class="mat-card container mat-elevation-z8 p-3 mb-2">
     <h4 class="mb-1">Empresa</h4>
     <mat-divider></mat-divider>
     <div fxLayout="row" fxLayoutGap="20px">
@@ -113,7 +116,8 @@
         <mat-error *ngIf="controls.companyPost.hasError('required')">Cargo é <strong>obrigatório!</strong></mat-error>
       </mat-form-field>
     </div>
-
+  </div>
+  <div class="mat-card container mat-elevation-z8 p-3 mb-2">
     <h4 class="mb-1">Curso</h4>
     <mat-divider></mat-divider>
     <div fxLayout="row" fxLayoutGap="20px">
@@ -128,7 +132,8 @@
         <mat-error *ngIf="controls.instituteCourse.hasError('required')">Instituição é <strong>obrigatório!</strong></mat-error>
       </mat-form-field>
     </div>
-    
+  </div>
+  <div class="mat-card container mat-elevation-z8 p-3 mb-2">
     <h4 class="mb-1">Social</h4>
     <mat-divider></mat-divider>
     <div fxLayout="row" fxLayoutGap="20px">
@@ -145,10 +150,11 @@
         <input matInput type="link" formControlName="instagram">
       </mat-form-field>
     </div>
-  </form>
-</div>
-<div mat-dialog-actions fxLayoutAlign="end center">
-  <button mat-button mat-dialog-close>Cancelar</button>
-  <button mat-raised-button color="primary" [disabled]="formGroup.invalid" *ngIf="!saving" (click)="onSubmit()">Salvar</button>
-  <mat-progress-spinner mode="indeterminate" diameter="25" *ngIf="saving"></mat-progress-spinner>
-</div>
+  </div>
+  
+  <div fxLayoutAlign="end center">
+    <button mat-button type="button" (ckick)="goToBack()">Voltar</button>
+    <button mat-raised-button type="submit" color="primary" [disabled]="formGroup.invalid" *ngIf="!saving">Salvar</button>
+    <mat-progress-spinner mode="indeterminate" diameter="25" *ngIf="saving"></mat-progress-spinner>
+  </div>
+</form>

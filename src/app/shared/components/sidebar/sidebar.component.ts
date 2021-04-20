@@ -28,10 +28,10 @@ export class SidebarComponent implements OnInit {
   menuItems: MenuItem[] = [
     { title: 'Assessment', icon: 'assessment', hidden: false, subItems: [
       { title: 'Questões', url: '/assessment/questoes', icon: 'assessment', hidden: false, permission: {
-        page: Page.AssessmentPage, role: PageRole.CanList}
+        page: Page.AssessmentQuestionPage, role: PageRole.CanList}
       },
       { title: 'Instruções', url: '/assessment/instrucoes', icon: 'assessment', hidden: false, permission: {
-        page: Page.AssessmentPage, role: PageRole.CanList}
+        page: Page.AssessmentInstructionPage, role: PageRole.CanList}
       },
     ]},
     { title: 'Alunos', url: '/alunos', icon: 'person', hidden: false, permission: {

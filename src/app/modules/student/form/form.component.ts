@@ -1,13 +1,13 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, ValidatorFn } from '@angular/forms';
 
 import { Student } from 'src/app/models/student';
 import { FileUpload } from 'src/app/interfaces/base';
 
 import { UtilService } from 'src/app/services/util.service';
-import { StudentService } from 'src/app/services/firebase/student.service';
 import { ValidatorService } from 'src/app/services/validator.service';
+import { StudentService } from 'src/app/services/firebase/student.service';
 
 @Component({
   selector: 'app-student-form',
@@ -19,6 +19,7 @@ export class StudentFormComponent implements OnInit {
   saving = false;
   image: FileUpload;
   formGroup: FormGroup;
+  data: Student = new Student();
   genres = [
     {id: 'masc', name: 'Masculino'},
     {id: 'fem', name: 'Feminino'},
@@ -30,12 +31,11 @@ export class StudentFormComponent implements OnInit {
   ];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Student = new Student(),
+    private location: Location,
     private _util: UtilService,
     private _student: StudentService,
     private formBuilder: FormBuilder,
-    private _validator: ValidatorService,
-    private dialogRef: MatDialogRef<StudentFormComponent>,
+    private _validator: ValidatorService
   ) {
     this.formGroup = this.formBuilder.group({
       linkedin: new FormControl(''),
@@ -132,7 +132,11 @@ export class StudentFormComponent implements OnInit {
 
       this.saving = false;
       this._util.message('Aluno salvo com sucesso!', 'success');
-      this.dialogRef.close(true);
+      this.goToBack();
     } else this._util.message('Verifique os dados antes de salvar!', 'warn');
+  }
+
+  goToBack() {
+    this.location.back();
   }
 }
