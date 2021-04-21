@@ -76,6 +76,11 @@ export class StudentFormComponent implements OnInit {
     }
   }
 
+  setData(): void {
+    if (this.data.image) this.image = {path: this.data.image, new: false};
+    this.formGroup.patchValue(this.data);
+  }
+
   get controls() {
     return this.formGroup.controls;
   }
@@ -94,11 +99,6 @@ export class StudentFormComponent implements OnInit {
 
     confirmControl.setErrors(result);
     return null;
-  }
-
-  setData(): void {
-    if (this.data.avatar) this.image = {path: this.data.avatar, new: false};
-    this.formGroup.patchValue(this.data);
   }
 
   async takeImage(event: any): Promise<void> {

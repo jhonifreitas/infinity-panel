@@ -10,7 +10,7 @@ import { Question } from 'src/app/models/assessment';
 })
 export class AssessmentQuestionService extends FirebaseAbstract<Question> {
 
-  static collectionName = 'assessment/questions/list';
+  static collectionName = 'assessment-questions';
 
   constructor(
     protected db: AngularFirestore,
@@ -19,13 +19,9 @@ export class AssessmentQuestionService extends FirebaseAbstract<Question> {
     super(db, AssessmentQuestionService.collectionName);
   }
 
-  get getStorageUrl() {
-    return AssessmentQuestionService.collectionName.replace('/list', '');
-  }
-
   uploadImage(id: string, file: Blob | File): Promise<string> {
     return new Promise(resolve => {
-      const url = `${this.getStorageUrl}/${id}.png`;
+      const url = `${this.collectionName}/${id}.png`;
       this.afStorage.ref(url).put(file).then(async (res) => {
         resolve(await res.ref.getDownloadURL());
       });
@@ -34,7 +30,7 @@ export class AssessmentQuestionService extends FirebaseAbstract<Question> {
 
   deleteImage(id: string): Promise<boolean> {
     return new Promise(resolve => {
-      const url = `${this.getStorageUrl}/${id}.png`;
+      const url = `${this.collectionName}/${id}.png`;
       this.afStorage.ref(url).delete().subscribe(async _ => {
         resolve(true);
       });
@@ -51,7 +47,7 @@ export class AssessmentQuestionService extends FirebaseAbstract<Question> {
 
   deleteAllImages(): Promise<boolean> {
     return new Promise(resolve => {
-      this.afStorage.ref(this.getStorageUrl).listAll().toPromise().then(async files => {
+      this.afStorage.ref(this.collectionName).listAll().toPromise().then(async files => {
         for (const file of files.items) await file.delete();
         resolve(true);
       });

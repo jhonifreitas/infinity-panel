@@ -23,7 +23,7 @@
 
       <ng-container matColumnDef="email">
         <mat-header-cell mat-sort-header *matHeaderCellDef> E-mail </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{ element.email }} </mat-cell>
+        <mat-cell matRipple *matCellDef="let element" fxFlexAlign="stretch" (click)="openDetail(element)"> {{ element.email }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="active">
@@ -34,10 +34,10 @@
         </mat-cell>
       </ng-container>
   
-      <ng-container matColumnDef="avatar">
-        <mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="center center"> Avatar </mat-header-cell>
+      <ng-container matColumnDef="image">
+        <mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="center center"> Imagem </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10" fxLayoutAlign="center center">
-          <img [src]="element.avatar ? element.avatar : 'assets/image/not-found-user.png'" class="thumbnail" alt="">
+          <img [src]="element.image ? element.image : 'assets/image/not-found-user.png'" class="thumbnail" alt="">
         </mat-cell>
       </ng-container>
   

@@ -47,7 +47,7 @@ export class UserService extends FirebaseAbstract<User> {
     return new Promise(resolve => {
       const url = `${UserService.collectionName}/${id}.png`;
       this.afStorage.ref(url).delete().subscribe(async _ => {
-        await this.update(id, {avatar: null});
+        await this.update(id, {image: null});
         resolve(true);
       });
     });

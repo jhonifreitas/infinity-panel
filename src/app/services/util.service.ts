@@ -103,4 +103,12 @@ export class UtilService {
       });
     });
   }
+
+  removeAccent(value: string) {
+    const from = 'àáäaãâèéëêìíïîòóöoõôùúüûñç·/_,:;';
+    const to   = 'aaaaaaeeeeiiiioooooouuuunc------';
+    for (let i = 0; i < from.length; i++)
+      value = value.toLowerCase().replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+    return value;
+  }
 }

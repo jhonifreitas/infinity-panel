@@ -1,5 +1,23 @@
 import { Base } from './base';
 
+export class Assessment extends Base {
+  name: string;
+  duration: number;
+  showTime: boolean;
+  questions: string[];
+  instructions: string[];
+
+  _questions?: Question[];
+  _instructions?: Instruction[];
+
+  constructor() {
+    super();
+    this.questions = [];
+    this.showTime = false;
+    this.instructions = [];
+  }
+}
+
 export class Instruction extends Base {
   title: string;
   text: string;

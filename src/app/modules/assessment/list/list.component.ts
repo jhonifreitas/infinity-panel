@@ -3,30 +3,30 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Coupon } from 'src/app/models/coupon';
+import { Assessment } from 'src/app/models/assessment';
 import { Page, PageRole } from 'src/app/models/permission';
 
-import { CouponFormComponent } from '../form/form.component';
-import { CouponDetailComponent } from '../detail/detail.component';
+import { AssessmentFormComponent } from '../form/form.component';
+import { AssessmentDetailComponent } from '../detail/detail.component';
 
 import { UtilService } from 'src/app/services/util.service';
 import { PermissionService } from 'src/app/services/permission.service';
-import { CouponService } from 'src/app/services/firebase/coupon.service';
+import { AssessmentService } from 'src/app/services/firebase/assessment/service';
 
 @Component({
-  selector: 'app-coupon-list',
+  selector: 'app-assessment-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class CouponListComponent implements OnInit {
+export class AssessmentListComponent implements OnInit {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   filter: string;
   loading = true;
-  dataSource: MatTableDataSource<Coupon>;
-  displayedColumns: string[] = ['code', 'used', 'quantity', 'actions'];
+  dataSource: MatTableDataSource<Assessment>;
+  displayedColumns: string[] = ['name', 'actions'];
 
   canAdd = this._permission.check(Page.GroupPage, PageRole.CanAdd);
   canView = this._permission.check(Page.GroupPage, PageRole.CanView);
@@ -35,14 +35,14 @@ export class CouponListComponent implements OnInit {
 
   constructor(
     private _util: UtilService,
-    private _coupon: CouponService,
     private _permission: PermissionService,
+    private _assessment: AssessmentService,
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._coupon.getAll();
-    this.dataSource = new MatTableDataSource<Coupon>(items);
+    const items = await this._assessment.getAll();
+    this.dataSource = new MatTableDataSource<Assessment>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.loading = false;
@@ -52,24 +52,24 @@ export class CouponListComponent implements OnInit {
     this.dataSource.filter = this.filter.trim().toLowerCase();
   }
 
-  openDetail(object?: Coupon): void {
-    if (this.canView) this._util.detail(CouponDetailComponent, object);
+  openDetail(object?: Assessment): void {
+    if (this.canView) this._util.detail(AssessmentDetailComponent, object);
   }
 
-  openForm(object?: Coupon): void {
-    this._util.form(CouponFormComponent, object).then(res => {
+  openForm(object?: Assessment): void {
+    this._util.form(AssessmentFormComponent, object).then(res => {
       if (res) this.ngOnInit();
     });
   }
 
-  async delete(object: Coupon): Promise<void> {
-    await this._coupon.delete(object.id).then(_ => {
+  async delete(object: Assessment): Promise<void> {
+    await this._assessment.delete(object.id).then(_ => {
       this.ngOnInit();
-      this._util.message('Cupom excluído com sucesso!', 'success');
+      this._util.message('Instrução excluída com sucesso!', 'success');
     });
   }
 
-  confirmDelete(object: Coupon): void {
+  confirmDelete(object: Assessment): void {
     this._util.delete().then(async _ => {
       this.delete(object);
     }).catch(_ => {});

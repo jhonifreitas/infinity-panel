@@ -59,7 +59,6 @@
     </div>
 
     <div>
-      <mat-label>Texto</mat-label>
       <quill-editor formControlName="text" placeholder="Insira o texto aqui..." [styles]="{minHeight: '200px'}"></quill-editor>
       <mat-error *ngIf="(controls.text.dirty || controls.text.touched) && controls.text.invalid">
         Texto é <strong>obrigatório!</strong>

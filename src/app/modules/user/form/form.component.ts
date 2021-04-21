@@ -60,24 +60,15 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  get controls() {
-    return this.formGroup.controls;
+  setData(): void {
+    if (this.data.image) this.image = {path: this.data.image, new: false};
+    const permissions = this.data.permissions.map(
+      perm => this.permissions.findIndex(item => item.pageId === perm.page && item.roleId === perm.role).toString());
+    this.formGroup.patchValue({...this.data, permissions});
   }
 
-  validatorPassword(group: FormGroup): ValidatorFn {
-    const password = group.get('password').value;
-    const confirmControl = group.get('confirmPass');
-    let result: {
-      required?: boolean;
-      passNotSame?: boolean;
-      minlength?: {actualLength: number; requiredLength: number};
-    } = null;
-
-    if (confirmControl.hasError('required')) result = {required: true};
-    else if (password !== confirmControl.value) result = {passNotSame: true};
-
-    confirmControl.setErrors(result);
-    return null;
+  get controls() {
+    return this.formGroup.controls;
   }
 
   async getGroups(): Promise<void> {
@@ -94,11 +85,20 @@ export class UserFormComponent implements OnInit {
       }
   }
 
-  setData(): void {
-    if (this.data.avatar) this.image = {path: this.data.avatar, new: false};
-    const permissions = this.data.permissions.map(
-      perm => this.permissions.findIndex(item => item.pageId === perm.page && item.roleId === perm.role).toString());
-    this.formGroup.patchValue({...this.data, permissions});
+  validatorPassword(group: FormGroup): ValidatorFn {
+    const password = group.get('password').value;
+    const confirmControl = group.get('confirmPass');
+    let result: {
+      required?: boolean;
+      passNotSame?: boolean;
+      minlength?: {actualLength: number; requiredLength: number};
+    } = null;
+
+    if (confirmControl.hasError('required')) result = {required: true};
+    else if (password !== confirmControl.value) result = {passNotSame: true};
+
+    confirmControl.setErrors(result);
+    return null;
   }
 
   async takeImage(event: any): Promise<void> {

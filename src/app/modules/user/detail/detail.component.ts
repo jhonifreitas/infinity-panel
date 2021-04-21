@@ -19,11 +19,12 @@ export class UserDetailComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    for (const groupId of this.object.groups) {
-      this.object._groups = [];
-      const group = await this._group.getById(groupId);
-      this.object._groups.push(group);
-    }
+    if (this.object.groups)
+      for (const groupId of this.object.groups) {
+        this.object._groups = [];
+        const group = await this._group.getById(groupId);
+        this.object._groups.push(group);
+      }
   }
 
   goToBack(params?: any): void {

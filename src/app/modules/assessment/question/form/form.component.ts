@@ -16,7 +16,7 @@ export class AssessmentQuestionFormComponent implements OnInit {
 
   saving = false;
   formGroup: FormGroup;
-  types = this.data.getTypes;
+  types = new Question().getTypes;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Question = new Question(),
@@ -47,6 +47,7 @@ export class AssessmentQuestionFormComponent implements OnInit {
 
   setData(): void {
     this.formGroup.patchValue(this.data);
+    for (const alternative of this.data.alternatives) this.addAlternative(alternative);
   }
 
   getFormAlternative() {

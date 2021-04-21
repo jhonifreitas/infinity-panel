@@ -32,7 +32,7 @@ export class StudentService extends FirebaseAbstract<Student> {
     return new Promise(resolve => {
       const url = `${StudentService.collectionName}/${id}.png`;
       this.afStorage.ref(url).delete().subscribe(async _ => {
-        await this.update(id, {avatar: null});
+        await this.update(id, {image: null});
         resolve(true);
       });
     });

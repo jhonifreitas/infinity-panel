@@ -5,7 +5,7 @@ import { Permission } from './permission';
 export class User extends Base {
   name: string;
   email: string;
-  avatar?: string;
+  image?: string;
   groups: string[];
   permissions: Permission[];
 

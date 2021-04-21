@@ -48,6 +48,10 @@ import { CouponListComponent } from 'src/app/modules/coupon/list/list.component'
 import { CouponFormComponent } from 'src/app/modules/coupon/form/form.component';
 import { CouponDetailComponent } from 'src/app/modules/coupon/detail/detail.component';
 
+import { AssessmentListComponent } from 'src/app/modules/assessment/list/list.component';
+import { AssessmentFormComponent } from 'src/app/modules/assessment/form/form.component';
+import { AssessmentDetailComponent } from 'src/app/modules/assessment/detail/detail.component';
+
 import { AssessmentQuestionListComponent } from 'src/app/modules/assessment/question/list/list.component';
 import { AssessmentQuestionFormComponent } from 'src/app/modules/assessment/question/form/form.component';
 import { AssessmentQuestionDetailComponent } from 'src/app/modules/assessment/question/detail/detail.component';
@@ -99,6 +103,9 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     StudentFormComponent,
     CouponDetailComponent,
     StudentDetailComponent,
+    AssessmentListComponent,
+    AssessmentFormComponent,
+    AssessmentDetailComponent,
     AssessmentQuestionListComponent,
     AssessmentQuestionFormComponent,
     AssessmentQuestionDetailComponent,

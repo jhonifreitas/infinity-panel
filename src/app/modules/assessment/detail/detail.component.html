@@ -1,0 +1,39 @@
+<mat-toolbar color="primary">
+  <span>Assessment</span>
+</mat-toolbar>
+<div mat-dialog-content>
+  
+  <mat-list>
+    <mat-list-item>
+      <mat-icon matListIcon>more_horiz</mat-icon>
+      <div matLine><strong> Nome </strong></div>
+      <div matLine class="info"> {{ object.name }} </div>
+    </mat-list-item>
+
+    <mat-list-item>
+      <mat-icon matListIcon>timer</mat-icon>
+      <div matLine><strong> Duração </strong></div>
+      <div matLine class="info"> {{ object.duration }}h </div>
+    </mat-list-item>
+
+    <mat-list-item>
+      <mat-icon matListIcon color="success" *ngIf="object.showTime">check_circle</mat-icon>
+      <mat-icon matListIcon color="warn" *ngIf="!object.showTime">cancel</mat-icon>
+      <div matLine><strong> Mostrar Tempo </strong></div>
+    </mat-list-item>
+    
+    <div class="px-3 py-2">
+      <div matLine class="mb-1"><strong> Questões </strong></div>
+      <mat-chip-list>
+        <mat-chip *ngFor="let question of object._questions" color="primary" selected>{{ question.title }}</mat-chip>
+      </mat-chip-list>
+    </div>
+
+    <div class="px-3 py-2">
+      <div matLine class="mb-1"><strong> Instruções </strong></div>
+      <mat-chip-list>
+        <mat-chip *ngFor="let instruction of object._instructions" color="primary" selected>{{ instruction.title }}</mat-chip>
+      </mat-chip-list>
+    </div>
+  </mat-list>
+</div>

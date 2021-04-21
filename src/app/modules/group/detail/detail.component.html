@@ -6,11 +6,11 @@
   <mat-list>
     <mat-list-item>
       <mat-icon matListIcon>more_horiz</mat-icon>
-      <div matLine><strong> Name </strong></div>
+      <div matLine><strong> Nome </strong></div>
       <div matLine class="info"> {{ object.name }} </div>
     </mat-list-item>
-    <div class="item">
-      <div matLine><strong> Permissões </strong></div>
+    <div class="px-3 py-2">
+      <div matLine class="mb-1"><strong> Permissões </strong></div>
       <mat-chip-list>
         <mat-chip *ngFor="let permission of object.permissions" color="primary" selected>{{ permission.page }} - {{ permission.role }}</mat-chip>
       </mat-chip-list>

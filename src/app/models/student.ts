@@ -3,7 +3,7 @@ import { Base } from './base';
 export class Student extends Base {
   name: string;
   email: string;
-  avatar?: string;
+  image?: string;
 
   constructor() {
     super();

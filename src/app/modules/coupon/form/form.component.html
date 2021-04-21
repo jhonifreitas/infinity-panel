@@ -3,9 +3,61 @@
   <form [formGroup]="formGroup">
 
     <mat-form-field>
-      <mat-label>Nome</mat-label>
-      <input matInput formControlName="name" cdkFocusInitial>
-      <mat-error>Nome é <strong>obrigatório!</strong></mat-error>
+      <mat-label>Código</mat-label>
+      <input matInput formControlName="code" (keyup)="uppercase()" cdkFocusInitial>
+      <mat-error>Código é <strong>obrigatório!</strong></mat-error>
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+      <mat-form-field fxFlex="60">
+        <mat-label>Valor</mat-label>
+        <input matInput type="number" formControlName="value">
+        <mat-error *ngIf="controls.value.hasError('required')">Valor é <strong>obrigatório!</strong></mat-error>
+        <mat-error *ngIf="controls.value.hasError('min')">Valor mínimo <strong>{{ controls.value.errors.min.min }}</strong>, atual <strong>{{ controls.value.errors.min.actual }}</strong></mat-error>
+      </mat-form-field>
+
+      <div fxFlex="40" class="text-end">
+        <mat-slide-toggle color="primary" formControlName="percentage">Porcentagem</mat-slide-toggle>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex="50">
+        <mat-label>Validade</mat-label>
+        <input matInput formControlName="validity" [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error>Validade é <strong>obrigatório!</strong></mat-error>
+      </mat-form-field>
+      
+      <mat-form-field fxFlex="50">
+        <mat-label>Quantidade</mat-label>
+        <input matInput type="number" formControlName="quantity">
+        <mat-hint>Se for 0 será ilimitado</mat-hint>
+        <mat-error *ngIf="controls.quantity.hasError('required')">Quantidade é <strong>obrigatório!</strong></mat-error>
+        <mat-error *ngIf="controls.quantity.hasError('min')">Valor mínimo <strong>{{ controls.quantity.errors.min.min }}</strong>, atual <strong>{{ controls.quantity.errors.min.actual }}</strong></mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field>
+      <mat-label>Assessments</mat-label>
+      <mat-select formControlName="assessments" multiple placeholder="---">
+        <mat-option *ngFor="let assessment of assessments" [value]="assessment.id">{{ assessment.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Cursos</mat-label>
+      <mat-select formControlName="courses" multiple placeholder="---">
+        <mat-option *ngFor="let course of courses" [value]="course.id">{{ course.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>MBAs</mat-label>
+      <mat-select formControlName="mbas" multiple placeholder="---">
+        <mat-option *ngFor="let mba of mbas" [value]="mba.id">{{ mba.name }}</mat-option>
+      </mat-select>
     </mat-form-field>
 
   </form>

@@ -37,6 +37,12 @@ export class GroupFormComponent implements OnInit {
     if (this.data.id) this.setData();
   }
 
+  setData(): void {
+    const permissions = this.data.permissions.map(
+      perm => this.permissions.findIndex(item => item.pageId === perm.page && item.roleId === perm.role).toString());
+    this.formGroup.patchValue({...this.data, permissions});
+  }
+
   get controls() {
     return this.formGroup.controls;
   }
@@ -49,12 +55,6 @@ export class GroupFormComponent implements OnInit {
         this.permissions.push({id: id.toString(), name: `${page.name} - ${role.name}`, pageId: page.id, roleId: role.id});
         id += 1;
       }
-  }
-
-  setData(): void {
-    const permissions = this.data.permissions.map(
-      perm => this.permissions.findIndex(item => item.pageId === perm.page && item.roleId === perm.role).toString());
-    this.formGroup.patchValue({...this.data, permissions});
   }
 
   async onSubmit(): Promise<void> {

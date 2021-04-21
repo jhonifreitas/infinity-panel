@@ -26,7 +26,7 @@ export class StudentListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Student>;
-  displayedColumns: string[] = ['name', 'email', 'active', 'avatar', 'actions'];
+  displayedColumns: string[] = ['name', 'email', 'active', 'image', 'actions'];
 
   canAdd = this._permission.check(Page.GroupPage, PageRole.CanAdd);
   canView = this._permission.check(Page.GroupPage, PageRole.CanView);
@@ -62,7 +62,7 @@ export class StudentListComponent implements OnInit {
 
   async delete(object: Student): Promise<void> {
     await this._student.delete(object.id);
-    if (object.avatar) await this.deleteImage(object.id);
+    if (object.image) await this.deleteImage(object.id);
     this._util.message('Aluno excluído com sucesso!', 'success');
   }
 

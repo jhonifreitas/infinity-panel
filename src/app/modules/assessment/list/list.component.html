@@ -1,6 +1,6 @@
 <div class="header" fxLayout="row" fxLayoutAlign="end center">
   <div fxFlex="50" fxFlex.gt-md="80">
-    <h2 class="title">Cupons</h2>
+    <h2 class="title">Assessment</h2>
   </div>
   <mat-form-field fxFlex="50" fxFlex.gt-md="20">
     <mat-icon matPrefix>search</mat-icon>
@@ -16,19 +16,9 @@
   <div class="table-responsive">
     <mat-table matSort [dataSource]="dataSource">
   
-      <ng-container matColumnDef="code">
-        <mat-header-cell mat-sort-header *matHeaderCellDef> Código </mat-header-cell>
-        <mat-cell matRipple *matCellDef="let element" fxFlexAlign="stretch" (click)="openDetail(element)"> {{ element.code }} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="used">
-        <mat-header-cell mat-sort-header *matHeaderCellDef fxLayoutAlign="center center"> Usado </mat-header-cell>
-        <mat-cell matRipple *matCellDef="let element" fxLayoutAlign="center center" (click)="openDetail(element)"> {{ element.used }} </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="quantity">
-        <mat-header-cell mat-sort-header *matHeaderCellDef fxLayoutAlign="center center"> Quantidade </mat-header-cell>
-        <mat-cell matRipple *matCellDef="let element" fxLayoutAlign="center center" (click)="openDetail(element)"> {{ element.quantity }} </mat-cell>
+      <ng-container matColumnDef="name">
+        <mat-header-cell mat-sort-header *matHeaderCellDef> Nome </mat-header-cell>
+        <mat-cell matRipple *matCellDef="let element" fxFlexAlign="stretch" (click)="openDetail(element)"> {{ element.name }} </mat-cell>
       </ng-container>
   
       <ng-container matColumnDef="actions">

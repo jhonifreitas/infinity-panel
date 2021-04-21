@@ -17,6 +17,7 @@ import { PasswordResetFormComponent } from './modules/auth/password-reset/passwo
 import { AssessmentQuestionListComponent } from './modules/assessment/question/list/list.component';
 import { ForgotPasswordFormComponent } from './modules/auth/forgot-password/forgot-password.component';
 import { AssessmentInstructionListComponent } from './modules/assessment/instruction/list/list.component';
+import { AssessmentListComponent } from './modules/assessment/list/list.component';
 
 const routes: Routes = [
 
@@ -48,6 +49,12 @@ const routes: Routes = [
           { path: ':id', component: StudentFormComponent },
         ] },
       ]
+    },
+    {
+      path: 'assessments',
+      canActivate: [PermissionGuard],
+      component: AssessmentListComponent,
+      data: {permissions: [{page: Page.AssessmentPage, role: PageRole.CanList}]},
     },
     {
       path: 'assessment', children: [
