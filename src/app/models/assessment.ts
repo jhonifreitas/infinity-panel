@@ -41,8 +41,8 @@ export class Question extends Base {
     return [
       {id: 'neuro', name: 'Neuro'},
       {id: 'objective', name: 'Objetivo'},
-      {id: 'dissertation', name: 'Dissertativo'},
-    ]
+      {id: 'dissertation', name: 'Dissertativo'}
+    ];
   }
 }
 

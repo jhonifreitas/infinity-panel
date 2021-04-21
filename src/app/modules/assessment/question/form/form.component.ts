@@ -54,7 +54,7 @@ export class AssessmentQuestionFormComponent implements OnInit {
     return this.formBuilder.group({
       text: ['', Validators.required],
       isCorrect: [false]
-    })
+    });
   }
 
   addAlternative(values?: Alternative) {
@@ -80,9 +80,8 @@ export class AssessmentQuestionFormComponent implements OnInit {
           const file = await this._util.uploadCompress(src);
           const url = await this._question.uploadImage(i.toString(), file.file);
           value.text = value.text.replace(src, url);
-        } else if (src.indexOf('firebasestorage.googleapis.com') >= 0 && this.data.text.indexOf(src) < 0) {
+        } else if (src.indexOf('firebasestorage.googleapis.com') >= 0 && this.data.text.indexOf(src) < 0)
           await this._question.deleteImageByURL(src);
-        }
       }
 
       Object.assign(this.data, value);

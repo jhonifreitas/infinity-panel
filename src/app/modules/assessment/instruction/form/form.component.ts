@@ -55,9 +55,8 @@ export class AssessmentInstructionFormComponent implements OnInit {
           const file = await this._util.uploadCompress(src);
           const url = await this._instruction.uploadImage(i.toString(), file.file);
           value.text = value.text.replace(src, url);
-        } else if (src.indexOf('firebasestorage.googleapis.com') >= 0 && this.data.text.indexOf(src) < 0) {
+        } else if (src.indexOf('firebasestorage.googleapis.com') >= 0 && this.data.text.indexOf(src) < 0)
           await this._instruction.deleteImageByURL(src);
-        }
       }
 
       Object.assign(this.data, value);

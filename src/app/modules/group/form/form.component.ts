@@ -17,7 +17,7 @@ export class GroupFormComponent implements OnInit {
 
   saving = false;
   formGroup: FormGroup;
-  permissions: {id: string; name: string; pageId: string; roleId: string;}[];
+  permissions: {id: string; name: string; pageId: string; roleId: string}[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Group = new Group(),

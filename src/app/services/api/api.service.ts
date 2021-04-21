@@ -16,97 +16,72 @@ export class ApiService {
     private auth: AngularFireAuth,
   ) { }
 
-  async get(endpoint: String, params?: any, reqOpts?: any): Promise<any> {
-    if (!reqOpts) {
+  async get(endpoint: string, params?: object, reqOpts?: any): Promise<any> {
+    if (!reqOpts)
       reqOpts = {
-        headers: await this.getHeaders(),
-        params: new HttpParams()
-      }
-    }
+        params: new HttpParams(),
+        headers: await this.getHeaders()
+      };
 
     if (params) {
-      reqOpts.params = new HttpParams()
-      for (let k in params) {
-        reqOpts.params = reqOpts.params.set(k, params[k])
-      }
+      reqOpts.params = new HttpParams();
+      for (const param in params) reqOpts.params = reqOpts.params.set(param, params[param]);
     }
 
     return new Promise((resolve, reject) => {
       this.http.get(`${this.host}/${endpoint}`, reqOpts)
-        .subscribe(res => {
-          resolve(res)
-        }, err => {
-          reject(err)
-        })
-    })
+        .subscribe(res => resolve(res), err => reject(err));
+    });
   }
 
-  async post(endpoint: String, data: Object, reqOpts?: any): Promise<any> {
-    if (!reqOpts) {
+  async post(endpoint: string, data: object, reqOpts?: any): Promise<any> {
+    if (!reqOpts)
       reqOpts = {
         headers: await this.getHeaders()
-      }
-    }
+      };
+
     return new Promise((resolve, reject) => {
       this.http.post(`${this.host}/${endpoint}`, data, reqOpts)
-        .subscribe(res => {
-          resolve(res)
-        }, err => {
-          reject(err)
-        })
-    })
+        .subscribe(res => resolve(res), err => reject(err));
+    });
   }
 
-  async put(endpoint: String, data: Object, reqOpts?: any): Promise<any> {
-    if (!reqOpts) {
+  async put(endpoint: string, data: object, reqOpts?: any): Promise<any> {
+    if (!reqOpts)
       reqOpts = {
         headers: await this.getHeaders()
-      }
-    }
+      };
 
     return new Promise((resolve, reject) => {
       this.http.put(`${this.host}/${endpoint}`, data, reqOpts)
-        .subscribe(res => {
-          resolve(res)
-        }, err => {
-          reject(err)
-        })
-    })
+        .subscribe(res => resolve(res), err => reject(err));
+    });
   }
 
-  async patch(endpoint: String, data: Object, reqOpts?: any): Promise<any> {
-    if (!reqOpts) {
+  async patch(endpoint: string, data: object, reqOpts?: any): Promise<any> {
+    if (!reqOpts)
       reqOpts = {
         headers: await this.getHeaders()
-      }
-    }
+      };
 
     return new Promise((resolve, reject) => {
       this.http.patch(`${this.host}/${endpoint}`, data, reqOpts)
-        .subscribe(res => {
-          resolve(res)
-        }, err => {
-          reject(err)
-        })
-    })
+        .subscribe(res => resolve(res), err => reject(err));
+    });
   }
 
-  async delete(endpoint: String, data?: Object, reqOpts?: any): Promise<any> {
-    if (!reqOpts) {
+  async delete(endpoint: string, data?: object, reqOpts?: any): Promise<any> {
+    if (!reqOpts)
       reqOpts = {
-        headers: await this.getHeaders(),
-      }
-    }
-    if(data) reqOpts.body = data;
+        headers: await this.getHeaders()
+      };
+
+    if (data) reqOpts.body = data;
 
     return new Promise((resolve, reject) => {
       this.http.delete(`${this.host}/${endpoint}`, reqOpts)
-        .subscribe(res => {
-          resolve(res)
-        }, err => {
-          reject(err)
-        })
-    })
+        .subscribe(res => resolve(res), err => reject(err));
+    });
   }
 
   private async getHeaders(){
@@ -114,8 +89,8 @@ export class ApiService {
     const user = await this.auth.currentUser;
     if (user) {
       const token = await user.getIdToken();
-      httpHeaders = httpHeaders.append('Authorization', `Bearer ${token}`)
+      httpHeaders = httpHeaders.append('Authorization', `Bearer ${token}`);
     }
-    return httpHeaders
+    return httpHeaders;
   }
 }

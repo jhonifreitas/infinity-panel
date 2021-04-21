@@ -69,7 +69,7 @@ export class UtilService {
       data: object,
       minWidth: '30vw',
       ...options,
-      panelClass: `dialog-view${options && options.panelClass ? ' '+options.panelClass : ''}`
+      panelClass: `dialog-view${options && options.panelClass ? ` ${options.panelClass}` : ''}`
     });
   }
 

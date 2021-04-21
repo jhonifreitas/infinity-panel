@@ -24,14 +24,12 @@ export class PermissionGuard implements CanActivate {
     const user = this._storage.getUser;
     if (user) {
       const permissions = route.data.permissions as Permission[];
-      if (permissions) {
-        for (const permission of route.data.permissions as Permission[]) {
+      if (permissions)
+        for (const permission of route.data.permissions as Permission[])
           if (!this._permission.check(permission.page, permission.role)) {
             this.router.navigateByUrl('/erro/403');
             return false;
           }
-        }
-      }
     }
     return true;
   }
