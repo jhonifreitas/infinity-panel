@@ -28,10 +28,10 @@ export class CouponListComponent implements OnInit {
   dataSource: MatTableDataSource<Coupon>;
   displayedColumns: string[] = ['code', 'used', 'quantity', 'actions'];
 
-  canAdd = this._permission.check(Page.GroupPage, PageRole.CanAdd);
-  canView = this._permission.check(Page.GroupPage, PageRole.CanView);
-  canUpdate = this._permission.check(Page.GroupPage, PageRole.CanUpdate);
-  canDelete = this._permission.check(Page.GroupPage, PageRole.CanDelete);
+  canAdd = this._permission.check(Page.CounponPage, PageRole.CanAdd);
+  canView = this._permission.check(Page.CounponPage, PageRole.CanView);
+  canUpdate = this._permission.check(Page.CounponPage, PageRole.CanUpdate);
+  canDelete = this._permission.check(Page.CounponPage, PageRole.CanDelete);
 
   constructor(
     private _util: UtilService,
@@ -41,7 +41,7 @@ export class CouponListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._coupon.getAll();
+    const items = await this._coupon.getAllActive();
     this.dataSource = new MatTableDataSource<Coupon>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -63,10 +63,9 @@ export class CouponListComponent implements OnInit {
   }
 
   async delete(object: Coupon): Promise<void> {
-    await this._coupon.delete(object.id).then(_ => {
-      this.ngOnInit();
-      this._util.message('Cupom excluído com sucesso!', 'success');
-    });
+    await this._coupon.delete(object.id);
+    this._util.message('Cupom excluído com sucesso!', 'success');
+    this.ngOnInit();
   }
 
   confirmDelete(object: Coupon): void {

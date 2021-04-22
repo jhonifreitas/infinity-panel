@@ -33,6 +33,9 @@ export class SidebarComponent implements OnInit {
       { title: 'Questões', url: '/assessment/questoes', icon: 'quiz', hidden: false, permission: {
         page: Page.AssessmentQuestionPage, role: PageRole.CanList}
       },
+      { title: 'Grupos', url: '/assessment/grupos', icon: 'groups', hidden: false, permission: {
+        page: Page.AssessmentGroupPage, role: PageRole.CanList}
+      },
       { title: 'Instruções', url: '/assessment/instrucoes', icon: 'feedback', hidden: false, permission: {
         page: Page.AssessmentInstructionPage, role: PageRole.CanList}
       },

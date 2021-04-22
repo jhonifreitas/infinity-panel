@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Coupon } from 'src/app/models/coupon';
-import { AssessmentService } from 'src/app/services/firebase/assessment/service';
+import { AssessmentService } from 'src/app/services/firebase/assessment/assessment.service';
 
 @Component({
   selector: 'app-coupon-detail',

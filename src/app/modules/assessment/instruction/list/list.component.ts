@@ -28,10 +28,10 @@ export class AssessmentInstructionListComponent implements OnInit {
   dataSource: MatTableDataSource<Instruction>;
   displayedColumns: string[] = ['title', 'actions'];
 
-  canAdd = this._permission.check(Page.GroupPage, PageRole.CanAdd);
-  canView = this._permission.check(Page.GroupPage, PageRole.CanView);
-  canUpdate = this._permission.check(Page.GroupPage, PageRole.CanUpdate);
-  canDelete = this._permission.check(Page.GroupPage, PageRole.CanDelete);
+  canAdd = this._permission.check(Page.AssessmentInstructionPage, PageRole.CanAdd);
+  canView = this._permission.check(Page.AssessmentInstructionPage, PageRole.CanView);
+  canUpdate = this._permission.check(Page.AssessmentInstructionPage, PageRole.CanUpdate);
+  canDelete = this._permission.check(Page.AssessmentInstructionPage, PageRole.CanDelete);
 
   constructor(
     private _util: UtilService,
@@ -41,7 +41,7 @@ export class AssessmentInstructionListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._instruction.getAll();
+    const items = await this._instruction.getAllActive();
     this.dataSource = new MatTableDataSource<Instruction>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -63,10 +63,10 @@ export class AssessmentInstructionListComponent implements OnInit {
   }
 
   async delete(object: Instruction): Promise<void> {
-    await this._instruction.delete(object.id).then(_ => {
-      this.ngOnInit();
-      this._util.message('Instrução excluída com sucesso!', 'success');
-    });
+    await this._instruction.delete(object.id);
+    await this._instruction.deleteAllImages();
+    this._util.message('Instrução excluída com sucesso!', 'success');
+    this.ngOnInit();
   }
 
   confirmDelete(object: Instruction): void {

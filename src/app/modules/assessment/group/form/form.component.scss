@@ -1,0 +1,16 @@
+form {
+  mat-form-field {
+    width: 100%;
+    margin-bottom: .5rem;
+  }
+  ngx-dropzone{
+    padding: 1rem;
+    margin-bottom: 1rem;
+    width: calc(100% - 2rem);
+  }
+}
+.mat-progress-spinner {margin-left: .5rem;}
+
+#alternatives {
+  table {width: 100%;}
+}

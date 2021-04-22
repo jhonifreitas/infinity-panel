@@ -19,11 +19,11 @@ export class AssessmentQuestionFormComponent implements OnInit {
   types = new Question().getTypes;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Question = new Question(),
     private _util: UtilService,
     private formBuilder: FormBuilder,
     private _question: AssessmentQuestionService,
-    private dialogRef: MatDialogRef<AssessmentQuestionFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Question = new Question(),
+    private dialogRef: MatDialogRef<AssessmentQuestionFormComponent>
   ) {
     this.formGroup = this.formBuilder.group({
       title: new FormControl('', Validators.required),
@@ -37,17 +37,17 @@ export class AssessmentQuestionFormComponent implements OnInit {
     if (this.data.id) this.setData();
   }
 
+  setData(): void {
+    this.formGroup.patchValue(this.data);
+    for (const alternative of this.data.alternatives) this.addAlternative(alternative);
+  }
+
   get controls() {
     return this.formGroup.controls;
   }
 
   get controlAlternatives() {
     return this.controls.alternatives as FormArray;
-  }
-
-  setData(): void {
-    this.formGroup.patchValue(this.data);
-    for (const alternative of this.data.alternatives) this.addAlternative(alternative);
   }
 
   getFormAlternative() {

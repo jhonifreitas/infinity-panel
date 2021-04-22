@@ -22,6 +22,8 @@ export class Permission {
         return 'Aluno';
       case Page.AssessmentPage:
         return 'Assement';
+      case Page.AssessmentGroupPage:
+        return 'Assement Grupo';
       case Page.AssessmentQuestionPage:
         return 'Assement Questão';
       case Page.AssessmentInstructionPage:
@@ -59,6 +61,7 @@ export enum Page {
   CounponPage = 'coupon-page',
   StudentPage = 'student-page',
   AssessmentPage = 'assessment-page',
+  AssessmentGroupPage = 'assessment-group-page',
   AssessmentQuestionPage = 'assessment-question-page',
   AssessmentInstructionPage = 'assessment-instruction-page'
 }

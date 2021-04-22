@@ -52,6 +52,10 @@ import { AssessmentListComponent } from 'src/app/modules/assessment/list/list.co
 import { AssessmentFormComponent } from 'src/app/modules/assessment/form/form.component';
 import { AssessmentDetailComponent } from 'src/app/modules/assessment/detail/detail.component';
 
+import { AssessmentGroupListComponent } from 'src/app/modules/assessment/group/list/list.component';
+import { AssessmentGroupFormComponent } from 'src/app/modules/assessment/group/form/form.component';
+import { AssessmentGroupDetailComponent } from 'src/app/modules/assessment/group/detail/detail.component';
+
 import { AssessmentQuestionListComponent } from 'src/app/modules/assessment/question/list/list.component';
 import { AssessmentQuestionFormComponent } from 'src/app/modules/assessment/question/form/form.component';
 import { AssessmentQuestionDetailComponent } from 'src/app/modules/assessment/question/detail/detail.component';
@@ -106,6 +110,9 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     AssessmentListComponent,
     AssessmentFormComponent,
     AssessmentDetailComponent,
+    AssessmentGroupListComponent,
+    AssessmentGroupFormComponent,
+    AssessmentGroupDetailComponent,
     AssessmentQuestionListComponent,
     AssessmentQuestionFormComponent,
     AssessmentQuestionDetailComponent,

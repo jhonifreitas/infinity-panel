@@ -25,13 +25,13 @@ export class UserFormComponent implements OnInit {
   permissions: {id: string; name: string; pageId: string; roleId: string}[];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: User = new User(),
     private _util: UtilService,
     private _user: UserService,
     private _group: GroupService,
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<UserFormComponent>,
-  ) {
+    @Inject(MAT_DIALOG_DATA) public data: User = new User()
+    ) {
     this.formGroup = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -130,7 +130,10 @@ export class UserFormComponent implements OnInit {
 
       await this._user.save(this.data).then(async id => {
         if (id) this.data.id = id;
-        if (this.image && this.image.new && this.image.file) await this._user.uploadImage(this.data.id, this.image.file);
+        if (this.image && this.image.new && this.image.file) {
+          const url = await this._user.uploadImage(this.data.id, this.image.file);
+          await this._user.update(this.data.id, {image: url});
+        }
       });
 
       this.saving = false;

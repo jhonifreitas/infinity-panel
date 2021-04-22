@@ -28,10 +28,10 @@ export class AssessmentQuestionListComponent implements OnInit {
   dataSource: MatTableDataSource<Question>;
   displayedColumns: string[] = ['title', 'actions'];
 
-  canAdd = this._permission.check(Page.GroupPage, PageRole.CanAdd);
-  canView = this._permission.check(Page.GroupPage, PageRole.CanView);
-  canUpdate = this._permission.check(Page.GroupPage, PageRole.CanUpdate);
-  canDelete = this._permission.check(Page.GroupPage, PageRole.CanDelete);
+  canAdd = this._permission.check(Page.AssessmentQuestionPage, PageRole.CanAdd);
+  canView = this._permission.check(Page.AssessmentQuestionPage, PageRole.CanView);
+  canUpdate = this._permission.check(Page.AssessmentQuestionPage, PageRole.CanUpdate);
+  canDelete = this._permission.check(Page.AssessmentQuestionPage, PageRole.CanDelete);
 
   constructor(
     private _util: UtilService,
@@ -41,7 +41,7 @@ export class AssessmentQuestionListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._question.getAll();
+    const items = await this._question.getAllActive();
     this.dataSource = new MatTableDataSource<Question>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -63,10 +63,10 @@ export class AssessmentQuestionListComponent implements OnInit {
   }
 
   async delete(object: Question): Promise<void> {
-    await this._question.delete(object.id).then(_ => {
-      this.ngOnInit();
-      this._util.message('Instrução excluída com sucesso!', 'success');
-    });
+    await this._question.delete(object.id);
+    await this._question.deleteAllImages();
+    this._util.message('Questão excluída com sucesso!', 'success');
+    this.ngOnInit();
   }
 
   confirmDelete(object: Question): void {

@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Assessment } from 'src/app/models/assessment';
-import { AssessmentQuestionService } from 'src/app/services/firebase/assessment/question.service';
+import { AssessmentGroupService } from 'src/app/services/firebase/assessment/group.service';
 import { AssessmentInstructionService } from 'src/app/services/firebase/assessment/instruction.service';
 
 @Component({
@@ -13,17 +13,17 @@ import { AssessmentInstructionService } from 'src/app/services/firebase/assessme
 export class AssessmentDetailComponent implements OnInit {
 
   constructor(
-    private _question: AssessmentQuestionService,
+    private _group: AssessmentGroupService,
     private _instruction: AssessmentInstructionService,
     @Inject(MAT_DIALOG_DATA) public object: Assessment,
-    private dialogRef: MatDialogRef<AssessmentDetailComponent>,
+    private dialogRef: MatDialogRef<AssessmentDetailComponent>
   ) { }
 
   async ngOnInit(): Promise<void> {
-    for (const questionId of this.object.questions) {
-      this.object._questions = [];
-      const question = await this._question.getById(questionId);
-      this.object._questions.push(question);
+    for (const groupId of this.object.groups) {
+      this.object._groups = [];
+      const question = await this._group.getById(groupId);
+      this.object._groups.push(question);
     }
 
     for (const instructionId of this.object.instructions) {

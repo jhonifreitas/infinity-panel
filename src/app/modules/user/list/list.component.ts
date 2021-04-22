@@ -28,10 +28,10 @@ export class UserListComponent implements OnInit {
   dataSource: MatTableDataSource<User>;
   displayedColumns: string[] = ['name', 'email', 'active', 'image', 'actions'];
 
-  canAdd = this._permission.check(Page.GroupPage, PageRole.CanAdd);
-  canView = this._permission.check(Page.GroupPage, PageRole.CanView);
-  canUpdate = this._permission.check(Page.GroupPage, PageRole.CanUpdate);
-  canDelete = this._permission.check(Page.GroupPage, PageRole.CanDelete);
+  canAdd = this._permission.check(Page.UserPage, PageRole.CanAdd);
+  canView = this._permission.check(Page.UserPage, PageRole.CanView);
+  canUpdate = this._permission.check(Page.UserPage, PageRole.CanUpdate);
+  canDelete = this._permission.check(Page.UserPage, PageRole.CanDelete);
 
   constructor(
     private _util: UtilService,
@@ -62,14 +62,11 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  async deleteImage(id: string): Promise<void> {
-    await this._user.deleteImage(id);
-  }
-
   async delete(object: User): Promise<void> {
-    await this._user.delete(object.id);
-    if (object.image) await this.deleteImage(object.id);
+    if (object.image) await this._user.deleteImage(object.id);
+    await this._user.delete(object.id, true);
     this._util.message('Usuário excluído com sucesso!', 'success');
+    this.ngOnInit();
   }
 
   confirmDelete(object: User): void {

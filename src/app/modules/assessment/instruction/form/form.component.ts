@@ -18,11 +18,11 @@ export class AssessmentInstructionFormComponent implements OnInit {
   formGroup: FormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Instruction = new Instruction(),
     private _util: UtilService,
     private formBuilder: FormBuilder,
     private _instruction: AssessmentInstructionService,
     private dialogRef: MatDialogRef<AssessmentInstructionFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Instruction = new Instruction()
   ) {
     this.formGroup = this.formBuilder.group({
       title: new FormControl('', Validators.required),
@@ -34,12 +34,12 @@ export class AssessmentInstructionFormComponent implements OnInit {
     if (this.data.id) this.setData();
   }
 
-  get controls() {
-    return this.formGroup.controls;
-  }
-
   setData(): void {
     this.formGroup.patchValue(this.data);
+  }
+
+  get controls() {
+    return this.formGroup.controls;
   }
 
   async onSubmit(): Promise<void> {

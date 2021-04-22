@@ -12,7 +12,7 @@ export class AssessmentInstructionDetailComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public object: Instruction,
-    private dialogRef: MatDialogRef<AssessmentInstructionDetailComponent>,
+    private dialogRef: MatDialogRef<AssessmentInstructionDetailComponent>
   ) { }
 
   ngOnInit(): void { }

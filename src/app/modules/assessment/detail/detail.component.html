@@ -16,16 +16,10 @@
       <div matLine class="info"> {{ object.duration }}h </div>
     </mat-list-item>
 
-    <mat-list-item>
-      <mat-icon matListIcon color="success" *ngIf="object.showTime">check_circle</mat-icon>
-      <mat-icon matListIcon color="warn" *ngIf="!object.showTime">cancel</mat-icon>
-      <div matLine><strong> Mostrar Tempo </strong></div>
-    </mat-list-item>
-    
     <div class="px-3 py-2">
-      <div matLine class="mb-1"><strong> Questões </strong></div>
+      <div matLine class="mb-1"><strong> Grupos </strong></div>
       <mat-chip-list>
-        <mat-chip *ngFor="let question of object._questions" color="primary" selected>{{ question.title }}</mat-chip>
+        <mat-chip *ngFor="let group of object._groups" color="primary" selected>{{ group.name }}</mat-chip>
       </mat-chip-list>
     </div>
 

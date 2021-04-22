@@ -1,18 +1,18 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { Question } from 'src/app/models/assessment';
+import { Group } from 'src/app/models/assessment';
 
 @Component({
-  selector: 'app-assessment-question-detail',
+  selector: 'app-assessment-group-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']
 })
-export class AssessmentQuestionDetailComponent implements OnInit {
+export class AssessmentGroupDetailComponent implements OnInit {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public object: Question,
-    private dialogRef: MatDialogRef<AssessmentQuestionDetailComponent>
+    @Inject(MAT_DIALOG_DATA) public object: Group,
+    private dialogRef: MatDialogRef<AssessmentGroupDetailComponent>
   ) { }
 
   ngOnInit(): void { }

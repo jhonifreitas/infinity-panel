@@ -12,7 +12,6 @@
       <mat-form-field fxFlex="60">
         <mat-label>Valor</mat-label>
         <input matInput type="number" formControlName="value">
-        <mat-error *ngIf="controls.value.hasError('required')">Valor é <strong>obrigatório!</strong></mat-error>
         <mat-error *ngIf="controls.value.hasError('min')">Valor mínimo <strong>{{ controls.value.errors.min.min }}</strong>, atual <strong>{{ controls.value.errors.min.actual }}</strong></mat-error>
       </mat-form-field>
 

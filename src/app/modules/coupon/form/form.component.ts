@@ -7,7 +7,7 @@ import { Assessment } from 'src/app/models/assessment';
 
 import { UtilService } from 'src/app/services/util.service';
 import { CouponService } from 'src/app/services/firebase/coupon.service';
-import { AssessmentService } from 'src/app/services/firebase/assessment/service';
+import { AssessmentService } from 'src/app/services/firebase/assessment/assessment.service';
 
 @Component({
   selector: 'app-coupon-form',
@@ -24,17 +24,17 @@ export class CouponFormComponent implements OnInit {
   assessments: Assessment[];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Coupon = new Coupon(),
     private _util: UtilService,
     private _coupon: CouponService,
     private formBuilder: FormBuilder,
     private _assessment: AssessmentService,
     private dialogRef: MatDialogRef<CouponFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Coupon = new Coupon()
   ) {
     this.formGroup = this.formBuilder.group({
       code: new FormControl('', Validators.required),
+      value: new FormControl('', Validators.min(1)),
       validity: new FormControl('', Validators.required),
-      value: new FormControl('', [Validators.required, Validators.min(0)]),
       quantity: new FormControl(0, [Validators.required, Validators.min(0)]),
       mbas: new FormControl([]),
       courses: new FormControl([]),

@@ -8,25 +8,19 @@
       <mat-error>Nome é <strong>obrigatório!</strong></mat-error>
     </mat-form-field>
 
-    <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
-      <mat-form-field fxFlex="70">
-        <mat-label>Duração</mat-label>
-        <input matInput type="number" formControlName="duration">
-        <mat-hint>Valor em <strong>horas!</strong></mat-hint>
-        <mat-error>Duração é <strong>obrigatório!</strong></mat-error>
-      </mat-form-field>
-  
-      <div fxFlex="30" class="text-end">
-        <mat-slide-toggle color="primary" formControlName="showTime">Mostrar</mat-slide-toggle>
-      </div>
-    </div>
+    <mat-form-field>
+      <mat-label>Duração</mat-label>
+      <input matInput type="number" formControlName="duration">
+      <mat-hint>Valor em <strong>horas!</strong></mat-hint>
+      <mat-error>Duração é <strong>obrigatório!</strong></mat-error>
+    </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Questões</mat-label>
-      <mat-select formControlName="questions" multiple placeholder="---">
-        <mat-option *ngFor="let question of questions" [value]="question.id">{{ question.title }}</mat-option>
+      <mat-label>Grupos</mat-label>
+      <mat-select formControlName="groups" multiple placeholder="---">
+        <mat-option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</mat-option>
       </mat-select>
-      <mat-error>Questões é obrigatório!</mat-error>
+      <mat-error>Grupos é obrigatório!</mat-error>
     </mat-form-field>
 
     <mat-form-field>

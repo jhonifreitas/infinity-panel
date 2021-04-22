@@ -11,7 +11,7 @@ import { AssessmentDetailComponent } from '../detail/detail.component';
 
 import { UtilService } from 'src/app/services/util.service';
 import { PermissionService } from 'src/app/services/permission.service';
-import { AssessmentService } from 'src/app/services/firebase/assessment/service';
+import { AssessmentService } from 'src/app/services/firebase/assessment/assessment.service';
 
 @Component({
   selector: 'app-assessment-list',
@@ -28,10 +28,10 @@ export class AssessmentListComponent implements OnInit {
   dataSource: MatTableDataSource<Assessment>;
   displayedColumns: string[] = ['name', 'actions'];
 
-  canAdd = this._permission.check(Page.GroupPage, PageRole.CanAdd);
-  canView = this._permission.check(Page.GroupPage, PageRole.CanView);
-  canUpdate = this._permission.check(Page.GroupPage, PageRole.CanUpdate);
-  canDelete = this._permission.check(Page.GroupPage, PageRole.CanDelete);
+  canAdd = this._permission.check(Page.AssessmentPage, PageRole.CanAdd);
+  canView = this._permission.check(Page.AssessmentPage, PageRole.CanView);
+  canUpdate = this._permission.check(Page.AssessmentPage, PageRole.CanUpdate);
+  canDelete = this._permission.check(Page.AssessmentPage, PageRole.CanDelete);
 
   constructor(
     private _util: UtilService,
@@ -41,7 +41,7 @@ export class AssessmentListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._assessment.getAll();
+    const items = await this._assessment.getAllActive();
     this.dataSource = new MatTableDataSource<Assessment>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -63,10 +63,9 @@ export class AssessmentListComponent implements OnInit {
   }
 
   async delete(object: Assessment): Promise<void> {
-    await this._assessment.delete(object.id).then(_ => {
-      this.ngOnInit();
-      this._util.message('Instrução excluída com sucesso!', 'success');
-    });
+    await this._assessment.delete(object.id);
+    this._util.message('Instrução excluída com sucesso!', 'success');
+    this.ngOnInit();
   }
 
   confirmDelete(object: Assessment): void {

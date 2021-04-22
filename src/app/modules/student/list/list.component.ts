@@ -6,7 +6,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Student } from 'src/app/models/student';
 import { Page, PageRole } from 'src/app/models/permission';
 
-import { StudentFormComponent } from '../form/form.component';
 import { StudentDetailComponent } from '../detail/detail.component';
 
 import { UtilService } from 'src/app/services/util.service';
@@ -28,10 +27,10 @@ export class StudentListComponent implements OnInit {
   dataSource: MatTableDataSource<Student>;
   displayedColumns: string[] = ['name', 'email', 'active', 'image', 'actions'];
 
-  canAdd = this._permission.check(Page.GroupPage, PageRole.CanAdd);
-  canView = this._permission.check(Page.GroupPage, PageRole.CanView);
-  canUpdate = this._permission.check(Page.GroupPage, PageRole.CanUpdate);
-  canDelete = this._permission.check(Page.GroupPage, PageRole.CanDelete);
+  canAdd = this._permission.check(Page.StudentPage, PageRole.CanAdd);
+  canView = this._permission.check(Page.StudentPage, PageRole.CanView);
+  canUpdate = this._permission.check(Page.StudentPage, PageRole.CanUpdate);
+  canDelete = this._permission.check(Page.StudentPage, PageRole.CanDelete);
 
   constructor(
     private _util: UtilService,
@@ -41,7 +40,7 @@ export class StudentListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._student.getAll();
+    const items = await this._student.getAllActive();
     this.dataSource = new MatTableDataSource<Student>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -56,14 +55,11 @@ export class StudentListComponent implements OnInit {
     if (this.canView) this._util.detail(StudentDetailComponent, object);
   }
 
-  async deleteImage(id: string): Promise<void> {
-    await this._student.deleteImage(id);
-  }
-
   async delete(object: Student): Promise<void> {
+    if (object.image) await this._student.deleteImage(object.id);
     await this._student.delete(object.id);
-    if (object.image) await this.deleteImage(object.id);
     this._util.message('Aluno excluído com sucesso!', 'success');
+    this.ngOnInit();
   }
 
   confirmDelete(object: Student): void {

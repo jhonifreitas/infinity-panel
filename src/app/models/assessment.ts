@@ -3,17 +3,15 @@ import { Base } from './base';
 export class Assessment extends Base {
   name: string;
   duration: number;
-  showTime: boolean;
-  questions: string[];
+  groups: string[];
   instructions: string[];
 
-  _questions?: Question[];
+  _groups?: Group[];
   _instructions?: Instruction[];
 
   constructor() {
     super();
-    this.questions = [];
-    this.showTime = false;
+    this.groups = [];
     this.instructions = [];
   }
 }
@@ -21,6 +19,15 @@ export class Assessment extends Base {
 export class Instruction extends Base {
   title: string;
   text: string;
+
+  constructor() {
+    super();
+  }
+}
+
+export class Group extends Base {
+  name: string;
+  image: string;
 
   constructor() {
     super();
