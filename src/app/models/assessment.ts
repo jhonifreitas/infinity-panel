@@ -7,6 +7,7 @@ export class Assessment extends Base {
   instructions: string[];
 
   _groups?: Group[];
+  _questions?: Question[];
   _instructions?: Instruction[];
 
   constructor() {
@@ -28,9 +29,13 @@ export class Instruction extends Base {
 export class Group extends Base {
   name: string;
   image: string;
+  questions: string[];
+
+  _questions?: Question[];
 
   constructor() {
     super();
+    this.questions = [];
   }
 }
 

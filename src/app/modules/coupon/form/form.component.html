@@ -8,6 +8,14 @@
       <mat-error>Código é <strong>obrigatório!</strong></mat-error>
     </mat-form-field>
 
+    <mat-form-field>
+      <mat-label>Acesso</mat-label>
+      <mat-select formControlName="accessId" placeholder="---">
+        <mat-option *ngFor="let access of accessList" [value]="access.id">{{ access.code }}</mat-option>
+      </mat-select>
+      <mat-error>Acesso é obrigatório!</mat-error>
+    </mat-form-field>
+
     <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
       <mat-form-field fxFlex="60">
         <mat-label>Valor</mat-label>
@@ -37,27 +45,6 @@
         <mat-error *ngIf="controls.quantity.hasError('min')">Valor mínimo <strong>{{ controls.quantity.errors.min.min }}</strong>, atual <strong>{{ controls.quantity.errors.min.actual }}</strong></mat-error>
       </mat-form-field>
     </div>
-
-    <mat-form-field>
-      <mat-label>Assessments</mat-label>
-      <mat-select formControlName="assessments" multiple placeholder="---">
-        <mat-option *ngFor="let assessment of assessments" [value]="assessment.id">{{ assessment.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Cursos</mat-label>
-      <mat-select formControlName="courses" multiple placeholder="---">
-        <mat-option *ngFor="let course of courses" [value]="course.id">{{ course.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>MBAs</mat-label>
-      <mat-select formControlName="mbas" multiple placeholder="---">
-        <mat-option *ngFor="let mba of mbas" [value]="mba.id">{{ mba.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
 
   </form>
 </div>

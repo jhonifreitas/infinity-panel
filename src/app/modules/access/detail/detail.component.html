@@ -1,0 +1,37 @@
+<mat-toolbar color="primary">
+  <span>Acesso ao conteúdo</span>
+</mat-toolbar>
+<div mat-dialog-content>
+  
+  <mat-list>
+    <mat-list-item>
+      <mat-icon matListIcon>more_horiz</mat-icon>
+      <div matLine><strong> Código </strong></div>
+      <div matLine class="info"> {{ object.code }} </div>
+    </mat-list-item>
+
+    <div class="px-3 py-2">
+      <div matLine class="mb-1"><strong> Assessments </strong></div>
+      <mat-chip-list *ngIf="object._assessments">
+        <mat-chip *ngFor="let assessment of object._assessments" color="primary" selected>{{ assessment.name }}</mat-chip>
+      </mat-chip-list>
+      <div matLine class="info" *ngIf="!object._assessments">---</div>
+    </div>
+
+    <div class="px-3 py-2">
+      <div matLine class="mb-1"><strong> Cursos </strong></div>
+      <mat-chip-list *ngIf="object._courses">
+        <mat-chip *ngFor="let course of object._courses" color="primary" selected>{{ course.name }}</mat-chip>
+      </mat-chip-list>
+      <div matLine class="info" *ngIf="!object._courses">---</div>
+    </div>
+
+    <div class="px-3 py-2">
+      <div matLine class="mb-1"><strong> MBAs </strong></div>
+      <mat-chip-list *ngIf="object._mbas">
+        <mat-chip *ngFor="let mba of object._mbas" color="primary" selected>{{ mba.name }}</mat-chip>
+      </mat-chip-list>
+      <div matLine class="info" *ngIf="!object._mbas">---</div>
+    </div>
+  </mat-list>
+</div>

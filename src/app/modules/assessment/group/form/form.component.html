@@ -17,6 +17,14 @@
       <input matInput formControlName="name" cdkFocusInitial>
       <mat-error>Nome é <strong>obrigatório!</strong></mat-error>
     </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Questões</mat-label>
+      <mat-select formControlName="questions" multiple placeholder="---">
+        <mat-option *ngFor="let question of questions" [value]="question.id">{{ question.title }}</mat-option>
+      </mat-select>
+      <mat-error>Questões é obrigatório!</mat-error>
+    </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions fxLayoutAlign="end center">

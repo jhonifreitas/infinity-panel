@@ -19,6 +19,7 @@ import { PasswordResetFormComponent } from './modules/auth/password-reset/passwo
 import { AssessmentQuestionListComponent } from './modules/assessment/question/list/list.component';
 import { ForgotPasswordFormComponent } from './modules/auth/forgot-password/forgot-password.component';
 import { AssessmentInstructionListComponent } from './modules/assessment/instruction/list/list.component';
+import { AccessListComponent } from './modules/access/list/list.component';
 
 const routes: Routes = [
 
@@ -38,6 +39,12 @@ const routes: Routes = [
       component: CouponListComponent,
       canActivate: [PermissionGuard],
       data: {permissions: [{page: Page.CounponPage, role: PageRole.CanList}]}
+    },
+    {
+      path: 'acessos',
+      component: AccessListComponent,
+      canActivate: [PermissionGuard],
+      data: {permissions: [{page: Page.AccessPage, role: PageRole.CanList}]}
     },
     {
       path: 'alunos',

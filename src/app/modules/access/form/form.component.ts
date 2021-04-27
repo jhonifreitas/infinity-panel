@@ -2,43 +2,49 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { Coupon } from 'src/app/models/coupon';
 import { Access } from 'src/app/models/access';
+import { Assessment } from 'src/app/models/assessment';
 
 import { UtilService } from 'src/app/services/util.service';
-import { CouponService } from 'src/app/services/firebase/coupon.service';
 import { AccessService } from 'src/app/services/firebase/access.service';
+import { AssessmentService } from 'src/app/services/firebase/assessment/assessment.service';
 
 @Component({
-  selector: 'app-coupon-form',
+  selector: 'app-access-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class CouponFormComponent implements OnInit {
+export class AccessFormComponent implements OnInit {
 
   saving = false;
   formGroup: FormGroup;
-  accessList: Access[];
+
+  mbas: any[];
+  courses: any[];
+  assessments: Assessment[];
 
   constructor(
     private _util: UtilService,
-    private _coupon: CouponService,
     private _access: AccessService,
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<CouponFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Coupon = new Coupon()
+    private _assessment: AssessmentService,
+    private dialogRef: MatDialogRef<AccessFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Access = new Access()
   ) {
     this.formGroup = this.formBuilder.group({
       code: new FormControl('', Validators.required),
       value: new FormControl('', Validators.min(1)),
-      accessId: new FormControl('', Validators.required),
       validity: new FormControl('', Validators.required),
       quantity: new FormControl(0, [Validators.required, Validators.min(0)]),
+      mbas: new FormControl([]),
+      courses: new FormControl([]),
+      assessments: new FormControl([]),
       percentage: new FormControl(false)
     });
   }
 
   async ngOnInit(): Promise<void> {
+    await this.getAssessments();
     if (this.data.id) this.setData();
   }
 
@@ -50,8 +56,8 @@ export class CouponFormComponent implements OnInit {
     return this.formGroup.controls;
   }
 
-  async getAccess(): Promise<void> {
-    this.accessList = await this._access.getAllActive();
+  async getAssessments() {
+    this.assessments = await this._assessment.getAllActive();
   }
 
   uppercase() {
@@ -63,10 +69,10 @@ export class CouponFormComponent implements OnInit {
     if (this.formGroup.valid) {
       this.saving = true;
       Object.assign(this.data, this.formGroup.value);
-      await this._coupon.save(this.data);
+      await this._access.save(this.data);
 
       this.saving = false;
-      this._util.message('Cupom salvo com sucesso!', 'success');
+      this._util.message('Accesso ao conteúdo salvo com sucesso!', 'success');
       this.dialogRef.close(true);
     } else this._util.message('Verifique os dados antes de salvar!', 'warn');
   }

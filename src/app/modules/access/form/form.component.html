@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>Formulário de acesso ao conteúdo</h1>
+<div mat-dialog-content>
+  <form [formGroup]="formGroup">
+
+    <mat-form-field>
+      <mat-label>Código</mat-label>
+      <input matInput formControlName="code" (keyup)="uppercase()" cdkFocusInitial>
+      <mat-error>Código é <strong>obrigatório!</strong></mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Assessments</mat-label>
+      <mat-select formControlName="assessments" multiple placeholder="---">
+        <mat-option *ngFor="let assessment of assessments" [value]="assessment.id">{{ assessment.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Cursos</mat-label>
+      <mat-select formControlName="courses" multiple placeholder="---">
+        <mat-option *ngFor="let course of courses" [value]="course.id">{{ course.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>MBAs</mat-label>
+      <mat-select formControlName="mbas" multiple placeholder="---">
+        <mat-option *ngFor="let mba of mbas" [value]="mba.id">{{ mba.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end center">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="formGroup.invalid" *ngIf="!saving" (click)="onSubmit()">Salvar</button>
+  <mat-progress-spinner mode="indeterminate" diameter="25" *ngIf="saving"></mat-progress-spinner>
+</div>

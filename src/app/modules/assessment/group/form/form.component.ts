@@ -2,11 +2,12 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { Group } from 'src/app/models/assessment';
 import { FileUpload } from 'src/app/interfaces/base';
+import { Group, Question } from 'src/app/models/assessment';
 
 import { UtilService } from 'src/app/services/util.service';
 import { AssessmentGroupService } from 'src/app/services/firebase/assessment/group.service';
+import { AssessmentQuestionService } from 'src/app/services/firebase/assessment/question.service';
 
 @Component({
   selector: 'app-assessment-group-form',
@@ -18,20 +19,24 @@ export class AssessmentGroupFormComponent implements OnInit {
   saving = false;
   image: FileUpload;
   formGroup: FormGroup;
+  questions: Question[];
 
   constructor(
     private _util: UtilService,
     private formBuilder: FormBuilder,
     private _group: AssessmentGroupService,
+    private _question: AssessmentQuestionService,
     @Inject(MAT_DIALOG_DATA) public data: Group = new Group(),
     private dialogRef: MatDialogRef<AssessmentGroupFormComponent>
   ) {
     this.formGroup = this.formBuilder.group({
-      name: new FormControl('', Validators.required)
+      name: new FormControl('', Validators.required),
+      questions: new FormControl([], Validators.required)
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.getQuestions();
     if (this.data.id) this.setData();
   }
 
@@ -42,6 +47,10 @@ export class AssessmentGroupFormComponent implements OnInit {
 
   get controls() {
     return this.formGroup.controls;
+  }
+
+  async getQuestions(): Promise<void> {
+    this.questions = await this._question.getAllActive();
   }
 
   async takeImage(event: any): Promise<void> {
