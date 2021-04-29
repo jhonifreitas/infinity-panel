@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 
@@ -28,6 +29,7 @@ export class AssessmentQuestionFormComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       title: new FormControl('', Validators.required),
       text: new FormControl('', Validators.required),
+      point: new FormControl(''),
       type: new FormControl('neuro', Validators.required),
       alternatives: this.formBuilder.array([]),
     });
@@ -39,6 +41,10 @@ export class AssessmentQuestionFormComponent implements OnInit {
 
   setData(): void {
     this.formGroup.patchValue(this.data);
+    if (this.data.type != 'neuro') {
+      this.controls.point.setValidators([Validators.required, Validators.min(1)]);
+      this.controls.point.updateValueAndValidity();
+    }
     for (const alternative of this.data.alternatives) this.addAlternative(alternative);
   }
 
@@ -65,6 +71,13 @@ export class AssessmentQuestionFormComponent implements OnInit {
 
   removeAlternative(index: number){
     this.controlAlternatives.removeAt(index);
+  }
+
+  changeType(event: MatSelectChange) {
+    if (event.value != 'neuro') {
+      this.controls.point.setValidators([Validators.required, Validators.min(1)]);
+      this.controls.point.updateValueAndValidity();
+    }
   }
 
   async onSubmit(): Promise<void> {

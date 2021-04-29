@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { LoginFormComponent } from './login/login.component';
 import { PasswordResetFormComponent } from './password-reset/password-reset.component';
 import { ForgotPasswordFormComponent } from './forgot-password/forgot-password.component';
+import { InputFormModule } from 'src/app/shared/components/input-form/input-form.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ForgotPasswordFormComponent } from './forgot-password/forgot-password.c
     CommonModule,
     MatIconModule,
     MatInputModule,
+    InputFormModule,
     MatButtonModule,
     FlexLayoutModule,
     MatFormFieldModule,

@@ -13,7 +13,6 @@ import { AuthService } from 'src/app/services/firebase/auth.service';
 })
 export class LoginFormComponent implements OnInit {
 
-  hide = true;
   loading = false;
   formGroup: FormGroup;
 
@@ -31,6 +30,10 @@ export class LoginFormComponent implements OnInit {
   }
 
   ngOnInit(): void { }
+
+  get controls() {
+    return this.formGroup.controls;
+  }
 
   async onSubmit(): Promise<void> {
     if (this.formGroup.valid) {

@@ -33,7 +33,6 @@ export class AccessFormComponent implements OnInit {
   ) {
     this.formGroup = this.formBuilder.group({
       code: new FormControl('', Validators.required),
-      value: new FormControl('', Validators.min(1)),
       validity: new FormControl('', Validators.required),
       quantity: new FormControl(0, [Validators.required, Validators.min(0)]),
       mbas: new FormControl([]),

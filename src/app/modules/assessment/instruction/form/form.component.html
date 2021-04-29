@@ -1,23 +1,13 @@
 <h1 mat-dialog-title>Formulário de instrução</h1>
 <div mat-dialog-content>
   <form [formGroup]="formGroup">
+    <input-form label="Título" [control]="controls.title"></input-form>
 
-    <mat-form-field>
-      <mat-label>Título</mat-label>
-      <input matInput formControlName="title" cdkFocusInitial>
-      <mat-error>Título é <strong>obrigatório!</strong></mat-error>
-    </mat-form-field>
-
-    <div>
-      <quill-editor formControlName="text" placeholder="Insira o texto aqui..." [styles]="{minHeight: '200px'}"></quill-editor>
-      <mat-error *ngIf="(controls.text.dirty || controls.text.touched) && controls.text.invalid">
-        Texto é <strong>obrigatório!</strong>
-      </mat-error>
-    </div>
+    <input-form label="Texto" type="html" [showLabel]="false" [control]="controls.text"></input-form>
   </form>
 </div>
 <div mat-dialog-actions fxLayoutAlign="end center">
   <button mat-button mat-dialog-close>Cancelar</button>
   <button mat-raised-button color="primary" [disabled]="formGroup.invalid" *ngIf="!saving" (click)="onSubmit()">Salvar</button>
-  <mat-progress-spinner mode="indeterminate" diameter="25" *ngIf="saving"></mat-progress-spinner>
+  <mat-progress-spinner mode="indeterminate" diameter="25" class="ml-2" *ngIf="saving"></mat-progress-spinner>
 </div>

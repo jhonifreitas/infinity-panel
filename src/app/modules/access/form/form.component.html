@@ -2,37 +2,29 @@
 <div mat-dialog-content>
   <form [formGroup]="formGroup">
 
-    <mat-form-field>
-      <mat-label>Código</mat-label>
-      <input matInput formControlName="code" (keyup)="uppercase()" cdkFocusInitial>
-      <mat-error>Código é <strong>obrigatório!</strong></mat-error>
-    </mat-form-field>
+    <input-form label="Código" [control]="controls.code" (keyup)="uppercase()"></input-form>
 
-    <mat-form-field>
-      <mat-label>Assessments</mat-label>
-      <mat-select formControlName="assessments" multiple placeholder="---">
-        <mat-option *ngFor="let assessment of assessments" [value]="assessment.id">{{ assessment.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div fxLayout="row" fxLayoutGap="20px">
+      <div fxFlex="50">
+        <input-form label="Validade" type="datepicker" [control]="controls.validity"></input-form>
+      </div>
+      <div fxFlex="50">
+        <input-form label="Quantidade" [control]="controls.quantity"></input-form>
+      </div>
+    </div>
 
-    <mat-form-field>
-      <mat-label>Cursos</mat-label>
-      <mat-select formControlName="courses" multiple placeholder="---">
-        <mat-option *ngFor="let course of courses" [value]="course.id">{{ course.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <input-form label="Assessments" type="select" [multiple]="true" [items]="assessments"
+      [control]="controls.assessments"></input-form>
 
-    <mat-form-field>
-      <mat-label>MBAs</mat-label>
-      <mat-select formControlName="mbas" multiple placeholder="---">
-        <mat-option *ngFor="let mba of mbas" [value]="mba.id">{{ mba.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <input-form label="Cursos" type="select" [multiple]="true" [items]="courses"
+      [control]="controls.courses"></input-form>
+
+    <input-form label="MBAs" type="select" [multiple]="true" [items]="mbas" [control]="controls.mbas"></input-form>
 
   </form>
 </div>
 <div mat-dialog-actions fxLayoutAlign="end center">
   <button mat-button mat-dialog-close>Cancelar</button>
   <button mat-raised-button color="primary" [disabled]="formGroup.invalid" *ngIf="!saving" (click)="onSubmit()">Salvar</button>
-  <mat-progress-spinner mode="indeterminate" diameter="25" *ngIf="saving"></mat-progress-spinner>
+  <mat-progress-spinner mode="indeterminate" diameter="25" class="ml-2" *ngIf="saving"></mat-progress-spinner>
 </div>

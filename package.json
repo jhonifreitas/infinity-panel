@@ -29,6 +29,7 @@
     "highcharts": "^9.0.1",
     "highcharts-angular": "^2.10.0",
     "lottie-web": "^5.7.8",
+    "ngx-currency": "^2.5.2",
     "ngx-dropzone": "^3.0.0",
     "ngx-image-compress": "^11.0.3",
     "ngx-lottie": "^6.4.0",

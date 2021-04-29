@@ -10,6 +10,24 @@
       <div matLine class="info"> {{ object.code }} </div>
     </mat-list-item>
 
+    <mat-list-item>
+      <mat-icon matListIcon>calendar_today</mat-icon>
+      <div matLine><strong> Validade </strong></div>
+      <div matLine class="info"> {{ object.validity | date:'dd/MM/yyyy' }} </div>
+    </mat-list-item>
+
+    <mat-list-item>
+      <mat-icon matListIcon>remove</mat-icon>
+      <div matLine><strong> Usado </strong></div>
+      <div matLine class="info"> {{ object.used }} </div>
+    </mat-list-item>
+
+    <mat-list-item>
+      <mat-icon matListIcon>add</mat-icon>
+      <div matLine><strong> Quantidade </strong></div>
+      <div matLine class="info"> {{ object.quantity }} </div>
+    </mat-list-item>
+
     <div class="px-3 py-2">
       <div matLine class="mb-1"><strong> Assessments </strong></div>
       <mat-chip-list *ngIf="object._assessments">

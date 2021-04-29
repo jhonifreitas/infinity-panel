@@ -12,7 +12,6 @@ import { AuthService } from 'src/app/services/firebase/auth.service';
 })
 export class PasswordResetFormComponent implements OnInit {
 
-  hide = true;
   code: string;
   loading = false;
   isValidCode = true;
@@ -36,6 +35,10 @@ export class PasswordResetFormComponent implements OnInit {
       this.isValidCode = false;
       this._util.message('Código de redefinição inválido!', 'warn');
     });
+  }
+
+  get controls() {
+    return this.formGroup.controls;
   }
 
   async onSubmit(): Promise<void> {

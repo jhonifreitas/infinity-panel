@@ -42,6 +42,7 @@ export class Group extends Base {
 export class Question extends Base {
   title: string;
   text: string;
+  point?: number;
   type: 'dissertation' | 'objective' | 'neuro';
   alternatives?: Alternative[];
 

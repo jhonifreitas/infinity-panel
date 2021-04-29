@@ -15,9 +15,11 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { PieComponent } from './widgets/pie/pie.component';
 import { AreaComponent } from './widgets/area/area.component';
 import { CardComponent } from './widgets/card/card.component';
+
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { InputFormModule } from './components/input-form/input-form.module';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     PieComponent,
     AreaComponent,
     CardComponent,
+    InputFormModule,
     HeaderComponent,
     FooterComponent,
     SidebarComponent,

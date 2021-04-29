@@ -12,7 +12,6 @@ import { AuthService } from 'src/app/services/firebase/auth.service';
 })
 export class ForgotPasswordFormComponent implements OnInit {
 
-  hide = true;
   loading = false;
   formGroup: FormGroup;
 
@@ -28,6 +27,10 @@ export class ForgotPasswordFormComponent implements OnInit {
   }
 
   ngOnInit(): void { }
+
+  get controls() {
+    return this.formGroup.controls;
+  }
 
   async onSubmit(): Promise<void> {
     if (this.formGroup.valid) {
