@@ -8,14 +8,14 @@
       </button>
       <img [src]="image.path" alt="">
     </div>
-    <ngx-dropzone (change)="takeImage($event)" *ngIf="!image">
+    <ngx-dropzone (change)="takeImage($event)" class="mb-2" *ngIf="!image">
       <ngx-dropzone-label>Arraste os arquivos aqui ou clique para fazer o upload.</ngx-dropzone-label>
     </ngx-dropzone>
 
     <app-input label="Nome" [control]="controls.name" [cdkFocus]="true"></app-input>
 
     <app-input label="Questões" type="select" [multiple]="true" [items]="questions"
-      [control]="controls.questions"></app-input>
+      [selectName]="title" [control]="controls.questions"></app-input>
   </form>
 </div>
 <div mat-dialog-actions fxLayoutAlign="end center">
