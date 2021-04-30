@@ -1,11 +1,17 @@
 @import './theme';
+
+@import './plugins/dropzone';
+
 @import './components/img';
+@import './components/form';
 @import './components/font';
 @import './components/table';
 @import './components/spacing';
 
 html, body {height: 100%;}
 body {margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.container {margin-bottom: 5rem;}
 
 .dialog-view .mat-dialog-content {padding: 0;}
 .dialog-delete, .dialog-view {

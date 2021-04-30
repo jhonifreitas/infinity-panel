@@ -5,10 +5,9 @@
   <!-- DEFAULT -->
   <input
     matInput
-    [type]="type" [ngClass]="class"
-    [id]="id" [formControl]="control"
-    [attr.cdkFocusInitial]="cdkFocus"
-    [attr.inputmode]="inputmode" [maxlength]="maxlength"
+    [id]="id" [type]="type" [ngClass]="class"
+    [formControl]="control" [maxlength]="maxlength"
+    [attr.cdkFocusInitial]="cdkFocus" [attr.inputmode]="inputmode"
     [placeholder]="placeholder || 'Digite o ' + (label | lowercase)"
     [mask]="mask?.format || ''" [prefix]="mask?.prefix || ''" [suffix]="mask?.suffix || ''" [dropSpecialCharacters]="!mask?.dropSpecialCharacters"
     *ngIf="type != 'currency' && type != 'password' && type != 'select' && type != 'textarea' && type != 'datepicker'"
@@ -26,10 +25,10 @@
     [ngClass]="class" [placeholder]="placeholder || 'Digite o ' + (label | lowercase)">
 
   <!-- SELECT -->
-  <mat-select *ngIf="type == 'select'" [id]="id" [formControl]="control" [multiple]="multiple"
-    [attr.cdkFocusInitial]="cdkFocus" [ngClass]="class"
+  <mat-select *ngIf="type == 'select'" [id]="id" [formControl]="control"
+    [attr.cdkFocusInitial]="cdkFocus" [ngClass]="class" [multiple]="multiple"
     [placeholder]="placeholder || '---'" (selectionChange)="emit('change', $event)">
-    <mat-option *ngFor="let item of items" [value]="item.id">{{ item[selectId] }}</mat-option>
+    <mat-option *ngFor="let item of items" [value]="item[selectId]">{{ item[selectName] }}</mat-option>
   </mat-select>
 
   <!-- TEXTAREA -->

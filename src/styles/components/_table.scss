@@ -4,5 +4,10 @@
 
 .table-responsive {
   overflow-x: auto;
-  .mat-table {min-width: 800px;}
+  
+  .mat-table {
+    min-width: 800px;
+    
+    .mat-ripple {cursor: pointer;}
+  }
 }

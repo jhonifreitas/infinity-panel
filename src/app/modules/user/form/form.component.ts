@@ -21,6 +21,7 @@ export class UserFormComponent implements OnInit {
   saving = false;
   groups: Group[];
   image: FileUpload;
+  togglePass = true;
   formGroup: FormGroup;
   permissions: {id: string; name: string; pageId: string; roleId: string}[];
 
@@ -78,8 +79,8 @@ export class UserFormComponent implements OnInit {
   getPermissions(): void {
     this.permissions = [];
     let id = 0;
-    for (const page of new Permission().getPages)
-      for (const role of new Permission().getPageRoles) {
+    for (const page of Permission.getPages)
+      for (const role of Permission.getPageRoles) {
         this.permissions.push({id: id.toString(), name: `${page.name} - ${role.name}`, pageId: page.id, roleId: role.id});
         id += 1;
       }

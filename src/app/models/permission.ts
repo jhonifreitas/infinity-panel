@@ -3,14 +3,14 @@ export class Permission {
   role: PageRole;
 
   // PAGE
-  get getPages() {
+  static get getPages() {
     const list: {id: string; name: string}[] = [];
     for (const role of Object.entries(Page))
-      list.push({id: role[0], name: this.getPage(role[1])});
+      list.push({id: role[0], name: Permission.getPage(role[1])});
     return list;
   }
 
-  getPage(role: Page): string {
+  static getPage(role: Page): string {
     switch (role) {
       case Page.UserPage:
         return 'Usuário';
@@ -34,14 +34,14 @@ export class Permission {
   }
 
   // PAGE ROLE
-  get getPageRoles() {
+  static get getPageRoles() {
     const list: {id: string; name: string}[] = [];
     for (const role of Object.entries(PageRole))
-      list.push({id: role[0], name: this.getPageRole(role[1])});
+      list.push({id: role[0], name: Permission.getPageRole(role[1])});
     return list;
   }
 
-  getPageRole(role: PageRole): string {
+  static getPageRole(role: PageRole): string {
     switch (role) {
       case PageRole.CanAdd:
         return 'Permite adicionar';

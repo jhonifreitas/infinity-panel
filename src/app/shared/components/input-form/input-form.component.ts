@@ -14,13 +14,10 @@ export class InputFormComponent {
   @Input() class: string;
   @Input() maxlength: number;
   @Input() inputmode: string;
-  @Input() currency: boolean;
-  @Input() showErrors: boolean;
   @Input() placeholder: string;
   @Input() control: FormControl;
   @Input() type: string = 'text';
   @Input() cdkFocus: boolean = false;
-  @Input() disabled: boolean = false;
   @Input() showLabel: boolean = true;
   
   // MASK
@@ -32,7 +29,8 @@ export class InputFormComponent {
   // SELECT
   @Input() items: any[];
   @Input() multiple = false;
-  @Input() selectId: string = 'name';
+  @Input() selectId: string = 'id';
+  @Input() selectName: string = 'name';
 
   // EVENT
   @Output() change = new EventEmitter();

@@ -50,7 +50,7 @@ export class Question extends Base {
     super();
   }
 
-  get getTypes() {
+  static get getTypes() {
     return [
       {id: 'neuro', name: 'Neuro'},
       {id: 'objective', name: 'Objetivo'},

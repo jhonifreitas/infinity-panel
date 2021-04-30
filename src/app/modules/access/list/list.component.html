@@ -5,7 +5,7 @@
   <mat-form-field fxFlex="50" fxFlex.gt-md="20">
     <mat-icon matPrefix>search</mat-icon>
     <mat-label>Pesquisar</mat-label>
-    <input matInput [(ngModel)]="filter" name="filter" (keyup)="applyFilter()" placeholder="Ex. Organizador...">
+    <input matInput [(ngModel)]="filter" name="filter" (keyup)="applyFilter()" placeholder="Ex. CODE-123...">
     <button mat-button matSuffix mat-icon-button *ngIf="filter" (click)="filter=''">
       <mat-icon>close</mat-icon>
     </button>

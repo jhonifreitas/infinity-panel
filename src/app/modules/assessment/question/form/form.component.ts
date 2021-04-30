@@ -17,7 +17,7 @@ export class AssessmentQuestionFormComponent implements OnInit {
 
   saving = false;
   formGroup: FormGroup;
-  types = new Question().getTypes;
+  types = Question.getTypes;
 
   constructor(
     private _util: UtilService,
