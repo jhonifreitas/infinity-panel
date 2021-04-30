@@ -2,25 +2,25 @@
 <div mat-dialog-content>
   <form [formGroup]="formGroup">
 
-    <input-form label="Código" [control]="controls.code" (keyup)="uppercase()"></input-form>
+    <app-input label="Código" [control]="controls.code" (keyup)="uppercase()"></app-input>
 
-    <input-form label="Acesso" type="select" [items]="accessList" [control]="controls.accessId"></input-form>
+    <app-input label="Acesso" type="select" [items]="accessList" [control]="controls.accessId"></app-input>
 
     <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
       <div fxFlex="60">
-        <input-form label="Valor" type="number" [control]="controls.value"></input-form>
+        <app-input label="Valor" type="number" [control]="controls.value"></app-input>
       </div>
       <div fxFlex="40" class="text-end">
-        <input-form label="Porcentagem?" type="toggle" [control]="controls.percentage"></input-form>
+        <app-input label="Porcentagem?" type="toggle" [control]="controls.percentage"></app-input>
       </div>
     </div>
 
     <div fxLayout="row" fxLayoutGap="20px">
       <div fxFlex="50">
-        <input-form label="Validade" type="datepicker" [control]="controls.validity"></input-form>
+        <app-input label="Validade" type="datepicker" [control]="controls.validity"></app-input>
       </div>
       <div fxFlex="50">
-        <input-form label="Quantidade" type="number" [control]="controls.quantity" hint="Se for 0 será <b>ilimitado</b>!"></input-form>
+        <app-input label="Quantidade" type="number" [control]="controls.quantity" hint="Se for 0 será <b>ilimitado</b>!"></app-input>
       </div>
     </div>
 

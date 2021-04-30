@@ -1,9 +1,9 @@
 <h1 mat-dialog-title>Formulário de instrução</h1>
 <div mat-dialog-content>
   <form [formGroup]="formGroup">
-    <input-form label="Título" [control]="controls.title"></input-form>
+    <app-input label="Título" [control]="controls.title"></app-input>
 
-    <input-form label="Texto" type="html" [showLabel]="false" [control]="controls.text"></input-form>
+    <app-input label="Texto" type="html" [showLabel]="false" [control]="controls.text"></app-input>
   </form>
 </div>
 <div mat-dialog-actions fxLayoutAlign="end center">

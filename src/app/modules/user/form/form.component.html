@@ -12,15 +12,15 @@
       <ngx-dropzone-label>Arraste os arquivos aqui ou clique para fazer o upload.</ngx-dropzone-label>
     </ngx-dropzone>
     
-    <input-form label="Nome" [control]="controls.name" cdkFocusInitial="true"></input-form>
-    <input-form label="E-mail" type="email" [control]="controls.email"></input-form>
+    <app-input label="Nome" [control]="controls.name" cdkFocusInitial="true"></app-input>
+    <app-input label="E-mail" type="email" [control]="controls.email"></app-input>
     
     <div fxLayout="row" fxLayoutGap="20px">
       <div fxFlex="50">
-        <input-form label="Grupos" type="select" [multiple]="true" [items]="groups" [control]="controls.groups"></input-form>
+        <app-input label="Grupos" type="select" [multiple]="true" [items]="groups" [control]="controls.groups"></app-input>
       </div>
       <div fxFlex="50">
-        <input-form label="Permissões" type="select" [multiple]="true" [items]="permissions" [control]="controls.permissions"></input-form>
+        <app-input label="Permissões" type="select" [multiple]="true" [items]="permissions" [control]="controls.permissions"></app-input>
       </div>
     </div>
     <div fxLayout="row" fxLayoutGap="20px" *ngIf="!data.id">

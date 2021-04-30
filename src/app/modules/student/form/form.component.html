@@ -14,35 +14,35 @@
       <ngx-dropzone-label>Arraste os arquivos aqui ou clique para fazer o upload.</ngx-dropzone-label>
     </ngx-dropzone>
     
-    <input-form label="Nome Completo" [control]="controls.name"></input-form>
+    <app-input label="Nome Completo" [control]="controls.name"></app-input>
 
     <div fxLayout="row" fxLayoutGap="20px">
       <div fxFlex="50">
-        <input-form label="Gênero" type="select" [items]="genres" [control]="controls.genre"></input-form>
+        <app-input label="Gênero" type="select" [items]="genres" [control]="controls.genre"></app-input>
       </div>
       <div fxFlex="50">
-        <input-form label="Estado Civil" type="select" [items]="civilStatus" [control]="controls.civilStatus"></input-form>
+        <app-input label="Estado Civil" type="select" [items]="civilStatus" [control]="controls.civilStatus"></app-input>
       </div>
     </div>
   
     <div fxLayout="row" fxLayoutGap="20px">
       <div fxFlex="50">
-        <input-form label="CPF" [mask]="{format: '000.000.000-00'}" [control]="controls.cpf"></input-form>
+        <app-input label="CPF" [mask]="{format: '000.000.000-00'}" [control]="controls.cpf"></app-input>
       </div>
       <div fxFlex="25">
-        <input-form label="RG" [control]="controls.rg"></input-form>
+        <app-input label="RG" [control]="controls.rg"></app-input>
       </div>
       <div fxFlex="25">
-        <input-form label="Orgão Emissor" [control]="controls.rgEmitter"></input-form>
+        <app-input label="Orgão Emissor" [control]="controls.rgEmitter"></app-input>
       </div>
     </div>
   
     <div fxLayout="row" fxLayoutGap="20px">
       <div fxFlex="50">
-        <input-form label="Celular" [mask]="{format: '(00) 00000-0000'}" [control]="controls.phone"></input-form>
+        <app-input label="Celular" [mask]="{format: '(00) 00000-0000'}" [control]="controls.phone"></app-input>
       </div>
       <div fxFlex="50">
-        <input-form label="Naturalidade" [control]="controls.placeBirth"></input-form>
+        <app-input label="Naturalidade" [control]="controls.placeBirth"></app-input>
       </div>
     </div>
   </div>
@@ -53,7 +53,7 @@
       <mat-card-title class="mb-0">Acesso</mat-card-title>
     </mat-card-header>
     <mat-card-content class="p-3">
-      <input-form label="E-mail" type="email" [control]="controls.email"></input-form>
+      <app-input label="E-mail" type="email" [control]="controls.email"></app-input>
 
       <div fxLayout="row" fxLayoutGap="20px" *ngIf="!data.id">
         <mat-form-field fxFlex="50">
@@ -87,27 +87,27 @@
     <mat-card-content class="p-3">
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="50">
-          <input-form label="Logradouro" [control]="addressControls.street"></input-form>
+          <app-input label="Logradouro" [control]="addressControls.street"></app-input>
         </div>
         <div fxFlex="30">
-          <input-form label="Bairro" [control]="addressControls.district"></input-form>
+          <app-input label="Bairro" [control]="addressControls.district"></app-input>
         </div>
         <div fxFlex="20">
-          <input-form label="Número" [control]="addressControls.number"></input-form>
+          <app-input label="Número" [control]="addressControls.number"></app-input>
         </div>
       </div>
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="40">
-          <input-form label="Cidade" type="select" [items]="addressCities" selectId="name" [control]="addressControls.city"></input-form>
+          <app-input label="Cidade" type="select" [items]="addressCities" selectId="name" [control]="addressControls.city"></app-input>
         </div>
         <div fxFlex="40">
-          <input-form label="Estado" type="select" [items]="states" selectId="uf" (change)="addressStateChange()" [control]="addressControls.state"></input-form>
+          <app-input label="Estado" type="select" [items]="states" selectId="uf" (inputChange)="addressStateChange()" [control]="addressControls.state"></app-input>
         </div>
         <div fxFlex="20">
-          <input-form label="CEP" [mask]="{format: '00000-000'}" (keyup)="zipcodeChange()" [control]="addressControls.zipcode"></input-form>
+          <app-input label="CEP" [mask]="{format: '00000-000'}" (keyup)="zipcodeChange()" [control]="addressControls.zipcode"></app-input>
         </div>
       </div>
-      <input-form label="Complemento" [control]="addressControls.complement"></input-form>
+      <app-input label="Complemento" [control]="addressControls.complement"></app-input>
     </mat-card-content>
   </mat-card>
 
@@ -119,10 +119,10 @@
     <mat-card-content class="p-3">
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="50">
-          <input-form label="Nome da Mãe" [control]="controls.motherName"></input-form>
+          <app-input label="Nome da Mãe" [control]="controls.motherName"></app-input>
         </div>
         <div fxFlex="50">
-          <input-form label="Nome do Cônjuge" [control]="controls.spouseName"></input-form>
+          <app-input label="Nome do Cônjuge" [control]="controls.spouseName"></app-input>
         </div>
       </div>
     </mat-card-content>
@@ -136,10 +136,10 @@
     <mat-card-content class="p-3">
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="50">
-          <input-form label="Empresa que Trabalha" [control]="companyControls.name"></input-form>
+          <app-input label="Empresa que Trabalha" [control]="companyControls.name"></app-input>
         </div>
         <div fxFlex="50">
-          <input-form label="Cargo que ocupa" [control]="companyControls.post"></input-form>
+          <app-input label="Cargo que ocupa" [control]="companyControls.post"></app-input>
         </div>
       </div>
     </mat-card-content>
@@ -153,21 +153,21 @@
     <mat-card-content class="p-3">
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="30">
-          <input-form label="Nome" [control]="courseControls.name"></input-form>
+          <app-input label="Nome" [control]="courseControls.name"></app-input>
         </div>
         <div fxFlex="50">
-          <input-form label="Instituição" [control]="courseControls.institute"></input-form>
+          <app-input label="Instituição" [control]="courseControls.institute"></app-input>
         </div>
         <div fxFlex="20">
-          <input-form label="Data de conclusão" type="datepicker" [control]="courseControls.conclusion"></input-form>
+          <app-input label="Data de conclusão" type="datepicker" [control]="courseControls.conclusion"></app-input>
         </div>
       </div>
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="50">
-          <input-form label="Cidade" type="select" [items]="courseCities" selectId="name" [control]="courseControls.city"></input-form>
+          <app-input label="Cidade" type="select" [items]="courseCities" selectId="name" [control]="courseControls.city"></app-input>
         </div>
         <div fxFlex="50">
-          <input-form label="Estado" type="select" [items]="states" selectId="uf" (change)="courseStateChange()" [control]="courseControls.state"></input-form>
+          <app-input label="Estado" type="select" [items]="states" selectId="uf" (inputChange)="courseStateChange()" [control]="courseControls.state"></app-input>
         </div>
       </div>
     </mat-card-content>
@@ -181,13 +181,13 @@
     <mat-card-content class="p-3">
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="30">
-          <input-form label="Linkedin" type="url" [control]="socialControls.linkedin"></input-form>
+          <app-input label="Linkedin" type="url" [control]="socialControls.linkedin"></app-input>
         </div>
         <div fxFlex="40">
-          <input-form label="Facebook" type="url" [control]="socialControls.facebook"></input-form>
+          <app-input label="Facebook" type="url" [control]="socialControls.facebook"></app-input>
         </div>
         <div fxFlex="30">
-          <input-form label="Instagram" type="url" [control]="socialControls.instagram"></input-form>
+          <app-input label="Instagram" type="url" [control]="socialControls.instagram"></app-input>
         </div>
       </div>
     </mat-card-content>

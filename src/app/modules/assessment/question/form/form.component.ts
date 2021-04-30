@@ -41,7 +41,7 @@ export class AssessmentQuestionFormComponent implements OnInit {
 
   setData(): void {
     this.formGroup.patchValue(this.data);
-    if (this.data.type != 'neuro') {
+    if (this.data.type !== 'neuro') {
       this.controls.point.setValidators([Validators.required, Validators.min(1)]);
       this.controls.point.updateValueAndValidity();
     }
@@ -74,7 +74,7 @@ export class AssessmentQuestionFormComponent implements OnInit {
   }
 
   changeType(event: MatSelectChange) {
-    if (event.value != 'neuro') {
+    if (event.value !== 'neuro') {
       this.controls.point.setValidators([Validators.required, Validators.min(1)]);
       this.controls.point.updateValueAndValidity();
     }

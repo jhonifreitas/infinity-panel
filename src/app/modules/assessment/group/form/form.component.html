@@ -12,10 +12,10 @@
       <ngx-dropzone-label>Arraste os arquivos aqui ou clique para fazer o upload.</ngx-dropzone-label>
     </ngx-dropzone>
 
-    <input-form label="Nome" [control]="controls.name" [cdkFocus]="true"></input-form>
+    <app-input label="Nome" [control]="controls.name" [cdkFocus]="true"></app-input>
 
-    <input-form label="Questões" type="select" [multiple]="true" [items]="questions"
-      [control]="controls.questions"></input-form>
+    <app-input label="Questões" type="select" [multiple]="true" [items]="questions"
+      [control]="controls.questions"></app-input>
   </form>
 </div>
 <div mat-dialog-actions fxLayoutAlign="end center">

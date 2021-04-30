@@ -8,9 +8,9 @@
     <h2 class="title font-weight-bold">Bem vindo!</h2>
     <p class="subtitle">Digite seu endereço de e-mail e senha para acessar o painel.</p>
 
-    <input-form label="E-mail" type="email" [control]="controls.email"></input-form>
+    <app-input label="E-mail" type="email" [control]="controls.email"></app-input>
 
-    <input-form label="Senha" type="password" [control]="controls.password"></input-form>
+    <app-input label="Senha" type="password" [control]="controls.password"></app-input>
     
     <button mat-raised-button type="submit" color="primary" [disabled]="loading">
       <span *ngIf="!loading">Entrar</span>

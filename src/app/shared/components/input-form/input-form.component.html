@@ -27,7 +27,7 @@
   <!-- SELECT -->
   <mat-select *ngIf="type == 'select'" [id]="id" [formControl]="control"
     [attr.cdkFocusInitial]="cdkFocus" [ngClass]="class" [multiple]="multiple"
-    [placeholder]="placeholder || '---'" (selectionChange)="emit('change', $event)">
+    [placeholder]="placeholder || '---'" (selectionChange)="emit('inputChange', $event)">
     <mat-option *ngFor="let item of items" [value]="item[selectId]">{{ item[selectName] }}</mat-option>
   </mat-select>
 

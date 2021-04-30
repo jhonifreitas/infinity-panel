@@ -2,7 +2,7 @@ import { FormControl } from '@angular/forms';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'input-form',
+  selector: 'app-input',
   templateUrl: './input-form.component.html',
   styleUrls: ['./input-form.component.scss']
 })
@@ -10,36 +10,36 @@ export class InputFormComponent {
 
   @Input() id: string;
   @Input() hint: string;
+  @Input() type = 'text';
   @Input() label: string;
   @Input() class: string;
+  @Input() cdkFocus = false;
+  @Input() showLabel = true;
   @Input() maxlength: number;
   @Input() inputmode: string;
   @Input() placeholder: string;
   @Input() control: FormControl;
-  @Input() type: string = 'text';
-  @Input() cdkFocus: boolean = false;
-  @Input() showLabel: boolean = true;
-  
+
   // MASK
   @Input() mask: { format: string; prefix: string; suffix: string; dropSpecialCharacters: boolean };
 
   // TEXTAREA
-  @Input() rows: number = 1;
-  
+  @Input() rows = 1;
+
   // SELECT
   @Input() items: any[];
+  @Input() selectId = 'id';
   @Input() multiple = false;
-  @Input() selectId: string = 'id';
-  @Input() selectName: string = 'name';
+  @Input() selectName = 'name';
 
   // EVENT
-  @Output() change = new EventEmitter();
+  @Output() inputChange = new EventEmitter();
 
   // CURRENCY
   currencyOpts = { prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' };
 
   // PASSWORD
-  togglePass: boolean = true;
+  togglePass = true;
 
   constructor() { }
 

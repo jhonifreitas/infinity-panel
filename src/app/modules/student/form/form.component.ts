@@ -148,7 +148,7 @@ export class StudentFormComponent implements OnInit {
 
   zipcodeChange() {
     const value: string = this.addressControls.zipcode.value;
-    if (value.length == 8) {
+    if (value.length === 8)
       this._zipcode.get(value).then(res => {
         this.addressControls.street.setValue(res.logradouro);
         this.addressControls.district.setValue(res.bairro);
@@ -156,7 +156,6 @@ export class StudentFormComponent implements OnInit {
         this.addressControls.state.setValue(res.uf);
         if (res.complemento) this.addressControls.complement.setValue(res.complemento);
       }).catch(_ => {});
-    }
   }
 
   addressStateChange() {
@@ -193,7 +192,7 @@ export class StudentFormComponent implements OnInit {
       this.saving = true;
       const value = this.formGroup.value;
       Object.assign(this.data, value);
-      
+
       delete value.password;
       delete value.confirmPass;
 

@@ -2,24 +2,24 @@
 <div mat-dialog-content>
   <form [formGroup]="formGroup">
 
-    <input-form label="Código" [control]="controls.code" (keyup)="uppercase()"></input-form>
+    <app-input label="Código" [control]="controls.code" (keyup)="uppercase()"></app-input>
 
     <div fxLayout="row" fxLayoutGap="20px">
       <div fxFlex="50">
-        <input-form label="Validade" type="datepicker" [control]="controls.validity"></input-form>
+        <app-input label="Validade" type="datepicker" [control]="controls.validity"></app-input>
       </div>
       <div fxFlex="50">
-        <input-form label="Quantidade" [control]="controls.quantity"></input-form>
+        <app-input label="Quantidade" [control]="controls.quantity"></app-input>
       </div>
     </div>
 
-    <input-form label="Assessments" type="select" [multiple]="true" [items]="assessments"
-      [control]="controls.assessments"></input-form>
+    <app-input label="Assessments" type="select" [multiple]="true" [items]="assessments"
+      [control]="controls.assessments"></app-input>
 
-    <input-form label="Cursos" type="select" [multiple]="true" [items]="courses"
-      [control]="controls.courses"></input-form>
+    <app-input label="Cursos" type="select" [multiple]="true" [items]="courses"
+      [control]="controls.courses"></app-input>
 
-    <input-form label="MBAs" type="select" [multiple]="true" [items]="mbas" [control]="controls.mbas"></input-form>
+    <app-input label="MBAs" type="select" [multiple]="true" [items]="mbas" [control]="controls.mbas"></app-input>
 
   </form>
 </div>

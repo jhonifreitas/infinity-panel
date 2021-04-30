@@ -2,15 +2,15 @@
 <div mat-dialog-content>
   <form [formGroup]="formGroup">
 
-    <input-form label="Nome" [control]="controls.name"></input-form>
+    <app-input label="Nome" [control]="controls.name"></app-input>
 
-    <input-form label="Duração máxima" [control]="controls.duration" hint="Valor em <b>horas</b>!"></input-form>
+    <app-input label="Duração máxima" [control]="controls.duration" hint="Valor em <b>horas</b>!"></app-input>
 
-    <input-form label="Grupos" type="select" [multiple]="true" [items]="groups"
-      [control]="controls.groups"></input-form>
+    <app-input label="Grupos" type="select" [multiple]="true" [items]="groups"
+      [control]="controls.groups"></app-input>
 
-    <input-form label="Instruções" type="select" [multiple]="true" [items]="instructions"
-      [control]="controls.instructions" selectName="title"></input-form>
+    <app-input label="Instruções" type="select" [multiple]="true" [items]="instructions"
+      [control]="controls.instructions" selectName="title"></app-input>
 
   </form>
 </div>

@@ -4,7 +4,8 @@ export class Student extends Base {
   name: string;
   email: string;
   authType: 'email' | 'google' | 'facebook' | 'apple';
-  
+
+  token?: string;
   image?: string;
   phone?: string;
   genre?: string;
@@ -14,10 +15,10 @@ export class Student extends Base {
   rg?: string;
   cpf?: string;
   rgEmitter?: string;
-  
+
   motherName?: string;
   spouseName?: string;
-  
+
   social?: Social;
   course?: Course;
   address?: Address;

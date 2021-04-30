@@ -8,7 +8,7 @@ interface Zipcode {
   localidade: string;
   logradouro: string;
   complemento: string;
-};
+}
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +18,13 @@ export class ZipcodeService {
   constructor(
     private http: HttpClient
   ) { }
-  
+
   get(zipcode: string): Promise<Zipcode> {
     return new Promise((resolve, reject) => {
       this.http.get(`https://viacep.com.br/ws/${zipcode}/json/`).toPromise().then(res => {
         if (res) resolve(res as Zipcode);
         else reject();
-      })
-    })
-  }  
-}  
+      });
+    });
+  }
+}
