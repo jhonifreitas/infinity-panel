@@ -15,7 +15,7 @@
     <app-input label="Nome" [control]="controls.name" [cdkFocus]="true"></app-input>
 
     <app-input label="Questões" type="select" [multiple]="true" [items]="questions"
-      [selectName]="title" [control]="controls.questions"></app-input>
+      selectName="title" [control]="controls.questions"></app-input>
   </form>
 </div>
 <div mat-dialog-actions fxLayoutAlign="end center">
