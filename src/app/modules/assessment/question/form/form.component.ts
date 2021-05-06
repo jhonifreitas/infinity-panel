@@ -58,17 +58,16 @@ export class AssessmentQuestionFormComponent implements OnInit {
   }
 
   getFormAlternative(type: 'profile' | 'objective') {
-    if (type === 'objective') {
+    if (type === 'objective')
       return this.formBuilder.group({
         text: ['', Validators.required],
         isCorrect: [false]
       });
-    } else {
+    else
       return this.formBuilder.group({
         text: ['', Validators.required],
         type: ['', Validators.required]
       });
-    }
   }
 
   addAlternative(values?: Alternative) {

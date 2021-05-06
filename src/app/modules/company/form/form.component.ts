@@ -60,14 +60,14 @@ export class CompanyFormComponent implements OnInit {
   get departmentControl() {
     return this.controls.departments as FormArray;
   }
-  
+
   get getFormPost() {
     return this.formBuilder.group({
       name: ['', Validators.required],
       level: [1, [Validators.required, Validators.min(1)]]
     });
   }
-  
+
   async getAccess() {
     this.accessList = await this._access.getAllActive();
   }
