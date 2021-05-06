@@ -40,6 +40,10 @@ import { GroupListComponent } from 'src/app/modules/group/list/list.component';
 import { GroupFormComponent } from 'src/app/modules/group/form/form.component';
 import { GroupDetailComponent } from 'src/app/modules/group/detail/detail.component';
 
+import { CompanyListComponent } from 'src/app/modules/company/list/list.component';
+import { CompanyFormComponent } from 'src/app/modules/company/form/form.component';
+import { CompanyDetailComponent } from 'src/app/modules/company/detail/detail.component';
+
 import { StudentListComponent } from 'src/app/modules/student/list/list.component';
 import { StudentFormComponent } from 'src/app/modules/student/form/form.component';
 import { StudentDetailComponent } from 'src/app/modules/student/detail/detail.component';
@@ -111,9 +115,12 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     GroupDetailComponent,
     StudentListComponent,
     StudentFormComponent,
+    CompanyListComponent,
+    CompanyFormComponent,
     AccessDetailComponent,
     CouponDetailComponent,
     StudentDetailComponent,
+    CompanyDetailComponent,
     AssessmentListComponent,
     AssessmentFormComponent,
     AssessmentDetailComponent,

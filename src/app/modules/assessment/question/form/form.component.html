@@ -8,9 +8,9 @@
       [control]="controls.type">
     </app-input>
 
-    <app-input label="Pontos" type="number" [control]="controls.point"></app-input>
+    <app-input label="Pontos" type="number" [control]="controls.point" *ngIf="controls.type.value == 'objective'"></app-input>
 
-    <div id="alternatives" class="mb-2" *ngIf="controls.type.value == 'objective'">
+    <div id="alternatives" class="mb-2" *ngIf="controls.type.value != 'neuro'">
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="50">
           <div matLine><strong> Alternativas </strong></div>
@@ -26,8 +26,11 @@
         <tbody formArrayName="alternatives">
           <tr *ngFor="let formAlternative of controlAlternatives.controls; index as i">
             <ng-container [formGroup]="formAlternative">
-              <td width="120">
+              <td width="120" *ngIf="controls.type.value == 'objective'">
                 <app-input label="Correta?" type="toggle" [id]="'isCorrect-'+i" [control]="formAlternative.controls.isCorrect"></app-input>
+              </td>
+              <td width="200" *ngIf="controls.type.value == 'profile'">
+                <app-input label="Tipo" type="select" [items]="profileTypes" [control]="formAlternative.controls.type"></app-input>
               </td>
               <td class="text-center">
                 <app-input label="Texto" [id]="'text-'+i" [control]="formAlternative.controls.text"></app-input>

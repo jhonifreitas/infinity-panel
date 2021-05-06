@@ -43,6 +43,9 @@ export class SidebarComponent implements OnInit {
     { title: 'Alunos', url: '/alunos', icon: 'person', hidden: false, permission: {
       page: Page.UserPage, role: PageRole.CanList}
     },
+    { title: 'Empresas', url: '/empresas', icon: 'work', hidden: false, permission: {
+      page: Page.CompanyPage, role: PageRole.CanList}
+    },
     // { title: 'Cupons', url: '/cupons', icon: 'local_offer', hidden: false, permission: {
     //   page: Page.CounponPage, role: PageRole.CanList}
     // },

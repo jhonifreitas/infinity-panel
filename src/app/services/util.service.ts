@@ -89,6 +89,17 @@ export class UtilService {
     return this.date.transform(value, format);
   }
 
+  uploadImage(file: File): Promise<{path: string; file: File}> {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.addEventListener('load', async (event: any) => {
+        const path = event.target.result as string;
+        resolve({path, file});
+      });
+      reader.readAsDataURL(file);
+    });
+  }
+
   uploadCompress(base64: string): Promise<{base64: string, file: Blob}> {
     return new Promise(resolve => {
       const orientation = -1;

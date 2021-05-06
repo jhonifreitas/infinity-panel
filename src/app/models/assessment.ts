@@ -43,7 +43,7 @@ export class Question extends Base {
   title: string;
   text: string;
   point?: number;
-  type: 'dissertation' | 'objective' | 'neuro';
+  type: 'neuro' | 'profile' | 'objective';
   alternatives?: Alternative[];
 
   constructor() {
@@ -53,17 +53,23 @@ export class Question extends Base {
   static get getTypes() {
     return [
       {id: 'neuro', name: 'Neuro'},
-      {id: 'objective', name: 'Objetivo'},
-      {id: 'dissertation', name: 'Dissertativo'}
+      {id: 'profile', name: 'Perfil'},
+      {id: 'objective', name: 'Objetivo'}
     ];
   }
 }
 
 export class Alternative {
   text: string;
-  isCorrect: boolean;
+  type?: string;
+  isCorrect?: boolean;
 
-  constructor() {
-    this.isCorrect = false;
+  static get getProfileTypes() {
+    return [
+      {id: 'dog', name: 'Cachorro'},
+      {id: 'lion', name: 'Leão'},
+      {id: 'monkey', name: 'Macaco'},
+      {id: 'peacock', name: 'Pavão'}
+    ];
   }
 }

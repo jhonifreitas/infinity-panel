@@ -10,16 +10,17 @@ import { UserListComponent } from './modules/user/list/list.component';
 import { GroupListComponent } from './modules/group/list/list.component';
 import { LoginFormComponent } from './modules/auth/login/login.component';
 import { CouponListComponent } from './modules/coupon/list/list.component';
+import { AccessListComponent } from './modules/access/list/list.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { StudentListComponent } from './modules/student/list/list.component';
 import { StudentFormComponent } from './modules/student/form/form.component';
+import { CompanyListComponent } from './modules/company/list/list.component';
 import { AssessmentListComponent } from './modules/assessment/list/list.component';
 import { AssessmentGroupListComponent } from './modules/assessment/group/list/list.component';
 import { PasswordResetFormComponent } from './modules/auth/password-reset/password-reset.component';
 import { AssessmentQuestionListComponent } from './modules/assessment/question/list/list.component';
 import { ForgotPasswordFormComponent } from './modules/auth/forgot-password/forgot-password.component';
 import { AssessmentInstructionListComponent } from './modules/assessment/instruction/list/list.component';
-import { AccessListComponent } from './modules/access/list/list.component';
 
 const routes: Routes = [
 
@@ -45,6 +46,12 @@ const routes: Routes = [
       component: AccessListComponent,
       canActivate: [PermissionGuard],
       data: {permissions: [{page: Page.AccessPage, role: PageRole.CanList}]}
+    },
+    {
+      path: 'empresas',
+      canActivate: [PermissionGuard],
+      component: CompanyListComponent,
+      data: {permissions: [{page: Page.CompanyPage, role: PageRole.CanList}]}
     },
     {
       path: 'alunos',

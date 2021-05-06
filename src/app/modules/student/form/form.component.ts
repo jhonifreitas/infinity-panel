@@ -1,6 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, ValidatorFn } from '@angular/forms';
+
+import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 
 import { Student } from 'src/app/models/student';
 import { City } from 'src/app/models/default/city';
@@ -170,9 +172,10 @@ export class StudentFormComponent implements OnInit {
     else this.courseControls.city.disable();
   }
 
-  async takeImage(event: any): Promise<void> {
+  async takeImage(event: NgxDropzoneChangeEvent): Promise<void> {
     const loader = this._util.loading('Comprimindo imagem...');
-    const compress = await this._util.uploadCompress(event.addedFiles[0]);
+    const image = await this._util.uploadImage(event.addedFiles[0]);
+    const compress = await this._util.uploadCompress(image.path);
     this.image = {path: compress.base64, file: compress.file, new: true};
     loader.componentInstance.msg = 'Imagem comprimida!';
     loader.componentInstance.done();

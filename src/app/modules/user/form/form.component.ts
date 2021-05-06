@@ -104,7 +104,8 @@ export class UserFormComponent implements OnInit {
 
   async takeImage(event: any): Promise<void> {
     const loader = this._util.loading('Comprimindo imagem...');
-    const compress = await this._util.uploadCompress(event.addedFiles[0]);
+    const image = await this._util.uploadImage(event.addedFiles[0]);
+    const compress = await this._util.uploadCompress(image.path);
     this.image = {path: compress.base64, file: compress.file, new: true};
     loader.componentInstance.msg = 'Imagem comprimida!';
     loader.componentInstance.done();

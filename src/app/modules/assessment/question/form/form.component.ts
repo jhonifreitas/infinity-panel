@@ -18,6 +18,7 @@ export class AssessmentQuestionFormComponent implements OnInit {
   saving = false;
   formGroup: FormGroup;
   types = Question.getTypes;
+  profileTypes = Alternative.getProfileTypes;
 
   constructor(
     private _util: UtilService,
@@ -56,15 +57,22 @@ export class AssessmentQuestionFormComponent implements OnInit {
     return this.controls.alternatives as FormArray;
   }
 
-  getFormAlternative() {
-    return this.formBuilder.group({
-      text: ['', Validators.required],
-      isCorrect: [false]
-    });
+  getFormAlternative(type: 'profile' | 'objective') {
+    if (type === 'objective') {
+      return this.formBuilder.group({
+        text: ['', Validators.required],
+        isCorrect: [false]
+      });
+    } else {
+      return this.formBuilder.group({
+        text: ['', Validators.required],
+        type: ['', Validators.required]
+      });
+    }
   }
 
   addAlternative(values?: Alternative) {
-    const formGroup = this.getFormAlternative();
+    const formGroup = this.getFormAlternative(this.controls.type.value);
     if (values) formGroup.patchValue(values);
     this.controlAlternatives.push(formGroup);
   }
@@ -74,10 +82,15 @@ export class AssessmentQuestionFormComponent implements OnInit {
   }
 
   changeType(event: MatSelectChange) {
-    if (event.value !== 'neuro') {
+    this.controls.point.clearValidators();
+    this.controlAlternatives.clearValidators();
+
+    if (event.value === 'objective')
       this.controls.point.setValidators([Validators.required, Validators.min(1)]);
-      this.controls.point.updateValueAndValidity();
-    }
+    if (event.value !== 'neuro') this.controlAlternatives.setValidators(Validators.required);
+
+    this.controls.point.updateValueAndValidity();
+    this.controlAlternatives.updateValueAndValidity();
   }
 
   async onSubmit(): Promise<void> {

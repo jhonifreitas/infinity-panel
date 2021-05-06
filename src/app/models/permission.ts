@@ -20,6 +20,8 @@ export class Permission {
         return 'Cupom';
       case Page.StudentPage:
         return 'Aluno';
+      case Page.CompanyPage:
+        return 'Empresa';
       case Page.AccessPage:
         return 'Acessos ao conteúdo';
       case Page.AssessmentPage:
@@ -63,6 +65,7 @@ export enum Page {
   AccessPage = 'access-page',
   CounponPage = 'coupon-page',
   StudentPage = 'student-page',
+  CompanyPage = 'company-page',
   AssessmentPage = 'assessment-page',
   AssessmentGroupPage = 'assessment-group-page',
   AssessmentQuestionPage = 'assessment-question-page',
