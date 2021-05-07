@@ -15,6 +15,7 @@ import { UtilService } from 'src/app/services/util.service';
 import { ValidatorService } from 'src/app/services/validator.service';
 import { ZipcodeService } from 'src/app/services/api/zipcode.service';
 import { StudentService } from 'src/app/services/firebase/student.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-student-form',
@@ -40,7 +41,8 @@ export class StudentFormComponent implements OnInit {
     private _student: StudentService,
     private formBuilder: FormBuilder,
     private _zipcode: ZipcodeService,
-    private _validator: ValidatorService
+    private _validator: ValidatorService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.formGroup = this.formBuilder.group({
       name: new FormControl('', Validators.required),
@@ -92,7 +94,8 @@ export class StudentFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.data.id) this.setData();
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id) this.setData(id);
     else {
       this.controls.password.setValidators([
         Validators.required,
@@ -107,7 +110,8 @@ export class StudentFormComponent implements OnInit {
     }
   }
 
-  setData(): void {
+  async setData(id: string): Promise<void> {
+    this.data = await this._student.getById(id);
     if (this.data.image) this.image = {path: this.data.image, new: false};
     this.formGroup.patchValue(this.data);
   }

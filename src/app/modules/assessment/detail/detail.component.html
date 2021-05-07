@@ -16,18 +16,24 @@
       <div matLine class="info"> {{ object.duration }}h </div>
     </mat-list-item>
 
-    <div class="px-3 py-2">
-      <div matLine class="mb-1"><strong> Grupos </strong></div>
-      <mat-chip-list>
-        <mat-chip *ngFor="let group of object._groups" color="primary" selected>{{ group.name }}</mat-chip>
-      </mat-chip-list>
-    </div>
+    <mat-list-item class="h-auto mb-2">
+      <mat-icon matListIcon>groups</mat-icon>
+      <div matLine><strong> Grupos </strong></div>
+      <div matLine>
+        <mat-chip-list>
+          <mat-chip *ngFor="let group of object._groups" color="primary" selected>{{ group.name }}</mat-chip>
+        </mat-chip-list>
+      </div>
+    </mat-list-item>
 
-    <div class="px-3 py-2">
-      <div matLine class="mb-1"><strong> Instruções </strong></div>
-      <mat-chip-list>
-        <mat-chip *ngFor="let instruction of object._instructions" color="primary" selected>{{ instruction.title }}</mat-chip>
-      </mat-chip-list>
-    </div>
+    <mat-list-item class="h-auto mb-2">
+      <mat-icon matListIcon>feedback</mat-icon>
+      <div matLine><strong> Instruções </strong></div>
+      <div matLine>
+        <mat-chip-list>
+          <mat-chip *ngFor="let instruction of object._instructions" color="primary" selected>{{ instruction.title }}</mat-chip>
+        </mat-chip-list>
+      </div>
+    </mat-list-item>
   </mat-list>
 </div>

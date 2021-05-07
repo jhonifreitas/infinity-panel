@@ -7,9 +7,17 @@ img {max-width: 100%;}
 .thumbnail {
   width: 80px;
   height: 80px;
-  object-fit: cover;
-  border-radius: 50px;
-  object-position: center;
+
+  &, &-sm {
+    object-fit: cover;
+    border-radius: 50px;
+    object-position: center;
+  }
+
+  &-sm {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .img-uploaded {

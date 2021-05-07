@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <img class="avatar" [src]="object.image ? object.image : 'assets/image/not-found-user.png'" alt="">
+  <img class="thumbnail-sm mr-1" [src]="object.image ? object.image : 'assets/image/not-found-user.png'" alt="">
   <span>Grupo</span>
 </mat-toolbar>
 <div mat-dialog-content>
@@ -11,11 +11,14 @@
       <div matLine class="info"> {{ object.name }} </div>
     </mat-list-item>
 
-    <div class="px-3 py-2">
-      <div matLine class="mb-1"><strong> Questões </strong></div>
-      <mat-chip-list>
-        <mat-chip *ngFor="let question of object._questions" color="primary" selected>{{ question.title }}</mat-chip>
-      </mat-chip-list>
-    </div>
+    <mat-list-item class="h-auto mb-2">
+      <mat-icon matListIcon>more_horiz</mat-icon>
+      <div matLine><strong> Questões </strong></div>
+      <div matLine>
+        <mat-chip-list>
+          <mat-chip *ngFor="let question of object._questions" color="primary" selected>{{ question.title }}</mat-chip>
+        </mat-chip-list>
+      </div>
+    </mat-list-item>
   </mat-list>
 </div>

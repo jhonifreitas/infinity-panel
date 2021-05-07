@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <img class="avatar" [src]="object.image ? object.image : 'assets/image/not-found-user.png'" alt="">
+  <img class="thumbnail-sm mr-1" [src]="object.image ? object.image : 'assets/image/not-found-user.png'" alt="">
   <span>{{ object.name }}</span>
 </mat-toolbar>
 <div mat-dialog-content>
@@ -10,20 +10,29 @@
       <div matLine><strong> E-mail </strong></div>
       <div matLine class="info"> {{ object.email }} </div>
     </mat-list-item>
-    <div class="px-3 py-2">
-      <div matLine class="mb-1"><strong> Grupos </strong></div>
-      <mat-chip-list *ngIf="object._groups">
-        <mat-chip *ngFor="let group of object._groups" color="primary" selected>{{ group.name }}</mat-chip>
-      </mat-chip-list>
-      <div matLine class="info" *ngIf="!object._groups">---</div>
-    </div>
-    <div class="px-3 py-2">
-      <div matLine class="mb-1"><strong> Permissões </strong></div>
-      <mat-chip-list *ngIf="object.permissions">
-        <mat-chip *ngFor="let permission of object.permissions" color="primary" selected>{{ permission.page }} - {{ permission.role }}</mat-chip>
-      </mat-chip-list>
-      <div matLine class="info" *ngIf="!object.permissions.length">---</div>
-    </div>
+
+    <mat-list-item class="h-auto mb-2">
+      <mat-icon matListIcon>groups</mat-icon>
+      <div matLine><strong> Grupos </strong></div>
+      <div matLine>
+        <mat-chip-list *ngIf="object._groups">
+          <mat-chip *ngFor="let group of object._groups" color="primary" selected>{{ group.name }}</mat-chip>
+        </mat-chip-list>
+        <span class="info" *ngIf="!object._groups">---</span>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item class="h-auto">
+      <mat-icon matListIcon>lock</mat-icon>
+      <div matLine><strong> Permissões </strong></div>
+      <div matLine>
+        <mat-chip-list *ngIf="object.permissions.length">
+          <mat-chip *ngFor="let permission of object.permissions" color="primary" selected>{{ permission.page }} - {{ permission.role }}</mat-chip>
+        </mat-chip-list>
+        <span class="info" *ngIf="!object.permissions.length">---</span>
+      </div>
+    </mat-list-item>
+
     <mat-list-item>
       <mat-icon matListIcon color="warn" *ngIf="object.deletedAt">cancel</mat-icon>
       <mat-icon matListIcon color="success" *ngIf="!object.deletedAt">check_circle</mat-icon>
