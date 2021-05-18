@@ -1,4 +1,5 @@
 import { Base } from './base';
+import { differenceInYears } from 'date-fns';
 
 export class Student extends Base {
   name: string;
@@ -9,6 +10,7 @@ export class Student extends Base {
   image?: string;
   phone?: string;
   genre?: string;
+  dateBirth?: Date;
   placeBirth?: string;
   civilStatus?: string;
 
@@ -27,6 +29,25 @@ export class Student extends Base {
   constructor() {
     super();
     this.authType = 'email';
+  }
+
+  get getAge() {
+    return differenceInYears(this.dateBirth, new Date()) || 0;
+  }
+
+  get getGeneration() {
+    const year = this.dateBirth.getFullYear();
+    if (year >= 1943 && year <= 1960) return 'BB';
+    else if (year >= 1961 && year <= 1981) return 'GX';
+    else if (year >= 1982 && year <= 2004) return 'GY';
+    else if (year >= 2005 && year <= 2022) return 'GZ';
+  }
+
+  get getSeven() {
+    const age = this.getAge;
+    for (let i = 0; i <= 120; i += 7) {
+      if (i >= age && i <= age) return i;
+    }
   }
 }
 

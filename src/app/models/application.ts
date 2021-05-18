@@ -1,15 +1,18 @@
 import { Base } from './base';
+import { Student } from './student';
 import { Question } from './assessment';
 
 export class Application extends Base {
   init: Date;
   end?: Date;
-  student: Student;
   answers: Answer[];
+  student: ApplicationStudent;
 
   mba?: MBA;
   course?: Course;
   assessment?: Assessment;
+
+  _student?: Student;
 
   constructor() {
     super();
@@ -32,9 +35,40 @@ export class Answer {
   constructor() {
     this.datetime = new Date();
   }
+
+  get getResultNeuro() {
+    if (this.neuro) {
+      const intensity = this.neuro.intensity;
+      const satisfaction = this.neuro.satisfaction;
+      if (
+        (satisfaction === 1 && intensity === 1) ||
+        (satisfaction === 1 && intensity === 2) ||
+        (satisfaction === 2 && intensity === 1) ||
+        (satisfaction === 2 && intensity === 2)
+      ) return 'NB';
+      else if (
+        (satisfaction === 1 && intensity === 4) ||
+        (satisfaction === 1 && intensity === 5) ||
+        (satisfaction === 2 && intensity === 4) ||
+        (satisfaction === 2 && intensity === 5)
+      ) return 'NA';
+      else if (
+        (satisfaction === 4 && intensity === 1) ||
+        (satisfaction === 4 && intensity === 2) ||
+        (satisfaction === 5 && intensity === 1) ||
+        (satisfaction === 5 && intensity === 2)
+      ) return 'PB';
+      else if (
+        (satisfaction === 4 && intensity === 4) ||
+        (satisfaction === 4 && intensity === 5) ||
+        (satisfaction === 5 && intensity === 4) ||
+        (satisfaction === 5 && intensity === 5)
+      ) return 'PA';
+    }
+  }
 }
 
-class Student {
+class ApplicationStudent {
   id: string;
   name: string;
 }

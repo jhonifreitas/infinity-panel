@@ -1,6 +1,6 @@
 <mat-nav-list *ngIf="_storage.getUser">
   <div class="profile-card">
-    <img [src]="_storage.getUser.avatar ? _storage.getUser.avatar : 'assets/image/not-found-user.png'" alt="">
+    <img [src]="_storage.getUser.image ? _storage.getUser.image : 'assets/image/not-found-user.png'" alt="">
     <div class="header">
       <h2>{{ _storage.getUser.name }}</h2>
       <h4>{{ _storage.getUser.email }}</h4>

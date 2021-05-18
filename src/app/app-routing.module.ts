@@ -16,6 +16,7 @@ import { StudentListComponent } from './modules/student/list/list.component';
 import { StudentFormComponent } from './modules/student/form/form.component';
 import { CompanyListComponent } from './modules/company/list/list.component';
 import { AssessmentListComponent } from './modules/assessment/list/list.component';
+import { AssessmentResultComponent } from './modules/assessment/result/result.component';
 import { AssessmentGroupListComponent } from './modules/assessment/group/list/list.component';
 import { PasswordResetFormComponent } from './modules/auth/password-reset/password-reset.component';
 import { AssessmentQuestionListComponent } from './modules/assessment/question/list/list.component';
@@ -80,6 +81,12 @@ const routes: Routes = [
           canActivate: [PermissionGuard],
           component: AssessmentGroupListComponent,
           data: {permissions: [{page: Page.AssessmentGroupPage, role: PageRole.CanList}]},
+        },
+        {
+          path: 'resultados',
+          canActivate: [PermissionGuard],
+          component: AssessmentResultComponent,
+          data: {permissions: [{page: Page.AssessmentResultPage, role: PageRole.CanList}]},
         },
         {
           path: 'questoes',

@@ -19,24 +19,11 @@ export class ApplicationService extends FirebaseAbstract<Application> {
     super(db, ApplicationService.collectionName);
   }
 
-  add(data: Application) {
-    const student = this._storage.getUser;
-    data.student.id = student.id;
-    data.student.name = student.name;
-    return super.add(data);
-  }
-
-  save(data: Application) {
-    const student = this._storage.getUser;
-    data.student.id = student.id;
-    data.student.name = student.name;
-    return super.save(data);
-  }
-
-  async getByAssessmentId(id: string) {
+  async getByAssementIdByRangeDate(assessmentId: string, rangeDate: {start: Date; end: Date}) {
     const where = [
-      new FirebaseWhere('assessment.id', '==', id),
-      new FirebaseWhere('student.id', '==', this._storage.getUser.id)
+      new FirebaseWhere('assessment.id', '==', assessmentId),
+      new FirebaseWhere('init', '>', rangeDate.start),
+      new FirebaseWhere('init', '<=', rangeDate.end),
     ];
     return this.getWhereMany(where);
   }
