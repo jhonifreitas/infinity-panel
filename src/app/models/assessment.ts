@@ -5,6 +5,7 @@ export class Assessment extends Base {
   duration: number;
   groups: string[];
   instructions: string[];
+  type: 'neuro' | 'profile' | 'objective';
 
   _groups?: Group[];
   _questions?: Question[];
@@ -14,6 +15,18 @@ export class Assessment extends Base {
     super();
     this.groups = [];
     this.instructions = [];
+  }
+
+  static get getTypes() {
+    return [
+      {id: 'neuro', name: 'Neuro'},
+      {id: 'profile', name: 'Perfil'},
+      {id: 'objective', name: 'Objetivo'}
+    ];
+  }
+
+  get getTypeName() {
+    return Question.getTypes.find(type => type.id === this.type).name;
   }
 }
 
@@ -43,8 +56,9 @@ export class Question extends Base {
   title: string;
   text: string;
   point?: number;
-  type: 'neuro' | 'profile' | 'objective';
+  result?: string;
   alternatives?: Alternative[];
+  type: 'neuro' | 'profile' | 'objective';
 
   constructor() {
     super();
@@ -55,6 +69,19 @@ export class Question extends Base {
       {id: 'neuro', name: 'Neuro'},
       {id: 'profile', name: 'Perfil'},
       {id: 'objective', name: 'Objetivo'}
+    ];
+  }
+
+  get getTypeName() {
+    return Question.getTypes.find(type => type.id === this.type).name;
+  }
+
+  static get getNeuroResults() {
+    return [
+      {id: 'NB', name: 'NB'},
+      {id: 'NA', name: 'NA'},
+      {id: 'PB', name: 'PB'},
+      {id: 'PA', name: 'PA'}
     ];
   }
 }

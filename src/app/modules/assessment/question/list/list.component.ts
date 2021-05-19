@@ -52,8 +52,8 @@ export class AssessmentQuestionListComponent implements OnInit {
     this.dataSource.filter = this.filter.trim().toLowerCase();
   }
 
-  openDetail(object?: Question): void {
-    if (this.canView) this._util.detail(AssessmentQuestionDetailComponent, object);
+  openDetail(object: Question): void {
+    if (this.canView) this._util.detail(AssessmentQuestionDetailComponent, Object.assign(new Question(), object));
   }
 
   openForm(object?: Question): void {

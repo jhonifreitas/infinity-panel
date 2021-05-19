@@ -58,7 +58,6 @@ import { AccessDetailComponent } from 'src/app/modules/access/detail/detail.comp
 
 import { AssessmentListComponent } from 'src/app/modules/assessment/list/list.component';
 import { AssessmentFormComponent } from 'src/app/modules/assessment/form/form.component';
-import { AssessmentResultComponent } from 'src/app/modules/assessment/result/result.component';
 import { AssessmentDetailComponent } from 'src/app/modules/assessment/detail/detail.component';
 
 import { AssessmentGroupListComponent } from 'src/app/modules/assessment/group/list/list.component';
@@ -72,6 +71,8 @@ import { AssessmentQuestionDetailComponent } from 'src/app/modules/assessment/qu
 import { AssessmentInstructionListComponent } from 'src/app/modules/assessment/instruction/list/list.component';
 import { AssessmentInstructionFormComponent } from 'src/app/modules/assessment/instruction/form/form.component';
 import { AssessmentInstructionDetailComponent } from 'src/app/modules/assessment/instruction/detail/detail.component';
+
+import { ReportAssessmentNeuroComponent } from 'src/app/modules/report/assessment/neuro/report.component';
 
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
 import { DeleteComponent } from 'src/app/shared/components/delete/delete.component';
@@ -95,11 +96,13 @@ export function playerFactory(): Promise<any> {
 
 // DEFAULT
 import { LayoutComponent } from './layout.component';
+import { RemoveHtmlPipe } from '../pipes/remove-html.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { translateMatPaginator } from 'src/app/services/localization.service';
 
 @NgModule({
   declarations: [
+    RemoveHtmlPipe,
     LayoutComponent,
     DeleteComponent,
     LoadingComponent,
@@ -125,9 +128,9 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     AssessmentListComponent,
     AssessmentFormComponent,
     AssessmentDetailComponent,
-    AssessmentResultComponent,
     AssessmentGroupListComponent,
     AssessmentGroupFormComponent,
+    ReportAssessmentNeuroComponent,
     AssessmentGroupDetailComponent,
     AssessmentQuestionListComponent,
     AssessmentQuestionFormComponent,

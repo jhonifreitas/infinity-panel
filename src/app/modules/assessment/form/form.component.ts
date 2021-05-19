@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
@@ -19,6 +20,7 @@ export class AssessmentFormComponent implements OnInit {
   saving = false;
   groups: Group[];
   formGroup: FormGroup;
+  types = Assessment.getTypes;
   instructions: Instruction[];
 
   constructor(
@@ -32,6 +34,7 @@ export class AssessmentFormComponent implements OnInit {
   ) {
     this.formGroup = this.formBuilder.group({
       name: new FormControl('', Validators.required),
+      type: new FormControl('neuro', Validators.required),
       duration: new FormControl('', Validators.required),
       groups: new FormControl([], Validators.required),
       instructions: new FormControl([], Validators.required)

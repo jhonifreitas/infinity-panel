@@ -2,7 +2,7 @@ table {
   width: 100%;
   border-collapse: collapse;
 
-  td {padding: .5rem 1rem;}
+  td, th {padding: .5rem 1rem;}
   .border {border: 1px solid #000;}
   .vertical {transform: rotate(-90deg);}
 }

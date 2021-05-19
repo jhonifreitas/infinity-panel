@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { Company } from 'src/app/models/company';
 import { Student } from 'src/app/models/student';
-import { Application } from 'src/app/models/application';
+import { Answer, Application } from 'src/app/models/application';
 import { Assessment, Question } from 'src/app/models/assessment';
 
 import { UtilService } from 'src/app/services/util.service';
@@ -15,11 +15,11 @@ import { AssessmentGroupService } from 'src/app/services/firebase/assessment/gro
 import { AssessmentQuestionService } from 'src/app/services/firebase/assessment/question.service';
 
 @Component({
-  selector: 'app-assessment-result',
-  templateUrl: './result.component.html',
-  styleUrls: ['./result.component.scss']
+  selector: 'app-report-assessment-neuro',
+  templateUrl: './report.component.html',
+  styleUrls: ['./report.component.scss']
 })
-export class AssessmentResultComponent implements OnInit {
+export class ReportAssessmentNeuroComponent implements OnInit {
 
   loading = true;
   formGroup: FormGroup;
@@ -62,7 +62,7 @@ export class AssessmentResultComponent implements OnInit {
   }
 
   async getAssessments() {
-    this.assessments = await this._assessment.getAllActive();
+    this.assessments = await this._assessment.getWhere('type', '==', 'neuro');
   }
 
   async getCompanies() {
@@ -70,7 +70,8 @@ export class AssessmentResultComponent implements OnInit {
   }
 
   getResultByStudent(application: Application, question: Question) {
-    const answer = application.answers.find(answer => answer.question.id === question.id);
+    let answer = application.answers.find(answer => answer.question.id === question.id);
+    answer = Object.assign(new Answer(), answer);
     return answer.getResultNeuro;
   }
 

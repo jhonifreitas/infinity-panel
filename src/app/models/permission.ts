@@ -28,12 +28,12 @@ export class Permission {
         return 'Assement';
       case Page.AssessmentGroupPage:
         return 'Assement Grupo';
-      case Page.AssessmentResultPage:
-        return 'Assement Resultado';
       case Page.AssessmentQuestionPage:
         return 'Assement Questão';
       case Page.AssessmentInstructionPage:
         return 'Assement Instrução';
+      case Page.ReportAssessmentNeuroPage:
+        return 'Relatório Assement Neuro';
     }
   }
 
@@ -70,9 +70,9 @@ export enum Page {
   CompanyPage = 'company-page',
   AssessmentPage = 'assessment-page',
   AssessmentGroupPage = 'assessment-group-page',
-  AssessmentResultPage = 'assessment-result-page',
   AssessmentQuestionPage = 'assessment-question-page',
-  AssessmentInstructionPage = 'assessment-instruction-page'
+  AssessmentInstructionPage = 'assessment-instruction-page',
+  ReportAssessmentNeuroPage = 'report-assessment-neuro-page'
 }
 
 export enum PageRole {

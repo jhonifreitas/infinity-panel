@@ -18,6 +18,7 @@ export class AssessmentQuestionFormComponent implements OnInit {
   saving = false;
   formGroup: FormGroup;
   types = Question.getTypes;
+  neuroResults = Question.getNeuroResults;
   profileTypes = Alternative.getProfileTypes;
 
   constructor(
@@ -31,6 +32,7 @@ export class AssessmentQuestionFormComponent implements OnInit {
       title: new FormControl('', Validators.required),
       text: new FormControl('', Validators.required),
       point: new FormControl(''),
+      result: new FormControl('', Validators.required),
       type: new FormControl('neuro', Validators.required),
       alternatives: this.formBuilder.array([]),
     });
@@ -43,6 +45,10 @@ export class AssessmentQuestionFormComponent implements OnInit {
   setData(): void {
     this.formGroup.patchValue(this.data);
     if (this.data.type !== 'neuro') {
+      this.controls.result.clearValidators();
+      this.controls.result.updateValueAndValidity();
+    }
+    if (this.data.type === 'objective') {
       this.controls.point.setValidators([Validators.required, Validators.min(1)]);
       this.controls.point.updateValueAndValidity();
     }
@@ -82,13 +88,16 @@ export class AssessmentQuestionFormComponent implements OnInit {
 
   changeType(event: MatSelectChange) {
     this.controls.point.clearValidators();
+    this.controls.result.clearValidators();
     this.controlAlternatives.clearValidators();
 
     if (event.value === 'objective')
       this.controls.point.setValidators([Validators.required, Validators.min(1)]);
-    if (event.value !== 'neuro') this.controlAlternatives.setValidators(Validators.required);
+    if (event.value === 'neuro') this.controls.result.setValidators(Validators.required);
+    else this.controlAlternatives.setValidators(Validators.required);
 
     this.controls.point.updateValueAndValidity();
+    this.controls.result.updateValueAndValidity();
     this.controlAlternatives.updateValueAndValidity();
   }
 

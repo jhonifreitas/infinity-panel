@@ -1,5 +1,5 @@
 <div class="header">
-  <h2 class="title">Assessment (Resultados)</h2>
+  <h2 class="title">Relatório (Assessment Neuro)</h2>
 </div>
 
 <div class="container">
@@ -7,15 +7,15 @@
     <mat-card-content class="p-3">
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
         <div fxLayout="row" fxLayoutGap="20px">
-          <div fxFlex="30">
+          <div fxFlex="45">
             <app-input label="Assessment" type="select" [items]="assessments" [control]="controls.assessmentId"></app-input>
           </div>
-          <div fxFlex="30">
+          <div fxFlex="45">
             <app-input label="Data" type="daterangepicker" [control]="controls.dateRange"></app-input>
           </div>
-          <div fxFlex="30">
+          <!-- <div fxFlex="30">
             <app-input label="Empresa" type="select" [items]="companies" [control]="controls.companyId"></app-input>
-          </div>
+          </div> -->
           <div fxFlex="10">
             <button mat-raised-button color="primary" [disabled]="formGroup.invalid" *ngIf="!loading">Buscar</button>
             <mat-progress-spinner mode="indeterminate" diameter="25" class="ml-2" *ngIf="loading"></mat-progress-spinner>
@@ -29,12 +29,12 @@
     <mat-card-content class="p-3">
       <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 
-      <div class="table-responsive">
+      <div class="table-responsive" *ngIf="!loading">
         <table>
           <tbody>
             <!-- STUDENTS -->
             <tr>
-              <th colspan="4" rowspan="9" class="border">
+              <th colspan="4" rowspan="9" class="border p-3">
                 <img src="assets/image/logo.png" class="img-fluid" alt="">
               </th>
               <ng-container *ngFor="let application of result.applications; index as applicationIndex">
@@ -128,13 +128,13 @@
             </tr>
             <ng-container *ngFor="let group of result.assessment._groups; index as groupIndex">
               <tr *ngFor="let question of group._questions; index as questionIndex">
-                <td class="border" [attr.rowspan]="group._questions.length" *ngIf="questionIndex === 0"><div class="vertical">{{ group.name }}</div></td>
+                <td class="border" [attr.rowspan]="group._questions.length" width="50" *ngIf="questionIndex === 0"><div class="vertical">{{ group.name }}</div></td>
                 <td class="text-center border">{{ questionIndex + 1 }}</td>
-                <td class="border"><div [innerHtml]="question.text"></div></td>
-                <td class="text-center border">PA</td>
+                <td class="border"> {{ question.text | removeHtml }} </td>
+                <td class="text-center border">{{ question.result }}</td>
                 <ng-container *ngFor="let application of result.applications; index as applicationIndex">
                   <td *ngIf="applicationIndex != 0"></td>
-                  <td colspan="8" class="text-center border">---</td>
+                  <td colspan="8" class="text-center border">{{ getResultByStudent(application, question) || '---' }}</td>
                 </ng-container>
               </tr>
               <tr>

@@ -47,22 +47,22 @@ export class Answer {
         (satisfaction === 2 && intensity === 2)
       ) return 'NB';
       else if (
+        (satisfaction === 1 && intensity === 3) ||
         (satisfaction === 1 && intensity === 4) ||
-        (satisfaction === 1 && intensity === 5) ||
-        (satisfaction === 2 && intensity === 4) ||
-        (satisfaction === 2 && intensity === 5)
+        (satisfaction === 2 && intensity === 3) ||
+        (satisfaction === 2 && intensity === 4)
       ) return 'NA';
       else if (
+        (satisfaction === 3 && intensity === 1) ||
+        (satisfaction === 3 && intensity === 2) ||
         (satisfaction === 4 && intensity === 1) ||
-        (satisfaction === 4 && intensity === 2) ||
-        (satisfaction === 5 && intensity === 1) ||
-        (satisfaction === 5 && intensity === 2)
+        (satisfaction === 4 && intensity === 2)
       ) return 'PB';
       else if (
-        (satisfaction === 4 && intensity === 4) ||
-        (satisfaction === 4 && intensity === 5) ||
-        (satisfaction === 5 && intensity === 4) ||
-        (satisfaction === 5 && intensity === 5)
+        (satisfaction === 3 && intensity === 3) ||
+        (satisfaction === 3 && intensity === 4) ||
+        (satisfaction === 4 && intensity === 3) ||
+        (satisfaction === 4 && intensity === 4)
       ) return 'PA';
     }
   }

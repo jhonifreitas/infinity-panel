@@ -8,6 +8,9 @@
       [control]="controls.type">
     </app-input>
 
+    <app-input label="Resposta" type="select" [items]="neuroResults" [control]="controls.result" *ngIf="controls.type.value == 'neuro'">
+    </app-input>
+
     <app-input label="Pontos" type="number" [control]="controls.point" *ngIf="controls.type.value == 'objective'"></app-input>
 
     <div id="alternatives" class="mb-2" *ngIf="controls.type.value != 'neuro'">

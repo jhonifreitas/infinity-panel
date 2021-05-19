@@ -16,8 +16,8 @@ import { StudentListComponent } from './modules/student/list/list.component';
 import { StudentFormComponent } from './modules/student/form/form.component';
 import { CompanyListComponent } from './modules/company/list/list.component';
 import { AssessmentListComponent } from './modules/assessment/list/list.component';
-import { AssessmentResultComponent } from './modules/assessment/result/result.component';
 import { AssessmentGroupListComponent } from './modules/assessment/group/list/list.component';
+import { ReportAssessmentNeuroComponent } from './modules/report/assessment/neuro/report.component';
 import { PasswordResetFormComponent } from './modules/auth/password-reset/password-reset.component';
 import { AssessmentQuestionListComponent } from './modules/assessment/question/list/list.component';
 import { ForgotPasswordFormComponent } from './modules/auth/forgot-password/forgot-password.component';
@@ -83,12 +83,6 @@ const routes: Routes = [
           data: {permissions: [{page: Page.AssessmentGroupPage, role: PageRole.CanList}]},
         },
         {
-          path: 'resultados',
-          canActivate: [PermissionGuard],
-          component: AssessmentResultComponent,
-          data: {permissions: [{page: Page.AssessmentResultPage, role: PageRole.CanList}]},
-        },
-        {
           path: 'questoes',
           canActivate: [PermissionGuard],
           component: AssessmentQuestionListComponent,
@@ -100,6 +94,22 @@ const routes: Routes = [
           component: AssessmentInstructionListComponent,
           data: {permissions: [{page: Page.AssessmentInstructionPage, role: PageRole.CanList}]},
         },
+      ]
+    },
+    {
+      path: 'relatorios',
+      children: [
+        {
+          path: 'assessment',
+          children: [
+            {
+              path: 'neuro',
+              canActivate: [PermissionGuard],
+              component: ReportAssessmentNeuroComponent,
+              data: {permissions: [{page: Page.ReportAssessmentNeuroPage, role: PageRole.CanList}]},
+            },
+          ]
+        }
       ]
     },
 

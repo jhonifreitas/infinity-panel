@@ -52,8 +52,8 @@ export class AssessmentListComponent implements OnInit {
     this.dataSource.filter = this.filter.trim().toLowerCase();
   }
 
-  openDetail(object?: Assessment): void {
-    if (this.canView) this._util.detail(AssessmentDetailComponent, object);
+  openDetail(object: Assessment): void {
+    if (this.canView) this._util.detail(AssessmentDetailComponent, Object.assign(new Assessment(), object));
   }
 
   openForm(object?: Assessment): void {

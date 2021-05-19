@@ -82,9 +82,8 @@
   <mat-hint *ngIf="hint" [innerHtml]="hint"></mat-hint>
 
   <!-- ERROR -->
-  <mat-error *ngIf="control.errors">
-    <ng-container *ngTemplateOutlet="errors"></ng-container>
-  </mat-error>
+  <mat-error *ngIf="control.controls.start.hasError('required')">Data Inícial é <b>obrigatório</b>!</mat-error>
+  <mat-error *ngIf="control.controls.end.hasError('required')">Data Final é <b>obrigatório</b>!</mat-error>
 </mat-form-field>
 
 <div *ngIf="type == 'html' || type == 'toggle'" class="mat-form-field">
