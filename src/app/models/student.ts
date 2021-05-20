@@ -32,7 +32,7 @@ export class Student extends Base {
   }
 
   get getAge() {
-    return differenceInYears(this.dateBirth, new Date()) || 0;
+    return differenceInYears(new Date(), this.dateBirth) || 0;
   }
 
   get getGeneration() {
@@ -45,9 +45,12 @@ export class Student extends Base {
 
   get getSeven() {
     const age = this.getAge;
+    let seven = 1;
     for (let i = 0; i <= 120; i += 7) {
-      if (i >= age && i <= age) return i;
+      if (i <= age) seven += 1;
+      else if (i > age) break;
     }
+    return seven;
   }
 }
 

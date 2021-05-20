@@ -18,7 +18,7 @@ export class Application extends Base {
     super();
     this.answers = [];
     this.init = new Date();
-    this.student = new Student();
+    this.student = new ApplicationStudent();
   }
 }
 

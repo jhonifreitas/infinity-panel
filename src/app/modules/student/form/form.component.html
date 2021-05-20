@@ -38,10 +38,13 @@
     </div>
   
     <div fxLayout="row" fxLayoutGap="20px">
-      <div fxFlex="50">
+      <div fxFlex="30">
         <app-input label="Celular" [mask]="{format: '(00) 00000-0000'}" [control]="controls.phone"></app-input>
       </div>
-      <div fxFlex="50">
+      <div fxFlex="30">
+        <app-input label="Data de nascimento" type="datepicker" startView="multi-year" [control]="controls.dateBirth"></app-input>
+      </div>
+      <div fxFlex="40">
         <app-input label="Naturalidade" [control]="controls.placeBirth"></app-input>
       </div>
     </div>
@@ -98,10 +101,10 @@
       </div>
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="40">
-          <app-input label="Cidade" type="select" [items]="addressCities" selectId="name" [control]="addressControls.city"></app-input>
+          <app-input label="Estado" type="select" [items]="states" selectId="uf" (inputChange)="addressStateChange()" [control]="addressControls.state"></app-input>
         </div>
         <div fxFlex="40">
-          <app-input label="Estado" type="select" [items]="states" selectId="uf" (inputChange)="addressStateChange()" [control]="addressControls.state"></app-input>
+          <app-input label="Cidade" type="select" [items]="addressCities" selectId="name" [control]="addressControls.city"></app-input>
         </div>
         <div fxFlex="20">
           <app-input label="CEP" [mask]="{format: '00000-000'}" (keyup)="zipcodeChange()" [control]="addressControls.zipcode"></app-input>
@@ -164,10 +167,10 @@
       </div>
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="50">
-          <app-input label="Cidade" type="select" [items]="courseCities" selectId="name" [control]="courseControls.city"></app-input>
+          <app-input label="Estado" type="select" [items]="states" selectId="uf" (inputChange)="courseStateChange()" [control]="courseControls.state"></app-input>
         </div>
         <div fxFlex="50">
-          <app-input label="Estado" type="select" [items]="states" selectId="uf" (inputChange)="courseStateChange()" [control]="courseControls.state"></app-input>
+          <app-input label="Cidade" type="select" [items]="courseCities" selectId="name" [control]="courseControls.city"></app-input>
         </div>
       </div>
     </mat-card-content>

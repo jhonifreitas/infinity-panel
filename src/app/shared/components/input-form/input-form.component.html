@@ -54,7 +54,7 @@
   <input matInput [formControl]="control" [id]="id" [matDatepicker]="picker"
     [attr.cdkFocusInitial]="cdkFocus" [ngClass]="class">
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
+  <mat-datepicker #picker [startView]="startView"></mat-datepicker>
 
   <!-- HINT -->
   <mat-hint *ngIf="hint" [innerHtml]="hint"></mat-hint>

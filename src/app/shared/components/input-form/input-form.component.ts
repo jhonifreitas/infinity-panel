@@ -26,6 +26,9 @@ export class InputFormComponent {
   // TEXTAREA
   @Input() rows = 1;
 
+  // DATEPICKER
+  @Input() startView: 'month' | 'year' | 'multi-year' = 'month';
+
   // SELECT
   @Input() items: any[];
   @Input() selectId = 'id';

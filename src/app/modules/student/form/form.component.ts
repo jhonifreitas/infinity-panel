@@ -47,9 +47,10 @@ export class StudentFormComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       genre: new FormControl('', Validators.required),
-      phone: new FormControl('', [Validators.required, Validators.minLength(11)]),
+      dateBirth: new FormControl('', Validators.required),
       placeBirth: new FormControl('', Validators.required),
       civilStatus: new FormControl('', Validators.required),
+      phone: new FormControl('', [Validators.required, Validators.minLength(11)]),
 
       cpf: new FormControl('', [Validators.required, this._validator.validatorCPF]),
       rg: new FormControl('', Validators.required),
@@ -114,6 +115,9 @@ export class StudentFormComponent implements OnInit {
     this.data = await this._student.getById(id);
     if (this.data.image) this.image = {path: this.data.image, new: false};
     this.formGroup.patchValue(this.data);
+
+    if (this.data.course && this.data.course.state) this.courseStateChange();
+    if (this.data.address && this.data.address.state) this.addressStateChange();
   }
 
   get controls() {
