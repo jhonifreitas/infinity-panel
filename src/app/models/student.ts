@@ -46,10 +46,9 @@ export class Student extends Base {
   get getSeven() {
     const age = this.getAge;
     let seven = 1;
-    for (let i = 0; i <= 120; i += 7) {
+    for (let i = 0; i <= 120; i += 7)
       if (i <= age) seven += 1;
       else if (i > age) break;
-    }
     return seven;
   }
 }

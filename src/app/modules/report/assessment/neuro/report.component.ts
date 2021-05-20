@@ -47,7 +47,7 @@ export class ReportAssessmentNeuroComponent implements OnInit {
         start: new FormControl('', Validators.required),
         end: new FormControl('', Validators.required)
       })
-    })
+    });
   }
 
   async ngOnInit(): Promise<void> {
@@ -70,7 +70,7 @@ export class ReportAssessmentNeuroComponent implements OnInit {
   }
 
   getResultByStudent(application: Application, question: Question) {
-    let answer = application.answers.find(answer => answer.question.id === question.id);
+    let answer = application.answers.find(answ => answ.question.id === question.id);
     answer = Object.assign(new Answer(), answer);
     return answer.getResultNeuro;
   }
@@ -81,7 +81,7 @@ export class ReportAssessmentNeuroComponent implements OnInit {
       const value = this.formGroup.value;
 
       // ASSESSMENT
-      const assessment = this.assessments.find(assessment => assessment.id === value.assessmentId);
+      const assessment = this.assessments.find(assess => assess.id === value.assessmentId);
       assessment._groups = [];
       for (const groupId of assessment.groups) {
         const group = await this._group.getById(groupId);
@@ -93,9 +93,8 @@ export class ReportAssessmentNeuroComponent implements OnInit {
 
       // APPLICATION
       const applications = await this._application.getByAssementIdByRangeDate(assessment.id, value.dateRange);
-      for (const application of applications) {
+      for (const application of applications)
         application._student = Object.assign(new Student(), await this._student.getById(application.student.id));
-      }
 
       if (!applications.length) this._util.message('Nenhuma aplicação encontrada!', 'warn');
       else this.result = {assessment, applications};
