@@ -1,4 +1,5 @@
 import { Base } from './base';
+import { Company } from './company';
 import { Assessment } from './assessment';
 
 export class Access extends Base {
@@ -6,20 +7,15 @@ export class Access extends Base {
   used: number;
   validity: Date;
   quantity: number;
-
-  mbas: string[];
-  courses: string[];
+  companyId?: string;
   assessments: string[];
 
-  _mbas?: any[];
-  _courses?: any[];
+  _company?: Company;
   _assessments?: Assessment[];
 
   constructor() {
     super();
     this.used = 0;
-    this.mbas = [];
-    this.courses = [];
     this.quantity = 0;
     this.assessments = [];
   }

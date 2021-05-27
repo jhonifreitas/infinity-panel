@@ -33,6 +33,10 @@ export class AssessmentDetailComponent implements OnInit {
     }
   }
 
+  getStudentRequiredName(id: string) {
+    return Assessment.getStudentRequiredName(id);
+  }
+
   goToBack(params?: any): void {
     this.dialogRef.close(params);
   }

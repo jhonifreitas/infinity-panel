@@ -9,15 +9,18 @@ import { LayoutComponent } from './layout/layout.component';
 import { UserListComponent } from './modules/user/list/list.component';
 import { GroupListComponent } from './modules/group/list/list.component';
 import { LoginFormComponent } from './modules/auth/login/login.component';
-import { CouponListComponent } from './modules/coupon/list/list.component';
-import { AccessListComponent } from './modules/access/list/list.component';
+// import { CouponListComponent } from './modules/coupon/list/list.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { StudentListComponent } from './modules/student/list/list.component';
 import { StudentFormComponent } from './modules/student/form/form.component';
 import { CompanyListComponent } from './modules/company/list/list.component';
 import { AssessmentListComponent } from './modules/assessment/list/list.component';
+import { AccessListComponent } from './modules/assessment/access/list/list.component';
+import { CompanyPostListComponent } from './modules/company/post/list/list.component';
+import { CompanyBranchListComponent } from './modules/company/branch/list/list.component';
 import { AssessmentGroupListComponent } from './modules/assessment/group/list/list.component';
-import { ReportAssessmentNeuroComponent } from './modules/report/assessment/neuro/report.component';
+import { ReportAssessmentComponent } from './modules/report/assessment/neuro/report.component';
+import { CompanyDepartmentListComponent } from './modules/company/department/list/list.component';
 import { PasswordResetFormComponent } from './modules/auth/password-reset/password-reset.component';
 import { AssessmentQuestionListComponent } from './modules/assessment/question/list/list.component';
 import { ForgotPasswordFormComponent } from './modules/auth/forgot-password/forgot-password.component';
@@ -35,24 +38,42 @@ const routes: Routes = [
   { path: '', canActivate: [AuthGuard], component: LayoutComponent, children: [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'dashboard', component: DashboardComponent },
-
-    {
-      path: 'cupons',
-      component: CouponListComponent,
-      canActivate: [PermissionGuard],
-      data: {permissions: [{page: Page.CounponPage, role: PageRole.CanList}]}
-    },
-    {
-      path: 'acessos',
-      component: AccessListComponent,
-      canActivate: [PermissionGuard],
-      data: {permissions: [{page: Page.AccessPage, role: PageRole.CanList}]}
-    },
+    // {
+    //   path: 'cupons',
+    //   component: CouponListComponent,
+    //   canActivate: [PermissionGuard],
+    //   data: {permissions: [{page: Page.CounponPage, role: PageRole.CanList}]}
+    // },
     {
       path: 'empresas',
       canActivate: [PermissionGuard],
-      component: CompanyListComponent,
-      data: {permissions: [{page: Page.CompanyPage, role: PageRole.CanList}]}
+      data: {permissions: [{page: Page.CompanyPage, role: PageRole.CanList}]},
+      children: [
+        {
+          path: '',
+          canActivate: [PermissionGuard],
+          component: CompanyListComponent,
+          data: {permissions: [{page: Page.CompanyPage, role: PageRole.CanList}]},
+        },
+        {
+          path: 'unidades',
+          canActivate: [PermissionGuard],
+          component: CompanyBranchListComponent,
+          data: {permissions: [{page: Page.CompanyPage, role: PageRole.CanList}]},
+        },
+        {
+          path: 'departamentos',
+          canActivate: [PermissionGuard],
+          component: CompanyDepartmentListComponent,
+          data: {permissions: [{page: Page.CompanyPage, role: PageRole.CanList}]},
+        },
+        {
+          path: 'cargos',
+          canActivate: [PermissionGuard],
+          component: CompanyPostListComponent,
+          data: {permissions: [{page: Page.CompanyPage, role: PageRole.CanList}]},
+        },
+      ]
     },
     {
       path: 'alunos',
@@ -94,6 +115,12 @@ const routes: Routes = [
           component: AssessmentInstructionListComponent,
           data: {permissions: [{page: Page.AssessmentInstructionPage, role: PageRole.CanList}]},
         },
+        {
+          path: 'acessos',
+          component: AccessListComponent,
+          canActivate: [PermissionGuard],
+          data: {permissions: [{page: Page.AccessPage, role: PageRole.CanList}]}
+        },
       ]
     },
     {
@@ -101,14 +128,9 @@ const routes: Routes = [
       children: [
         {
           path: 'assessment',
-          children: [
-            {
-              path: 'neuro',
-              canActivate: [PermissionGuard],
-              component: ReportAssessmentNeuroComponent,
-              data: {permissions: [{page: Page.ReportAssessmentNeuroPage, role: PageRole.CanList}]},
-            },
-          ]
+          canActivate: [PermissionGuard],
+          component: ReportAssessmentComponent,
+          data: {permissions: [{page: Page.ReportAssessmentPage, role: PageRole.CanList}]},
         }
       ]
     },

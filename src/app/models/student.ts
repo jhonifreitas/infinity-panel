@@ -1,5 +1,6 @@
 import { Base } from './base';
 import { differenceInYears } from 'date-fns';
+import { Company, Branch, Department, Post } from './company';
 
 export class Student extends Base {
   name: string;
@@ -11,7 +12,10 @@ export class Student extends Base {
   phone?: string;
   genre?: string;
   dateBirth?: Date;
-  placeBirth?: string;
+  childrens?: number;
+  cityBirth?: string;
+  stateBirth?: string;
+  scholarity?: string;
   civilStatus?: string;
 
   rg?: string;
@@ -24,7 +28,7 @@ export class Student extends Base {
   social?: Social;
   course?: Course;
   address?: Address;
-  company?: Company;
+  company?: StudentCompany;
 
   constructor() {
     super();
@@ -50,6 +54,27 @@ export class Student extends Base {
       if (i <= age) seven += 1;
       else if (i > age) break;
     return seven;
+  }
+
+  static get getScholarities() {
+    return [
+      {id: 'Ensino Fundamental Incompleto', name: 'Ensino Fundamental Incompleto'},
+      {id: 'Ensino Fundamental Completo', name: 'Ensino Fundamental Completo'},
+      {id: 'Ensino Médio Incompleto', name: 'Ensino Médio Incompleto'},
+      {id: 'Ensino Médio Completo', name: 'Ensino Médio Completo'},
+      {id: 'Ensino Técnico Incompleto', name: 'Ensino Técnico Incompleto'},
+      {id: 'Ensino Técnico Completo', name: 'Ensino Técnico Completo'},
+      {id: 'Ensino Superior Incompleto', name: 'Ensino Superior Incompleto'},
+      {id: 'Ensino Superior Completo', name: 'Ensino Superior Completo'},
+      {id: 'Pós-Graduação Incompleta', name: 'Pós-Graduação Incompleta'},
+      {id: 'Pós-Graduação Completa', name: 'Pós-Graduação Completa'},
+      {id: 'Mestrado Incompleto', name: 'Mestrado Incompleto'},
+      {id: 'Mestrado Completo', name: 'Mestrado Completo'},
+      {id: 'Doutorado Incompleto', name: 'Doutorado Incompleto'},
+      {id: 'Doutorado Completo', name: 'Doutorado Completo'},
+      {id: 'Pós-Doutorado Incompleto', name: 'Pós-Doutorado Incompleto'},
+      {id: 'Pós-Doutorado Completo', name: 'Pós-Doutorado Completo'}
+    ];
   }
 }
 
@@ -77,7 +102,14 @@ export class Address {
   complement?: string;
 }
 
-export class Company {
-  name: string;
-  post: string;
+export class StudentCompany {
+  companyId: string;
+  branchId: string;
+  departmentId: string;
+  postId: string;
+
+  _post?: Post;
+  _branch?: Branch;
+  _company?: Company;
+  _department?: Department;
 }

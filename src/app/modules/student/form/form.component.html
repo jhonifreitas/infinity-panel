@@ -2,10 +2,12 @@
   <h2 class="title">Formulário de aluno</h2>
 </div>
 
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <div class="mat-card container mat-elevation-z8 p-3 mb-2">
     <div class="img-uploaded" *ngIf="image">
-      <button mat-mini-fab color="warn" (click)="deleteImage()">
+      <button mat-mini-fab type="button" color="warn" (click)="deleteImage()">
         <mat-icon>delete</mat-icon>
       </button>
       <img [src]="image.path" alt="">
@@ -17,11 +19,14 @@
     <app-input label="Nome Completo" [control]="controls.name"></app-input>
 
     <div fxLayout="row" fxLayoutGap="20px">
-      <div fxFlex="50">
+      <div fxFlex="30">
         <app-input label="Gênero" type="select" [items]="genres" [control]="controls.genre"></app-input>
       </div>
-      <div fxFlex="50">
+      <div fxFlex="30">
         <app-input label="Estado Civil" type="select" [items]="civilStatus" [control]="controls.civilStatus"></app-input>
+      </div>
+      <div fxFlex="40">
+        <app-input label="Escolaridade" type="select" [items]="scholarities" [control]="controls.scholarity"></app-input>
       </div>
     </div>
   
@@ -45,10 +50,27 @@
         <app-input label="Data de nascimento" type="datepicker" startView="multi-year" [control]="controls.dateBirth"></app-input>
       </div>
       <div fxFlex="40">
-        <app-input label="Naturalidade" [control]="controls.placeBirth"></app-input>
+        <app-input label="Filhos" type="number" [control]="controls.childrens"></app-input>
       </div>
     </div>
   </div>
+
+  <!-- PLACE BIRTH -->
+  <mat-card class="mat-elevation-z8 p-0 mb-2">
+    <mat-card-header class="py-3 px-1">
+      <mat-card-title class="mb-0">Naturalidade</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="p-3">
+      <div fxLayout="row" fxLayoutGap="20px">
+        <div fxFlex="50">
+          <app-input label="Estado" type="select" [items]="birthStates" selectId="uf" (inputChange)="birthStateChange()" [control]="controls.stateBirth"></app-input>
+        </div>
+        <div fxFlex="50">
+          <app-input label="Cidade" type="select" [items]="birthCities" selectId="name" [control]="controls.cityBirth"></app-input>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 
   <!-- ACCESS -->
   <mat-card class="mat-elevation-z8 p-0 mb-2">
@@ -101,7 +123,7 @@
       </div>
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="40">
-          <app-input label="Estado" type="select" [items]="states" selectId="uf" (inputChange)="addressStateChange()" [control]="addressControls.state"></app-input>
+          <app-input label="Estado" type="select" [items]="addressStates" selectId="uf" (inputChange)="addressStateChange()" [control]="addressControls.state"></app-input>
         </div>
         <div fxFlex="40">
           <app-input label="Cidade" type="select" [items]="addressCities" selectId="name" [control]="addressControls.city"></app-input>
@@ -139,10 +161,16 @@
     <mat-card-content class="p-3">
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="50">
-          <app-input label="Empresa que Trabalha" [control]="companyControls.name"></app-input>
+          <app-input label="Empresa" type="select" [items]="companies" [control]="companyControls.companyId" (inputChange)="companyChange()"></app-input>
         </div>
         <div fxFlex="50">
-          <app-input label="Cargo que ocupa" [control]="companyControls.post"></app-input>
+          <app-input label="Unidade" type="select" [items]="branches" [control]="companyControls.branchId" (inputChange)="branchChange()"></app-input>
+        </div>
+        <div fxFlex="50">
+          <app-input label="Departamento" type="select" [items]="departments" [control]="companyControls.departmentId" (inputChange)="departmentChange()"></app-input>
+        </div>
+        <div fxFlex="50">
+          <app-input label="Cargo" type="select" [items]="posts" [control]="companyControls.postId"></app-input>
         </div>
       </div>
     </mat-card-content>
@@ -167,7 +195,7 @@
       </div>
       <div fxLayout="row" fxLayoutGap="20px">
         <div fxFlex="50">
-          <app-input label="Estado" type="select" [items]="states" selectId="uf" (inputChange)="courseStateChange()" [control]="courseControls.state"></app-input>
+          <app-input label="Estado" type="select" [items]="courseStates" selectId="uf" (inputChange)="courseStateChange()" [control]="courseControls.state"></app-input>
         </div>
         <div fxFlex="50">
           <app-input label="Cidade" type="select" [items]="courseCities" selectId="name" [control]="courseControls.city"></app-input>

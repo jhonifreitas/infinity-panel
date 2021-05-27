@@ -1,4 +1,5 @@
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, ValidatorFn } from '@angular/forms';
 
@@ -10,12 +11,16 @@ import { State } from 'src/app/models/default/state';
 import { Genre } from 'src/app/models/default/genre';
 import { FileUpload } from 'src/app/interfaces/base';
 import { CivilStatus } from 'src/app/models/default/civil-status';
+import { Branch, Company, Department, Post } from 'src/app/models/company';
 
 import { UtilService } from 'src/app/services/util.service';
 import { ValidatorService } from 'src/app/services/validator.service';
 import { ZipcodeService } from 'src/app/services/api/zipcode.service';
 import { StudentService } from 'src/app/services/firebase/student.service';
-import { ActivatedRoute } from '@angular/router';
+import { CompanyService } from 'src/app/services/firebase/company/company.service';
+import { CompanyPostService } from 'src/app/services/firebase/company/post.service';
+import { CompanyBranchService } from 'src/app/services/firebase/company/branch.service';
+import { CompanyDepartmentService } from 'src/app/services/firebase/company/department.service';
 
 @Component({
   selector: 'app-student-form',
@@ -25,38 +30,59 @@ import { ActivatedRoute } from '@angular/router';
 export class StudentFormComponent implements OnInit {
 
   saving = false;
+  loading = true;
   image: FileUpload;
   togglePass = true;
-  states = State.all;
   genres = Genre.all;
   formGroup: FormGroup;
+  civilStatus = CivilStatus.all;
+  data: Student = new Student();
+  scholarities = Student.getScholarities;
+
+  birthStates = State.all;
+  courseStates = State.all;
+  addressStates = State.all;
+  birthCities: City[] = [];
   courseCities: City[] = [];
   addressCities: City[] = [];
-  data: Student = new Student();
-  civilStatus = CivilStatus.all;
+
+  posts: Post[] = [];
+  branches: Branch[] = [];
+  companies: Company[] = [];
+  departments: Department[] = [];
 
   constructor(
-    private location: Location,
     private _util: UtilService,
+    private location: Location,
     private _student: StudentService,
     private formBuilder: FormBuilder,
     private _zipcode: ZipcodeService,
+    private _company: CompanyService,
+    private _post: CompanyPostService,
     private _validator: ValidatorService,
-    private activatedRoute: ActivatedRoute
+    private _branch: CompanyBranchService,
+    private activatedRoute: ActivatedRoute,
+    private _department: CompanyDepartmentService,
   ) {
     this.formGroup = this.formBuilder.group({
       name: new FormControl('', Validators.required),
-      genre: new FormControl('', Validators.required),
-      dateBirth: new FormControl('', Validators.required),
-      placeBirth: new FormControl('', Validators.required),
-      civilStatus: new FormControl('', Validators.required),
-      phone: new FormControl('', [Validators.required, Validators.minLength(11)]),
+      genre: new FormControl(''),
+      dateBirth: new FormControl(''),
+      childrens: new FormControl(''),
+      stateBirth: new FormControl(''),
+      scholarity: new FormControl(''),
+      civilStatus: new FormControl(''),
+      phone: new FormControl('', [Validators.minLength(11)]),
+      cityBirth: new FormControl({value: '', disabled: true}),
 
-      cpf: new FormControl('', [Validators.required, this._validator.validatorCPF]),
-      rg: new FormControl('', Validators.required),
-      rgEmitter: new FormControl('', Validators.required),
+      cpf: new FormControl('', this._validator.validatorCPF),
+      rg: new FormControl(''),
+      rgEmitter: new FormControl(''),
 
-      email: new FormControl('', [Validators.required, Validators.email]),
+      motherName: new FormControl(''),
+      spouseName: new FormControl(''),
+
+      email: new FormControl('', Validators.email),
       password: new FormControl(''),
       confirmPass: new FormControl(''),
 
@@ -70,12 +96,11 @@ export class StudentFormComponent implements OnInit {
         complement: new FormControl(''),
       }),
 
-      motherName: new FormControl('', Validators.required),
-      spouseName: new FormControl('', Validators.required),
-
       company: this.formBuilder.group({
-        name: new FormControl('', Validators.required),
-        post: new FormControl('', Validators.required),
+        companyId: new FormControl('', Validators.required),
+        branchId: new FormControl({value: '', disabled: true}, Validators.required),
+        departmentId: new FormControl({value: '', disabled: true}, Validators.required),
+        postId: new FormControl({value: '', disabled: true}, Validators.required),
       }),
 
       course: this.formBuilder.group({
@@ -94,9 +119,11 @@ export class StudentFormComponent implements OnInit {
     }, {validators: !this.data.id ? this.validatorPassword : null});
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.loading = true;
+    await this.getCompanies();
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if (id) this.setData(id);
+    if (id) await this.setData(id);
     else {
       this.controls.password.setValidators([
         Validators.required,
@@ -109,6 +136,7 @@ export class StudentFormComponent implements OnInit {
       this.controls.password.updateValueAndValidity();
       this.controls.confirmPass.updateValueAndValidity();
     }
+    this.loading = false;
   }
 
   async setData(id: string): Promise<void> {
@@ -116,8 +144,13 @@ export class StudentFormComponent implements OnInit {
     if (this.data.image) this.image = {path: this.data.image, new: false};
     this.formGroup.patchValue(this.data);
 
+    if (this.data.stateBirth) this.birthStateChange();
     if (this.data.course && this.data.course.state) this.courseStateChange();
     if (this.data.address && this.data.address.state) this.addressStateChange();
+
+    if (this.data.company && this.data.company.companyId) await this.companyChange();
+    if (this.data.company && this.data.company.branchId) await this.branchChange();
+    if (this.data.company && this.data.company.departmentId) await this.departmentChange();
   }
 
   get controls() {
@@ -138,6 +171,10 @@ export class StudentFormComponent implements OnInit {
 
   get socialControls() {
     return (this.controls.social as FormGroup).controls;
+  }
+
+  async getCompanies() {
+    this.companies = await this._company.getAllActive();
   }
 
   validatorPassword(group: FormGroup): ValidatorFn {
@@ -168,6 +205,12 @@ export class StudentFormComponent implements OnInit {
       }).catch(_ => {});
   }
 
+  birthStateChange() {
+    this.birthCities = new City().getByState(this.controls.stateBirth.value);
+    if (this.birthCities.length) this.controls.cityBirth.enable();
+    else this.controls.cityBirth.disable();
+  }
+
   addressStateChange() {
     this.addressCities = new City().getByState(this.addressControls.state.value);
     if (this.addressCities.length) this.addressControls.city.enable();
@@ -178,6 +221,27 @@ export class StudentFormComponent implements OnInit {
     this.courseCities = new City().getByState(this.courseControls.state.value);
     if (this.courseCities.length) this.courseControls.city.enable();
     else this.courseControls.city.disable();
+  }
+
+  async companyChange() {
+    const companyId = this.companyControls.companyId.value;
+    this.branches = await this._branch.getWhere('companyId', '==', companyId);
+    if (this.branches.length) this.companyControls.branchId.enable();
+    else this.companyControls.branchId.disable();
+  }
+
+  async branchChange() {
+    const branchId = this.companyControls.branchId.value;
+    this.departments = await this._department.getWhere('branchId', '==', branchId);
+    if (this.departments.length) this.companyControls.departmentId.enable();
+    else this.companyControls.departmentId.disable();
+  }
+
+  async departmentChange() {
+    const departmentId = this.companyControls.departmentId.value;
+    this.posts = await this._post.getWhere('departmentId', '==', departmentId);
+    if (this.posts.length) this.companyControls.postId.enable();
+    else this.companyControls.postId.disable();
   }
 
   async takeImage(event: NgxDropzoneChangeEvent): Promise<void> {

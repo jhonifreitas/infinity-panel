@@ -2,6 +2,8 @@
   <span>Acesso ao conteúdo</span>
 </mat-toolbar>
 <div mat-dialog-content>
+
+  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
   
   <mat-list>
     <mat-list-item>
@@ -28,6 +30,12 @@
       <div matLine class="info"> {{ object.quantity }} </div>
     </mat-list-item>
 
+    <mat-list-item *ngIf="object._company">
+      <mat-icon matListIcon>add</mat-icon>
+      <div matLine><strong> Empresa </strong></div>
+      <div matLine class="info"> {{ object._company.name }} </div>
+    </mat-list-item>
+
     <mat-list-item class="h-auto mb-2">
       <mat-icon matListIcon>assessment</mat-icon>
       <div matLine><strong> Assessments </strong></div>
@@ -39,26 +47,5 @@
       </div>
     </mat-list-item>
 
-    <mat-list-item class="h-auto mb-2">
-      <mat-icon matListIcon>assessment</mat-icon>
-      <div matLine><strong> Cursos </strong></div>
-      <div matLine>
-        <mat-chip-list *ngIf="object._courses">
-          <mat-chip *ngFor="let course of object._courses" color="primary" selected>{{ course.name }}</mat-chip>
-        </mat-chip-list>
-        <div matLine class="info" *ngIf="!object._courses">---</div>
-      </div>
-    </mat-list-item>
-
-    <mat-list-item class="h-auto mb-2">
-      <mat-icon matListIcon>assessment</mat-icon>
-      <div matLine><strong> MBAs </strong></div>
-      <div matLine>
-        <mat-chip-list *ngIf="object._mbas">
-          <mat-chip *ngFor="let mba of object._mbas" color="primary" selected>{{ mba.name }}</mat-chip>
-        </mat-chip-list>
-        <div matLine class="info" *ngIf="!object._mbas">---</div>
-      </div>
-    </mat-list-item>
   </mat-list>
 </div>

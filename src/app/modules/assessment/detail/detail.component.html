@@ -41,5 +41,16 @@
         </mat-chip-list>
       </div>
     </mat-list-item>
+
+    <mat-list-item class="h-auto mb-2">
+      <mat-icon matListIcon>edit</mat-icon>
+      <div matLine><strong> Campos obrigatórios </strong></div>
+      <div matLine>
+        <mat-chip-list *ngIf="object.studentRequireds.length">
+          <mat-chip *ngFor="let required of object.studentRequireds" color="primary" selected>{{ getStudentRequiredName(required) }}</mat-chip>
+        </mat-chip-list>
+        <span class="info" *ngIf="!object.studentRequireds.length">---</span>
+      </div>
+    </mat-list-item>
   </mat-list>
 </div>

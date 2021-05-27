@@ -22,6 +22,7 @@ export class AssessmentFormComponent implements OnInit {
   formGroup: FormGroup;
   types = Assessment.getTypes;
   instructions: Instruction[];
+  studentRequireds = Assessment.getStudentRequireds;
 
   constructor(
     private _util: UtilService,
@@ -37,7 +38,8 @@ export class AssessmentFormComponent implements OnInit {
       type: new FormControl('neuro', Validators.required),
       duration: new FormControl('', Validators.required),
       groups: new FormControl([], Validators.required),
-      instructions: new FormControl([], Validators.required)
+      instructions: new FormControl([], Validators.required),
+      studentRequireds: new FormControl([]),
     });
   }
 

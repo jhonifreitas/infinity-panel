@@ -1,5 +1,5 @@
 <div class="header">
-  <h2 class="title">Relatório (Assessment Neuro)</h2>
+  <h2 class="title">Relatório Assessment</h2>
 </div>
 
 <div class="container">
@@ -13,9 +13,6 @@
           <div fxFlex="45">
             <app-input label="Data" type="daterangepicker" [control]="controls.dateRange"></app-input>
           </div>
-          <!-- <div fxFlex="30">
-            <app-input label="Empresa" type="select" [items]="companies" [control]="controls.companyId"></app-input>
-          </div> -->
           <div fxFlex="10">
             <button mat-raised-button color="primary" [disabled]="formGroup.invalid" *ngIf="!loading">Buscar</button>
             <mat-progress-spinner mode="indeterminate" diameter="25" class="ml-2" *ngIf="loading"></mat-progress-spinner>

@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Formulário de acesso ao conteúdo</h1>
 <div mat-dialog-content>
-  <form [formGroup]="formGroup">
 
+  <form [formGroup]="formGroup">
     <app-input label="Código" [control]="controls.code" (keyup)="uppercase()"></app-input>
 
     <div fxLayout="row" fxLayoutGap="20px">
@@ -13,13 +13,10 @@
       </div>
     </div>
 
+    <app-input label="Empresa" type="select" [items]="companies" [control]="controls.companyId"></app-input>
+
     <app-input label="Assessments" type="select" [multiple]="true" [items]="assessments"
       [control]="controls.assessments"></app-input>
-
-    <app-input label="Cursos" type="select" [multiple]="true" [items]="courses"
-      [control]="controls.courses"></app-input>
-
-    <app-input label="MBAs" type="select" [multiple]="true" [items]="mbas" [control]="controls.mbas"></app-input>
 
   </form>
 </div>

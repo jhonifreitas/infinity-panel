@@ -32,8 +32,8 @@ export class Permission {
         return 'Assement Questão';
       case Page.AssessmentInstructionPage:
         return 'Assement Instrução';
-      case Page.ReportAssessmentNeuroPage:
-        return 'Relatório Assement Neuro';
+      case Page.ReportAssessmentPage:
+        return 'Relatório Assessment';
     }
   }
 
@@ -71,8 +71,8 @@ export enum Page {
   AssessmentPage = 'assessment-page',
   AssessmentGroupPage = 'assessment-group-page',
   AssessmentQuestionPage = 'assessment-question-page',
-  AssessmentInstructionPage = 'assessment-instruction-page',
-  ReportAssessmentNeuroPage = 'report-assessment-neuro-page'
+  ReportAssessmentPage = 'report-assessment-neuro-page',
+  AssessmentInstructionPage = 'assessment-instruction-page'
 }
 
 export enum PageRole {

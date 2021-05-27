@@ -38,25 +38,36 @@ export class SidebarComponent implements OnInit {
       },
       { title: 'Instruções', url: '/assessment/instrucoes', icon: 'feedback', hidden: false, permission: {
         page: Page.AssessmentInstructionPage, role: PageRole.CanList}
-      }
+      },
+      { title: 'Acessos ao conteúdo', url: '/assessment/acessos', icon: 'vpn_key', hidden: false, permission: {
+        page: Page.AccessPage, role: PageRole.CanList}
+      },
     ]},
     { title: 'Relatórios', icon: 'receipt_long', hidden: false, subItems: [
-      { title: 'Assessment Neuro', url: '/relatorios/assessment/neuro', icon: 'gavel', hidden: false, permission: {
-        page: Page.ReportAssessmentNeuroPage, role: PageRole.CanList}
+      { title: 'Assessment', url: '/relatorios/assessment', icon: 'gavel', hidden: false, permission: {
+        page: Page.ReportAssessmentPage, role: PageRole.CanList}
       },
     ]},
     { title: 'Alunos', url: '/alunos', icon: 'person', hidden: false, permission: {
       page: Page.UserPage, role: PageRole.CanList}
     },
-    { title: 'Empresas', url: '/empresas', icon: 'work', hidden: false, permission: {
-      page: Page.CompanyPage, role: PageRole.CanList}
-    },
+    { title: 'Empresas', icon: 'work', hidden: false, subItems: [
+      { title: 'Listagem', url: '/empresas', icon: 'list', hidden: false, permission: {
+        page: Page.CompanyPage, role: PageRole.CanList}
+      },
+      { title: 'Unidades', url: '/empresas/unidades', icon: 'work', hidden: false, permission: {
+        page: Page.CompanyPage, role: PageRole.CanList}
+      },
+      { title: 'Departamentos', url: '/empresas/departamentos', icon: 'work', hidden: false, permission: {
+        page: Page.CompanyPage, role: PageRole.CanList}
+      },
+      { title: 'Cargos', url: '/empresas/cargos', icon: 'work', hidden: false, permission: {
+        page: Page.CompanyPage, role: PageRole.CanList}
+      },
+    ]},
     // { title: 'Cupons', url: '/cupons', icon: 'local_offer', hidden: false, permission: {
     //   page: Page.CounponPage, role: PageRole.CanList}
     // },
-    { title: 'Acessos ao conteúdo', url: '/acessos', icon: 'vpn_key', hidden: false, permission: {
-      page: Page.AccessPage, role: PageRole.CanList}
-    },
     { title: 'Autorização', icon: 'verified_user', hidden: false, subItems: [
       { title: 'Usuários', url: '/administracao/usuarios', icon: 'person', hidden: false, permission: {
         page: Page.UserPage, role: PageRole.CanList}

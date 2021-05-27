@@ -5,6 +5,7 @@ export class Assessment extends Base {
   duration: number;
   groups: string[];
   instructions: string[];
+  studentRequireds: string[];
   type: 'neuro' | 'profile' | 'objective';
 
   _groups?: Group[];
@@ -15,6 +16,7 @@ export class Assessment extends Base {
     super();
     this.groups = [];
     this.instructions = [];
+    this.studentRequireds = [];
   }
 
   static get getTypes() {
@@ -27,6 +29,34 @@ export class Assessment extends Base {
 
   get getTypeName() {
     return Question.getTypes.find(type => type.id === this.type).name;
+  }
+
+  static get getStudentRequireds() {
+    return [
+      {id: 'name', name: 'Nome'},
+      {id: 'email', name: 'E-mail'},
+      {id: 'image', name: 'Imagem'},
+      {id: 'phone', name: 'Telefone'},
+      {id: 'genre', name: 'Gênero'},
+      {id: 'childrens', name: 'Filhos'},
+      {id: 'rg', name: 'RG'},
+      {id: 'cpf', name: 'CPF'},
+      {id: 'scholarity', name: 'Escolaridade'},
+      {id: 'civilStatus', name: 'Estado Civil'},
+      {id: 'dateBirth', name: 'Data de Nascimento'},
+      {id: 'motherName', name: 'Nome da Mãe'},
+      {id: 'spouseName', name: 'Nome do Cônjuge'},
+      
+      {id: 'address', name: 'Endereço'},
+      {id: 'placeBirth', name: 'Nascionalidade'},
+      {id: 'course', name: 'Curso Superior'},
+      {id: 'company', name: 'Empresa'},
+      {id: 'social', name: 'Redes Sociais'},
+    ];
+  }
+
+  static getStudentRequiredName(id: string) {
+    return Assessment.getStudentRequireds.find(item => item.id === id).name;
   }
 }
 

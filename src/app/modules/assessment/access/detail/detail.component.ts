@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Access } from 'src/app/models/access';
+
+import { CompanyService } from 'src/app/services/firebase/company/company.service';
 import { AssessmentService } from 'src/app/services/firebase/assessment/assessment.service';
 
 @Component({
@@ -11,19 +13,25 @@ import { AssessmentService } from 'src/app/services/firebase/assessment/assessme
 })
 export class AccessDetailComponent implements OnInit {
 
+  loading = true;
+
   constructor(
+    private _company: CompanyService,
     private _assessment: AssessmentService,
     @Inject(MAT_DIALOG_DATA) public object: Access,
     private dialogRef: MatDialogRef<AccessDetailComponent>,
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.loading = true;
+    if (this.object.companyId) this.object._company = await this._company.getById(this.object.companyId);
     if (this.object.assessments)
       for (const assessmentId of this.object.assessments) {
         this.object._assessments = [];
         const assessment = await this._assessment.getById(assessmentId);
         this.object._assessments.push(assessment);
       }
+    this.loading = false;
   }
 
   goToBack(params?: any): void {

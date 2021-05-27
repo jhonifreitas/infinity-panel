@@ -3,30 +3,31 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Company } from 'src/app/models/company';
+import { Post } from 'src/app/models/company';
 import { Page, PageRole } from 'src/app/models/permission';
 
-import { CompanyFormComponent } from '../form/form.component';
-import { CompanyDetailComponent } from '../detail/detail.component';
+import { CompanyPostFormComponent } from '../form/form.component';
+import { CompanyPostDetailComponent } from '../detail/detail.component';
 
 import { UtilService } from 'src/app/services/util.service';
 import { PermissionService } from 'src/app/services/permission.service';
-import { CompanyService } from 'src/app/services/firebase/company/company.service';
+import { CompanyPostService } from 'src/app/services/firebase/company/post.service';
+import { CompanyDepartmentService } from 'src/app/services/firebase/company/department.service';
 
 @Component({
-  selector: 'app-company-list',
+  selector: 'app-company-post-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class CompanyListComponent implements OnInit {
+export class CompanyPostListComponent implements OnInit {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   filter: string;
   loading = true;
-  dataSource: MatTableDataSource<Company>;
-  displayedColumns: string[] = ['name', 'actions'];
+  dataSource: MatTableDataSource<Post>;
+  displayedColumns: string[] = ['name', '_department', 'level', 'actions'];
 
   canAdd = this._permission.check(Page.CompanyPage, PageRole.CanAdd);
   canView = this._permission.check(Page.CompanyPage, PageRole.CanView);
@@ -35,14 +36,16 @@ export class CompanyListComponent implements OnInit {
 
   constructor(
     private _util: UtilService,
-    private _company: CompanyService,
+    private _post: CompanyPostService,
     private _permission: PermissionService,
+    private _department: CompanyDepartmentService,
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._company.getAllActive();
-    this.dataSource = new MatTableDataSource<Company>(items);
+    const items = await this._post.getAllActive();
+    for (const item of items) item._department = await this._department.getById(item.departmentId);
+    this.dataSource = new MatTableDataSource<Post>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.loading = false;
@@ -52,23 +55,23 @@ export class CompanyListComponent implements OnInit {
     this.dataSource.filter = this.filter.trim().toLowerCase();
   }
 
-  openDetail(object?: Company): void {
-    if (this.canView) this._util.detail(CompanyDetailComponent, object);
+  openDetail(object?: Post): void {
+    if (this.canView) this._util.detail(CompanyPostDetailComponent, object);
   }
 
-  openForm(object?: Company): void {
-    this._util.form(CompanyFormComponent, object).then(res => {
+  openForm(object?: Post): void {
+    this._util.form(CompanyPostFormComponent, object).then(res => {
       if (res) this.ngOnInit();
     });
   }
 
-  async delete(object: Company): Promise<void> {
-    await this._company.delete(object.id);
-    this._util.message('Empresa excluída com sucesso!', 'success');
+  async delete(object: Post): Promise<void> {
+    await this._post.delete(object.id);
+    this._util.message('Cargo excluído com sucesso!', 'success');
     this.ngOnInit();
   }
 
-  confirmDelete(object: Company): void {
+  confirmDelete(object: Post): void {
     this._util.delete().then(async _ => {
       this.delete(object);
     }).catch(_ => {});

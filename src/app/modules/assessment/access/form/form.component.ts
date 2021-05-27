@@ -3,10 +3,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { Access } from 'src/app/models/access';
+import { Company } from 'src/app/models/company';
 import { Assessment } from 'src/app/models/assessment';
 
 import { UtilService } from 'src/app/services/util.service';
 import { AccessService } from 'src/app/services/firebase/access.service';
+import { CompanyService } from 'src/app/services/firebase/company/company.service';
 import { AssessmentService } from 'src/app/services/firebase/assessment/assessment.service';
 
 @Component({
@@ -17,15 +19,14 @@ import { AssessmentService } from 'src/app/services/firebase/assessment/assessme
 export class AccessFormComponent implements OnInit {
 
   saving = false;
+  companies: Company[];
   formGroup: FormGroup;
-
-  mbas: any[];
-  courses: any[];
   assessments: Assessment[];
 
   constructor(
     private _util: UtilService,
     private _access: AccessService,
+    private _company: CompanyService,
     private formBuilder: FormBuilder,
     private _assessment: AssessmentService,
     private dialogRef: MatDialogRef<AccessFormComponent>,
@@ -35,13 +36,13 @@ export class AccessFormComponent implements OnInit {
       code: new FormControl('', Validators.required),
       validity: new FormControl('', Validators.required),
       quantity: new FormControl(0, [Validators.required, Validators.min(0)]),
-      mbas: new FormControl([]),
-      courses: new FormControl([]),
-      assessments: new FormControl([])
+      companyId: new FormControl('', Validators.required),
+      assessments: new FormControl([], Validators.required)
     });
   }
 
   async ngOnInit(): Promise<void> {
+    await this.getCompanies();
     await this.getAssessments();
     if (this.data.id) this.setData();
   }
@@ -56,6 +57,10 @@ export class AccessFormComponent implements OnInit {
 
   async getAssessments() {
     this.assessments = await this._assessment.getAllActive();
+  }
+
+  async getCompanies() {
+    this.companies = await this._company.getAllActive();
   }
 
   uppercase() {

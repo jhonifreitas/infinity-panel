@@ -1,6 +1,5 @@
 <mat-toolbar color="primary">
-  <img class="thumbnail-sm mr-1" [src]="object.image ? object.image : 'assets/image/not-found-user.png'" alt="">
-  <span>Empresa</span>
+  <span>Unidade</span>
 </mat-toolbar>
 <div mat-dialog-content>
   
@@ -9,6 +8,12 @@
       <mat-icon matListIcon>more_horiz</mat-icon>
       <div matLine><strong> Nome </strong></div>
       <div matLine class="info"> {{ object.name }} </div>
+    </mat-list-item>
+
+    <mat-list-item>
+      <mat-icon matListIcon>more_horiz</mat-icon>
+      <div matLine><strong> Empresa </strong></div>
+      <div matLine class="info"> {{ object._company.name }} </div>
     </mat-list-item>
   </mat-list>
 </div>

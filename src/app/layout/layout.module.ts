@@ -44,6 +44,18 @@ import { CompanyListComponent } from 'src/app/modules/company/list/list.componen
 import { CompanyFormComponent } from 'src/app/modules/company/form/form.component';
 import { CompanyDetailComponent } from 'src/app/modules/company/detail/detail.component';
 
+import { CompanyPostListComponent } from 'src/app/modules/company/post/list/list.component';
+import { CompanyPostFormComponent } from 'src/app/modules/company/post/form/form.component';
+import { CompanyPostDetailComponent } from 'src/app/modules/company/post/detail/detail.component';
+
+import { CompanyBranchListComponent } from 'src/app/modules/company/branch/list/list.component';
+import { CompanyBranchFormComponent } from 'src/app/modules/company/branch/form/form.component';
+import { CompanyBranchDetailComponent } from 'src/app/modules/company/branch/detail/detail.component';
+
+import { CompanyDepartmentListComponent } from 'src/app/modules/company/department/list/list.component';
+import { CompanyDepartmentFormComponent } from 'src/app/modules/company/department/form/form.component';
+import { CompanyDepartmentDetailComponent } from 'src/app/modules/company/department/detail/detail.component';
+
 import { StudentListComponent } from 'src/app/modules/student/list/list.component';
 import { StudentFormComponent } from 'src/app/modules/student/form/form.component';
 import { StudentDetailComponent } from 'src/app/modules/student/detail/detail.component';
@@ -52,9 +64,9 @@ import { CouponListComponent } from 'src/app/modules/coupon/list/list.component'
 import { CouponFormComponent } from 'src/app/modules/coupon/form/form.component';
 import { CouponDetailComponent } from 'src/app/modules/coupon/detail/detail.component';
 
-import { AccessListComponent } from 'src/app/modules/access/list/list.component';
-import { AccessFormComponent } from 'src/app/modules/access/form/form.component';
-import { AccessDetailComponent } from 'src/app/modules/access/detail/detail.component';
+import { AccessListComponent } from 'src/app/modules/assessment/access/list/list.component';
+import { AccessFormComponent } from 'src/app/modules/assessment/access/form/form.component';
+import { AccessDetailComponent } from 'src/app/modules/assessment/access/detail/detail.component';
 
 import { AssessmentListComponent } from 'src/app/modules/assessment/list/list.component';
 import { AssessmentFormComponent } from 'src/app/modules/assessment/form/form.component';
@@ -72,7 +84,7 @@ import { AssessmentInstructionListComponent } from 'src/app/modules/assessment/i
 import { AssessmentInstructionFormComponent } from 'src/app/modules/assessment/instruction/form/form.component';
 import { AssessmentInstructionDetailComponent } from 'src/app/modules/assessment/instruction/detail/detail.component';
 
-import { ReportAssessmentNeuroComponent } from 'src/app/modules/report/assessment/neuro/report.component';
+import { ReportAssessmentComponent } from 'src/app/modules/report/assessment/neuro/report.component';
 
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
 import { DeleteComponent } from 'src/app/shared/components/delete/delete.component';
@@ -127,13 +139,22 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     CompanyDetailComponent,
     AssessmentListComponent,
     AssessmentFormComponent,
+    CompanyPostListComponent,
+    CompanyPostFormComponent,
     AssessmentDetailComponent,
+    ReportAssessmentComponent,
+    CompanyPostDetailComponent,
+    CompanyBranchListComponent,
+    CompanyBranchFormComponent,
+    CompanyBranchDetailComponent,
     AssessmentGroupListComponent,
     AssessmentGroupFormComponent,
-    ReportAssessmentNeuroComponent,
     AssessmentGroupDetailComponent,
+    CompanyDepartmentListComponent,
+    CompanyDepartmentFormComponent,
     AssessmentQuestionListComponent,
     AssessmentQuestionFormComponent,
+    CompanyDepartmentDetailComponent,
     AssessmentQuestionDetailComponent,
     AssessmentInstructionListComponent,
     AssessmentInstructionFormComponent,
