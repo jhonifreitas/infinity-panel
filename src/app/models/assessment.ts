@@ -46,7 +46,7 @@ export class Assessment extends Base {
       {id: 'dateBirth', name: 'Data de Nascimento'},
       {id: 'motherName', name: 'Nome da Mãe'},
       {id: 'spouseName', name: 'Nome do Cônjuge'},
-      
+
       {id: 'address', name: 'Endereço'},
       {id: 'placeBirth', name: 'Nascionalidade'},
       {id: 'course', name: 'Curso Superior'},

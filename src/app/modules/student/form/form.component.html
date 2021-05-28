@@ -88,8 +88,8 @@
             <mat-icon>{{ togglePass ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <mat-error *ngIf="controls.password.hasError('required')">Senha é <strong>obrigatório!</strong></mat-error>
-          <mat-error *ngIf="controls.password.hasError('minlength')">A senha deve conter no mínimo <strong>8 caracteres</strong></mat-error>
-          <mat-error *ngIf="controls.password.hasError('pattern')">A senha deve conter <strong>letra, número</strong> e <strong>1 caracter especial</strong></mat-error>
+          <mat-error *ngIf="controls.password.hasError('minlength')">A senha deve conter no mínimo <strong>6 caracteres</strong></mat-error>
+          <mat-error *ngIf="controls.password.hasError('pattern')">A senha deve conter <strong>letra e número</strong></mat-error>
         </mat-form-field>
         <mat-form-field fxFlex="50">
           <mat-label>Confirme sua senha</mat-label>

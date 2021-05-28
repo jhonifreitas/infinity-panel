@@ -8,7 +8,7 @@ export class Access extends Base {
   validity: Date;
   quantity: number;
   companyId?: string;
-  assessments: string[];
+  assessmentIds: string[];
 
   _company?: Company;
   _assessments?: Assessment[];
@@ -17,6 +17,6 @@ export class Access extends Base {
     super();
     this.used = 0;
     this.quantity = 0;
-    this.assessments = [];
+    this.assessmentIds = [];
   }
 }

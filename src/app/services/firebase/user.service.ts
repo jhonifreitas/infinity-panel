@@ -14,7 +14,7 @@ export class UserService extends FirebaseAbstract<User> {
   static collectionName = 'users';
 
   constructor(
-    private api: ApiService,
+    private _api: ApiService,
     protected db: AngularFirestore,
     private afStorage: AngularFireStorage
   ) {
@@ -22,16 +22,11 @@ export class UserService extends FirebaseAbstract<User> {
   }
 
   async add(data: User): Promise<string> {
-    return this.api.post('users', data).then(res => res.user.id);
+    return this._api.post('users', data).then(res => res.user.id);
   }
 
   async update(id: string, data: Partial<User>): Promise<void> {
-    return this.api.put(`users/${id}`, data);
-  }
-
-  async save(data: User): Promise<string | void> {
-    if (data.id) return this.update(data.id, data);
-    return this.add(data);
+    return this._api.put(`users/${id}`, data);
   }
 
   uploadImage(id: string, file: Blob | File): Promise<string> {

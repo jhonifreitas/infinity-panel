@@ -1,5 +1,4 @@
 import { Base } from './base';
-import { Access } from './access';
 
 export class Company extends Base {
   name: string;

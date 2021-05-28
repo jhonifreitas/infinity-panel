@@ -37,7 +37,7 @@ export class AccessFormComponent implements OnInit {
       validity: new FormControl('', Validators.required),
       quantity: new FormControl(0, [Validators.required, Validators.min(0)]),
       companyId: new FormControl('', Validators.required),
-      assessments: new FormControl([], Validators.required)
+      assessmentIds: new FormControl([], Validators.required)
     });
   }
 

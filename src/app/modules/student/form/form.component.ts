@@ -127,10 +127,9 @@ export class StudentFormComponent implements OnInit {
     else {
       this.controls.password.setValidators([
         Validators.required,
-        Validators.minLength(8),
+        Validators.minLength(6),
         Validators.pattern(/[0-9]/),
-        Validators.pattern(/[a-zA-Z]/),
-        Validators.pattern(/[!@#$%&*()_=+;:,.?><\-]/)
+        Validators.pattern(/[a-zA-Z]/)
       ]);
       this.controls.confirmPass.setValidators(Validators.required);
       this.controls.password.updateValueAndValidity();
@@ -268,8 +267,7 @@ export class StudentFormComponent implements OnInit {
       const value = this.formGroup.value;
       Object.assign(this.data, value);
 
-      delete value.password;
-      delete value.confirmPass;
+      delete this.data['confirmPass'];
 
       await this._student.save(this.data).then(async id => {
         if (id) this.data.id = id;

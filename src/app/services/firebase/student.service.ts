@@ -4,6 +4,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 
 import { FirebaseAbstract } from './abstract';
 import { Student } from 'src/app/models/student';
+import { ApiService } from '../api/api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,19 @@ export class StudentService extends FirebaseAbstract<Student> {
   static collectionName = 'students';
 
   constructor(
+    private _api: ApiService,
     protected db: AngularFirestore,
     private afStorage: AngularFireStorage
   ) {
     super(db, StudentService.collectionName);
+  }
+
+  async add(data: Student): Promise<string> {
+    return this._api.post('students', data).then(res => res.student.id);
+  }
+
+  async update(id: string, data: Partial<Student>): Promise<void> {
+    return this._api.put(`students/${id}`, data);
   }
 
   uploadImage(id: string, file: Blob | File): Promise<string> {
