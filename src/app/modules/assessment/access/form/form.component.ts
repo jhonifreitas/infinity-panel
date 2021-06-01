@@ -56,11 +56,11 @@ export class AccessFormComponent implements OnInit {
   }
 
   async getAssessments() {
-    this.assessments = await this._assessment.getAllActive();
+    this.assessments = await this._assessment.getAllActive('name');
   }
 
   async getCompanies() {
-    this.companies = await this._company.getAllActive();
+    this.companies = await this._company.getAllActive('name');
   }
 
   uppercase() {
@@ -72,6 +72,8 @@ export class AccessFormComponent implements OnInit {
     if (this.formGroup.valid) {
       this.saving = true;
       Object.assign(this.data, this.formGroup.value);
+      this.data.validity.setHours(23,59,59);
+
       await this._access.save(this.data);
 
       this.saving = false;

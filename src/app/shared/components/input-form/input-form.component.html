@@ -25,11 +25,15 @@
     [ngClass]="class" [placeholder]="placeholder || 'Digite o ' + (label | lowercase)">
 
   <!-- SELECT -->
-  <mat-select *ngIf="type == 'select'" [id]="id" [formControl]="control"
-    [attr.cdkFocusInitial]="cdkFocus" [ngClass]="class" [multiple]="multiple"
-    [placeholder]="placeholder || '---'" (selectionChange)="emit('inputChange', $event)">
-    <mat-option *ngFor="let item of items" [value]="item[selectId]">{{ item[selectName] }}</mat-option>
-  </mat-select>
+  <ng-container  *ngIf="type == 'select'">
+    <mat-select [id]="id" [formControl]="control" [attr.cdkFocusInitial]="cdkFocus"
+      [ngClass]="class" [multiple]="multiple" [placeholder]="placeholder || '---'"
+      (selectionChange)="emit('inputChange', $event)">
+      <mat-select-filter [array]="items" placeholder="Filtrar..." noResultsMessage="Nenhum registro encontrado"
+        [displayMember]="selectName" (filteredReturn)="filteredItems = $event"></mat-select-filter>
+      <mat-option *ngFor="let item of filteredItems" [value]="item[selectId]">{{ item[selectName] }}</mat-option>
+    </mat-select>
+  </ng-container>
 
   <!-- TEXTAREA -->
   <textarea matInput *ngIf="type == 'textarea'" [id]="id" [formControl]="control"

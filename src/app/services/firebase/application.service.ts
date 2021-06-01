@@ -19,12 +19,7 @@ export class ApplicationService extends FirebaseAbstract<Application> {
     super(db, ApplicationService.collectionName);
   }
 
-  async getByAssementIdByRangeDate(assessmentId: string, rangeDate: {start: Date; end: Date}) {
-    const where = [
-      new FirebaseWhere('assessment.id', '==', assessmentId),
-      new FirebaseWhere('init', '>', rangeDate.start),
-      new FirebaseWhere('init', '<=', rangeDate.end),
-    ];
-    return this.getWhereMany(where);
+  async getByAssementId(assessmentId: string) {
+    return this.getWhere('assessment.id', '==', assessmentId);
   }
 }

@@ -66,6 +66,14 @@ export class Answer {
       ) return 'PA';
     }
   }
+
+  get resultIsConverge() {
+    return this.question.result === 'PA' && (this.getResultNeuro === 'PA' || this.getResultNeuro === 'PB');
+  }
+
+  get resultIsDiverge() {
+    return this.question.result === 'NA' && (this.getResultNeuro === 'NA' || this.getResultNeuro === 'NB');
+  }
 }
 
 class ApplicationStudent {

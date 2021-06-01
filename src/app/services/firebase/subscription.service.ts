@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { StorageService } from '../storage.service';
 import { Subscription } from 'src/app/models/subscription';
 import { FirebaseAbstract, FirebaseWhere } from './abstract';
 
@@ -13,17 +12,18 @@ export class SubscriptionService extends FirebaseAbstract<Subscription> {
   static collectionName = 'subscriptions';
 
   constructor(
-    protected db: AngularFirestore,
-    private _storage: StorageService
+    protected db: AngularFirestore
   ) {
     super(db, SubscriptionService.collectionName);
   }
 
-  async getByStudentId(whereColumn: string, id: string): Promise<Subscription> {
-    const studentId = this._storage.getUser.id;
+  async getByAccessIdByStudentIdByAssessmentId(
+    accessId: string, studentId: string, assessmentId: string
+  ): Promise<Subscription> {
     const where = [
-      new FirebaseWhere(whereColumn, '==', id),
-      new FirebaseWhere('student.id', '==', studentId)
+      new FirebaseWhere('access.id', '==', accessId),
+      new FirebaseWhere('student.id', '==', studentId),
+      new FirebaseWhere('assessmentIds', 'array-contains', assessmentId)
     ];
     return this.getWhereMany(where).then(res => res.length ? res[0] : Promise.reject('Not found!'));
   }

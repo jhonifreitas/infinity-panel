@@ -40,19 +40,22 @@ export class Student extends Base {
   }
 
   get getGeneration() {
-    const year = this.dateBirth.getFullYear();
-    if (year >= 1943 && year <= 1960) return 'BB';
-    else if (year >= 1961 && year <= 1981) return 'GX';
-    else if (year >= 1982 && year <= 2004) return 'GY';
-    else if (year >= 2005 && year <= 2022) return 'GZ';
+    if (this.dateBirth) {
+      const year = this.dateBirth.getFullYear();
+      if (year >= 1943 && year <= 1960) return 'BB';
+      else if (year >= 1961 && year <= 1981) return 'GX';
+      else if (year >= 1982 && year <= 2004) return 'GY';
+      else if (year >= 2005 && year <= 2022) return 'GZ';
+    }
+    return null;
   }
 
   get getSeven() {
     const age = this.getAge;
     let seven = 1;
     for (let i = 0; i <= 120; i += 7)
-      if (i <= age) seven += 1;
-      else if (i > age) break;
+      if (i < age) seven += 1;
+      else if (i >= age) break;
     return seven;
   }
 

@@ -63,6 +63,8 @@ export class CouponFormComponent implements OnInit {
     if (this.formGroup.valid) {
       this.saving = true;
       Object.assign(this.data, this.formGroup.value);
+      this.data.validity.setHours(23,59,59);
+
       await this._coupon.save(this.data);
 
       this.saving = false;

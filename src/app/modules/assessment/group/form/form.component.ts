@@ -50,12 +50,13 @@ export class AssessmentGroupFormComponent implements OnInit {
   }
 
   async getQuestions(): Promise<void> {
-    this.questions = await this._question.getAllActive();
+    this.questions = await this._question.getAllActive('title');
   }
 
   async takeImage(event: any): Promise<void> {
     const loader = this._util.loading('Comprimindo imagem...');
-    const compress = await this._util.uploadCompress(event.addedFiles[0]);
+    const image = await this._util.uploadImage(event.addedFiles[0]);
+    const compress = await this._util.uploadCompress(image.path);
     this.image = {path: compress.base64, file: compress.file, new: true};
     loader.componentInstance.msg = 'Imagem comprimida!';
     loader.componentInstance.done();

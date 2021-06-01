@@ -11,7 +11,7 @@
             <app-input label="Assessment" type="select" [items]="assessments" [control]="controls.assessmentId"></app-input>
           </div>
           <div fxFlex="45">
-            <app-input label="Data" type="daterangepicker" [control]="controls.dateRange"></app-input>
+            <app-input label="Código de acesso" type="select" [items]="accessList" selectName="code" [control]="controls.accessId"></app-input>
           </div>
           <div fxFlex="10">
             <button mat-raised-button color="primary" [disabled]="formGroup.invalid" *ngIf="!loading">Buscar</button>
@@ -78,7 +78,7 @@
               <ng-container *ngFor="let application of result.applications; index as applicationIndex">
                 <th *ngIf="applicationIndex != 0"></th>
                 <th colspan="3" class="border">Empresa</th>
-                <th class="border">{{ application._student.company?.name || '---' }}</th>
+                <th class="border">{{ application._student.company._company?.name || '---' }}</th>
                 <th colspan="3" class="border">Ranking Divergência</th>
                 <th class="border">---</th>
               </ng-container>
@@ -86,8 +86,8 @@
             <tr>
               <ng-container *ngFor="let application of result.applications; index as applicationIndex">
                 <th *ngIf="applicationIndex != 0"></th>
-                <th colspan="3" class="border">Cargo</th>
-                <th class="border">{{ application._student.company?.post || '---' }}</th>
+                <th colspan="3" class="border">Departamento</th>
+                <th class="border">{{ application._student.company._department?.name || '---' }}</th>
                 <th colspan="3" class="border">Convergência Líder</th>
                 <th class="border">---</th>
               </ng-container>
@@ -95,8 +95,8 @@
             <tr>
               <ng-container *ngFor="let application of result.applications; index as applicationIndex">
                 <th *ngIf="applicationIndex != 0"></th>
-                <th colspan="3" class="border">Área</th>
-                <th class="border">---</th>
+                <th colspan="3" class="border">Cargo</th>
+                <th class="border">{{ application._student.company._post?.name }}</th>
                 <th colspan="3" class="border">Divergência Líder</th>
                 <th class="border">---</th>
               </ng-container>
@@ -118,14 +118,14 @@
               <ng-container *ngFor="let application of result.applications; index as applicationIndex">
                 <th *ngIf="applicationIndex != 0"></th>
                 <th colspan="3" class="border">Escolaridade</th>
-                <th class="border">---</th>
+                <th class="border">{{ application._student.scholarity }}</th>
                 <th colspan="3" class="border">Divergência Equipe</th>
                 <th class="border">---</th>
               </ng-container>
             </tr>
             <ng-container *ngFor="let group of result.assessment._groups; index as groupIndex">
               <tr *ngFor="let question of group._questions; index as questionIndex">
-                <td class="border" [attr.rowspan]="group._questions.length" width="50" *ngIf="questionIndex === 0"><div class="vertical">{{ group.name }}</div></td>
+                <td class="border vertical" [attr.rowspan]="group._questions.length" width="50" *ngIf="questionIndex === 0"><div class="vertical-content text-center">{{ group.name }}</div></td>
                 <td class="text-center border">{{ questionIndex + 1 }}</td>
                 <td class="border"> {{ question.text | removeHtml }} </td>
                 <td class="text-center border">{{ question.result }}</td>
@@ -141,11 +141,11 @@
                   <td class="border">IMC</td>
                   <td class="border">10%</td>
                   <td class="border">C</td>
-                  <td class="border">15%</td>
+                  <td class="border">{{ getPercentConvergeDiverge(application).converge }}%</td>
                   <td class="border">IMD</td>
                   <td class="border">25%</td>
                   <td class="border">D</td>
-                  <td class="border">50%</td>
+                  <td class="border">{{ getPercentConvergeDiverge(application).diverge }}%</td>
                 </ng-container>
               </tr>
             </ng-container>

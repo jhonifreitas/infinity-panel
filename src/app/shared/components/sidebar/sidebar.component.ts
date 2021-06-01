@@ -26,6 +26,7 @@ export class SidebarComponent implements OnInit {
   @Output() toggleSideBarForMe: EventEmitter<any> = new EventEmitter();
 
   menuItems: MenuItem[] = [
+    { title: 'Dashboard', url: '/dashboard', icon: 'home', hidden: false },
     { title: 'Assessment', icon: 'assessment', hidden: false, subItems: [
       { title: 'Listagem', url: '/assessments', icon: 'list', hidden: false, permission: {
         page: Page.AssessmentPage, role: PageRole.CanList}
@@ -87,7 +88,7 @@ export class SidebarComponent implements OnInit {
     const interval = setInterval(() => {
       if (this._storage.getUser) {
         clearInterval(interval);
-        for (const item of this.menuItems) {
+        for (const item of this.menuItems.filter(x => x.permission)) {
           item.hidden = !this.hasPermission(item);
           if (item.subItems) for (const subItem of item.subItems) subItem.hidden = !this.hasPermission(subItem);
         }

@@ -1,12 +1,12 @@
 import { FormControl } from '@angular/forms';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-input',
   templateUrl: './input-form.component.html',
   styleUrls: ['./input-form.component.scss']
 })
-export class InputFormComponent {
+export class InputFormComponent implements OnChanges {
 
   @Input() id: string;
   @Input() hint: string;
@@ -34,6 +34,7 @@ export class InputFormComponent {
   @Input() selectId = 'id';
   @Input() multiple = false;
   @Input() selectName = 'name';
+  filteredItems: any[] = [];
 
   // EVENT
   @Output() inputChange = new EventEmitter();
@@ -45,6 +46,10 @@ export class InputFormComponent {
   togglePass = true;
 
   constructor() { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.items) this.filteredItems = changes.items.currentValue;
+  }
 
   emit(item: string, event?: any) {
     if (this[item]) this[item].emit(event);

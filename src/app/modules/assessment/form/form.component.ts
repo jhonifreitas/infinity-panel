@@ -58,11 +58,11 @@ export class AssessmentFormComponent implements OnInit {
   }
 
   async getGroups() {
-    this.groups = await this._group.getAllActive();
+    this.groups = await this._group.getAllActive('name');
   }
 
   async getInstructions() {
-    this.instructions = await this._instruction.getAllActive();
+    this.instructions = await this._instruction.getAllActive('title');
   }
 
   async onSubmit(): Promise<void> {
