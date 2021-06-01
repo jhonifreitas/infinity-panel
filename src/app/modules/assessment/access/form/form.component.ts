@@ -72,7 +72,7 @@ export class AccessFormComponent implements OnInit {
     if (this.formGroup.valid) {
       this.saving = true;
       Object.assign(this.data, this.formGroup.value);
-      this.data.validity.setHours(23,59,59);
+      this.data.validity.setHours(23, 59, 59);
 
       await this._access.save(this.data);
 
