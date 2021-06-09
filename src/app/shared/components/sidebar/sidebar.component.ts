@@ -59,7 +59,10 @@ export class SidebarComponent implements OnInit {
       { title: 'Unidades', url: '/empresas/unidades', icon: 'work', hidden: false, permission: {
         page: Page.CompanyPage, role: PageRole.CanList}
       },
-      { title: 'Departamentos', url: '/empresas/departamentos', icon: 'work', hidden: false, permission: {
+      { title: 'Entidades', url: '/empresas/entidades', icon: 'work', hidden: false, permission: {
+        page: Page.CompanyPage, role: PageRole.CanList}
+      },
+      { title: 'Áreas', url: '/empresas/areas', icon: 'work', hidden: false, permission: {
         page: Page.CompanyPage, role: PageRole.CanList}
       },
       { title: 'Cargos', url: '/empresas/cargos', icon: 'work', hidden: false, permission: {

@@ -2,12 +2,13 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
+import { Area, Post } from 'src/app/models/company';
 import { FileUpload } from 'src/app/interfaces/base';
-import { Department, Post } from 'src/app/models/company';
 
 import { UtilService } from 'src/app/services/util.service';
 import { CompanyService } from 'src/app/services/firebase/company/company.service';
 import { CompanyPostService } from 'src/app/services/firebase/company/post.service';
+import { CompanyAreaService } from 'src/app/services/firebase/company/area.service';
 import { CompanyBranchService } from 'src/app/services/firebase/company/branch.service';
 import { CompanyDepartmentService } from 'src/app/services/firebase/company/department.service';
 
@@ -18,16 +19,17 @@ import { CompanyDepartmentService } from 'src/app/services/firebase/company/depa
 })
 export class CompanyPostFormComponent implements OnInit {
 
+  areas: Area[];
   saving = false;
   image: FileUpload;
   formGroup: FormGroup;
-  departments: Department[];
 
   constructor(
     private _util: UtilService,
     private _company: CompanyService,
     private formBuilder: FormBuilder,
     private _post: CompanyPostService,
+    private _area: CompanyAreaService,
     private _branch: CompanyBranchService,
     private _department: CompanyDepartmentService,
     @Inject(MAT_DIALOG_DATA) public data: Post = new Post(),
@@ -36,12 +38,12 @@ export class CompanyPostFormComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       level: new FormControl(1, [Validators.required, Validators.min(1)]),
-      departmentId: new FormControl('', Validators.required),
+      areaId: new FormControl('', Validators.required),
     });
   }
 
   async ngOnInit(): Promise<void> {
-    await this.getCompanies();
+    await this.getAreas();
     if (this.data.id) this.setData();
   }
 
@@ -53,12 +55,13 @@ export class CompanyPostFormComponent implements OnInit {
     return this.formGroup.controls;
   }
 
-  async getCompanies() {
-    this.departments = await this._department.getAllActive();
-    for (const deparmtent of this.departments) {
-      const branch = await this._branch.getById(deparmtent.branchId);
+  async getAreas() {
+    this.areas = await this._area.getAllActive();
+    for (const area of this.areas) {
+      const department = await this._department.getById(area.departmentId);
+      const branch = await this._branch.getById(department.branchId);
       const company = await this._company.getById(branch.companyId);
-      deparmtent.name = `${company.name} - ${branch.name} - ${deparmtent.name}`;
+      area.name = `${company.name} - ${branch.name} - ${department.name} - ${area.name}`;
     }
   }
 

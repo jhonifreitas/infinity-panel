@@ -38,7 +38,7 @@ export class CompanyDepartmentFormComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.getCompanies();
+    await this.getBranches();
     if (this.data.id) this.setData();
   }
 
@@ -50,7 +50,7 @@ export class CompanyDepartmentFormComponent implements OnInit {
     return this.formGroup.controls;
   }
 
-  async getCompanies() {
+  async getBranches() {
     this.branches = await this._branch.getAllActive();
     for (const branch of this.branches) {
       const company = await this._company.getById(branch.companyId);
@@ -65,7 +65,7 @@ export class CompanyDepartmentFormComponent implements OnInit {
       await this._department.save(this.data);
 
       this.saving = false;
-      this._util.message('Departamento salvo com sucesso!', 'success');
+      this._util.message('Entidade salvo com sucesso!', 'success');
       this.dialogRef.close(true);
     } else this._util.message('Verifique os dados antes de salvar!', 'warn');
   }

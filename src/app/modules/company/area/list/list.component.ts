@@ -3,31 +3,31 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Department } from 'src/app/models/company';
+import { Area } from 'src/app/models/company';
 import { Page, PageRole } from 'src/app/models/permission';
 
-import { CompanyDepartmentFormComponent } from '../form/form.component';
-import { CompanyDepartmentDetailComponent } from '../detail/detail.component';
+import { CompanyAreaFormComponent } from '../form/form.component';
+import { CompanyAreaDetailComponent } from '../detail/detail.component';
 
 import { UtilService } from 'src/app/services/util.service';
 import { PermissionService } from 'src/app/services/permission.service';
-import { CompanyBranchService } from 'src/app/services/firebase/company/branch.service';
+import { CompanyAreaService } from 'src/app/services/firebase/company/area.service';
 import { CompanyDepartmentService } from 'src/app/services/firebase/company/department.service';
 
 @Component({
-  selector: 'app-company-department-list',
+  selector: 'app-company-area-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class CompanyDepartmentListComponent implements OnInit {
+export class CompanyAreaListComponent implements OnInit {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   filter: string;
   loading = true;
-  dataSource: MatTableDataSource<Department>;
-  displayedColumns: string[] = ['name', '_branch', 'actions'];
+  dataSource: MatTableDataSource<Area>;
+  displayedColumns: string[] = ['name', '_department', 'actions'];
 
   canAdd = this._permission.check(Page.CompanyPage, PageRole.CanAdd);
   canView = this._permission.check(Page.CompanyPage, PageRole.CanView);
@@ -36,16 +36,16 @@ export class CompanyDepartmentListComponent implements OnInit {
 
   constructor(
     private _util: UtilService,
-    private _branch: CompanyBranchService,
+    private _area: CompanyAreaService,
     private _permission: PermissionService,
     private _department: CompanyDepartmentService,
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._department.getAllActive();
-    for (const item of items) item._branch = await this._branch.getById(item.branchId);
-    this.dataSource = new MatTableDataSource<Department>(items);
+    const items = await this._area.getAllActive();
+    for (const item of items) item._department = await this._department.getById(item.departmentId);
+    this.dataSource = new MatTableDataSource<Area>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.loading = false;
@@ -55,23 +55,23 @@ export class CompanyDepartmentListComponent implements OnInit {
     this.dataSource.filter = this.filter.trim().toLowerCase();
   }
 
-  openDetail(object?: Department): void {
-    if (this.canView) this._util.detail(CompanyDepartmentDetailComponent, object);
+  openDetail(object?: Area): void {
+    if (this.canView) this._util.detail(CompanyAreaDetailComponent, object);
   }
 
-  openForm(object?: Department): void {
-    this._util.form(CompanyDepartmentFormComponent, object).then(res => {
+  openForm(object?: Area): void {
+    this._util.form(CompanyAreaFormComponent, object).then(res => {
       if (res) this.ngOnInit();
     });
   }
 
-  async delete(object: Department): Promise<void> {
-    await this._department.delete(object.id);
+  async delete(object: Area): Promise<void> {
+    await this._area.delete(object.id);
     this._util.message('Entidade excluído com sucesso!', 'success');
     this.ngOnInit();
   }
 
-  confirmDelete(object: Department): void {
+  confirmDelete(object: Area): void {
     this._util.delete().then(async _ => {
       this.delete(object);
     }).catch(_ => {});

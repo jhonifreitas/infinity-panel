@@ -44,6 +44,10 @@ import { CompanyListComponent } from 'src/app/modules/company/list/list.componen
 import { CompanyFormComponent } from 'src/app/modules/company/form/form.component';
 import { CompanyDetailComponent } from 'src/app/modules/company/detail/detail.component';
 
+import { CompanyAreaListComponent } from 'src/app/modules/company/area/list/list.component';
+import { CompanyAreaFormComponent } from 'src/app/modules/company/area/form/form.component';
+import { CompanyAreaDetailComponent } from 'src/app/modules/company/area/detail/detail.component';
+
 import { CompanyPostListComponent } from 'src/app/modules/company/post/list/list.component';
 import { CompanyPostFormComponent } from 'src/app/modules/company/post/form/form.component';
 import { CompanyPostDetailComponent } from 'src/app/modules/company/post/detail/detail.component';
@@ -141,8 +145,11 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     AssessmentFormComponent,
     CompanyPostListComponent,
     CompanyPostFormComponent,
-    AssessmentDetailComponent,
+    CompanyAreaListComponent,
+    CompanyAreaFormComponent,
     ReportAssessmentComponent,
+    AssessmentDetailComponent,
+    CompanyAreaDetailComponent,
     CompanyPostDetailComponent,
     CompanyBranchListComponent,
     CompanyBranchFormComponent,

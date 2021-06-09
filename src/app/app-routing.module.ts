@@ -17,6 +17,7 @@ import { CompanyListComponent } from './modules/company/list/list.component';
 import { AssessmentListComponent } from './modules/assessment/list/list.component';
 import { AccessListComponent } from './modules/assessment/access/list/list.component';
 import { CompanyPostListComponent } from './modules/company/post/list/list.component';
+import { CompanyAreaListComponent } from './modules/company/area/list/list.component';
 import { CompanyBranchListComponent } from './modules/company/branch/list/list.component';
 import { AssessmentGroupListComponent } from './modules/assessment/group/list/list.component';
 import { ReportAssessmentComponent } from './modules/report/assessment/neuro/report.component';
@@ -62,9 +63,15 @@ const routes: Routes = [
           data: {permissions: [{page: Page.CompanyPage, role: PageRole.CanList}]},
         },
         {
-          path: 'departamentos',
+          path: 'entidades',
           canActivate: [PermissionGuard],
           component: CompanyDepartmentListComponent,
+          data: {permissions: [{page: Page.CompanyPage, role: PageRole.CanList}]},
+        },
+        {
+          path: 'areas',
+          canActivate: [PermissionGuard],
+          component: CompanyAreaListComponent,
           data: {permissions: [{page: Page.CompanyPage, role: PageRole.CanList}]},
         },
         {

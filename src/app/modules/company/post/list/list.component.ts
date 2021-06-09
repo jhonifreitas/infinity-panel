@@ -11,8 +11,8 @@ import { CompanyPostDetailComponent } from '../detail/detail.component';
 
 import { UtilService } from 'src/app/services/util.service';
 import { PermissionService } from 'src/app/services/permission.service';
+import { CompanyAreaService } from 'src/app/services/firebase/company/area.service';
 import { CompanyPostService } from 'src/app/services/firebase/company/post.service';
-import { CompanyDepartmentService } from 'src/app/services/firebase/company/department.service';
 
 @Component({
   selector: 'app-company-post-list',
@@ -27,7 +27,7 @@ export class CompanyPostListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Post>;
-  displayedColumns: string[] = ['name', '_department', 'level', 'actions'];
+  displayedColumns: string[] = ['name', '_area', 'level', 'actions'];
 
   canAdd = this._permission.check(Page.CompanyPage, PageRole.CanAdd);
   canView = this._permission.check(Page.CompanyPage, PageRole.CanView);
@@ -37,14 +37,14 @@ export class CompanyPostListComponent implements OnInit {
   constructor(
     private _util: UtilService,
     private _post: CompanyPostService,
+    private _area: CompanyAreaService,
     private _permission: PermissionService,
-    private _department: CompanyDepartmentService,
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
     const items = await this._post.getAllActive();
-    for (const item of items) item._department = await this._department.getById(item.departmentId);
+    for (const item of items) item._area = await this._area.getById(item.areaId);
     this.dataSource = new MatTableDataSource<Post>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;

@@ -1,21 +1,15 @@
 <mat-toolbar color="primary">
-  <span>Cargo</span>
+  <span>Área</span>
 </mat-toolbar>
 <div mat-dialog-content>
-
-  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
   
+  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+
   <mat-list *ngIf="!loading">
     <mat-list-item>
       <mat-icon matListIcon>more_horiz</mat-icon>
       <div matLine><strong> Nome </strong></div>
       <div matLine class="info"> {{ object.name }} </div>
-    </mat-list-item>
-
-    <mat-list-item>
-      <mat-icon matListIcon>more_horiz</mat-icon>
-      <div matLine><strong> Nível </strong></div>
-      <div matLine class="info"> {{ object.level }} </div>
     </mat-list-item>
 
     <mat-list-item>
@@ -32,8 +26,8 @@
 
     <mat-list-item>
       <mat-icon matListIcon>more_horiz</mat-icon>
-      <div matLine><strong> Área </strong></div>
-      <div matLine class="info"> {{ object._area.name }} </div>
+      <div matLine><strong> Entidade </strong></div>
+      <div matLine class="info"> {{ object._department.name }} </div>
     </mat-list-item>
   </mat-list>
 </div>
