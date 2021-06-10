@@ -81,7 +81,7 @@ export class ReportAssessmentComponent implements OnInit {
 
   getPercentConvergeDiverge(group: Group, application: Application) {
     const questions = group.questions;
-    
+
     const converge = application.answers.filter(
       answer => questions.find(question => question === answer.question.id) && answer.resultIsConverge
     );
