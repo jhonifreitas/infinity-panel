@@ -170,6 +170,9 @@
           <app-input label="Entidade" type="select" [items]="departments" [control]="companyControls.departmentId" (inputChange)="departmentChange()"></app-input>
         </div>
         <div fxFlex="50">
+          <app-input label="Área" type="select" [items]="areas" [control]="companyControls.areaId" (inputChange)="areaChange()"></app-input>
+        </div>
+        <div fxFlex="50">
           <app-input label="Cargo" type="select" [items]="posts" [control]="companyControls.postId"></app-input>
         </div>
       </div>

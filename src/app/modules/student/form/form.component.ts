@@ -11,7 +11,7 @@ import { State } from 'src/app/models/default/state';
 import { Genre } from 'src/app/models/default/genre';
 import { FileUpload } from 'src/app/interfaces/base';
 import { CivilStatus } from 'src/app/models/default/civil-status';
-import { Branch, Company, Department, Post } from 'src/app/models/company';
+import { Company, Branch, Department, Area, Post } from 'src/app/models/company';
 
 import { UtilService } from 'src/app/services/util.service';
 import { ValidatorService } from 'src/app/services/validator.service';
@@ -19,6 +19,7 @@ import { ZipcodeService } from 'src/app/services/api/zipcode.service';
 import { StudentService } from 'src/app/services/firebase/student.service';
 import { CompanyService } from 'src/app/services/firebase/company/company.service';
 import { CompanyPostService } from 'src/app/services/firebase/company/post.service';
+import { CompanyAreaService } from 'src/app/services/firebase/company/area.service';
 import { CompanyBranchService } from 'src/app/services/firebase/company/branch.service';
 import { CompanyDepartmentService } from 'src/app/services/firebase/company/department.service';
 
@@ -47,6 +48,7 @@ export class StudentFormComponent implements OnInit {
   addressCities: City[] = [];
 
   posts: Post[] = [];
+  areas: Area[] = [];
   branches: Branch[] = [];
   companies: Company[] = [];
   departments: Department[] = [];
@@ -59,6 +61,7 @@ export class StudentFormComponent implements OnInit {
     private _zipcode: ZipcodeService,
     private _company: CompanyService,
     private _post: CompanyPostService,
+    private _area: CompanyAreaService,
     private _validator: ValidatorService,
     private _branch: CompanyBranchService,
     private activatedRoute: ActivatedRoute,
@@ -100,6 +103,7 @@ export class StudentFormComponent implements OnInit {
         companyId: new FormControl('', Validators.required),
         branchId: new FormControl({value: '', disabled: true}, Validators.required),
         departmentId: new FormControl({value: '', disabled: true}, Validators.required),
+        areaId: new FormControl({value: '', disabled: true}, Validators.required),
         postId: new FormControl({value: '', disabled: true}, Validators.required),
       }),
 
@@ -238,7 +242,14 @@ export class StudentFormComponent implements OnInit {
 
   async departmentChange() {
     const departmentId = this.companyControls.departmentId.value;
-    this.posts = await this._post.getWhere('departmentId', '==', departmentId);
+    this.areas = await this._area.getWhere('departmentId', '==', departmentId);
+    if (this.areas.length) this.companyControls.areaId.enable();
+    else this.companyControls.areaId.disable();
+  }
+
+  async areaChange() {
+    const areaId = this.companyControls.areaId.value;
+    this.posts = await this._post.getWhere('areaId', '==', areaId);
     if (this.posts.length) this.companyControls.postId.enable();
     else this.companyControls.postId.disable();
   }
