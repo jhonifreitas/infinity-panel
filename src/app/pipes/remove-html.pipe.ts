@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class RemoveHtmlPipe implements PipeTransform {
 
   transform(value: string): string {
-    return value.replace(/<[^>]*>/g, '');
+    return value.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
   }
 
 }

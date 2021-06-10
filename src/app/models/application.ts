@@ -74,6 +74,16 @@ export class Answer {
   get resultIsDiverge() {
     return this.question.result === 'NA' && (this.getResultNeuro === 'NA' || this.getResultNeuro === 'NB');
   }
+
+  get resultIsIMC() {
+    return (this.question.result === 'PA' && this.getResultNeuro === 'PA') ||
+      (this.question.result === 'NA' && this.getResultNeuro === 'NA');
+  }
+
+  get resultIsIMD() {
+    return (this.question.result === 'PA' && this.getResultNeuro === 'NA') ||
+      (this.question.result === 'NA' && this.getResultNeuro === 'PA');
+  }
 }
 
 class ApplicationStudent {

@@ -139,13 +139,13 @@
                 <ng-container *ngFor="let application of result.applications; index as applicationIndex">
                   <td *ngIf="applicationIndex != 0"></td>
                   <td class="border">IMC</td>
-                  <td class="border">10%</td>
+                  <td class="border">{{ getPercentConvergeDiverge(group, application).imc | number: '1.0-2' }}%</td>
                   <td class="border">C</td>
-                  <td class="border">{{ getPercentConvergeDiverge(application).converge }}%</td>
+                  <td class="border">{{ getPercentConvergeDiverge(group, application).converge | number: '1.0-2' }}%</td>
                   <td class="border">IMD</td>
-                  <td class="border">25%</td>
+                  <td class="border">{{ getPercentConvergeDiverge(group, application).imd | number: '1.0-2' }}%</td>
                   <td class="border">D</td>
-                  <td class="border">{{ getPercentConvergeDiverge(application).diverge }}%</td>
+                  <td class="border">{{ getPercentConvergeDiverge(group, application).diverge | number: '1.0-2' }}%</td>
                 </ng-container>
               </tr>
             </ng-container>

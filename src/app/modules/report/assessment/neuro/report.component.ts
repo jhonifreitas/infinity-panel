@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Access } from 'src/app/models/access';
 import { Student } from 'src/app/models/student';
 import { Answer, Application } from 'src/app/models/application';
-import { Assessment, Question } from 'src/app/models/assessment';
+import { Assessment, Group, Question } from 'src/app/models/assessment';
 
 import { UtilService } from 'src/app/services/util.service';
 import { AccessService } from 'src/app/services/firebase/access.service';
@@ -79,11 +79,29 @@ export class ReportAssessmentComponent implements OnInit {
     return application.answers.find(answ => answ.question.id === question.id)?.getResultNeuro;
   }
 
-  getPercentConvergeDiverge(application: Application) {
-    const converge = application.answers.filter(answer => answer.resultIsConverge).length;
-    const diverge = application.answers.filter(answer => answer.resultIsDiverge).length;
-    console.log(converge);
-    return {converge, diverge};
+  getPercentConvergeDiverge(group: Group, application: Application) {
+    const questions = group.questions;
+    
+    const converge = application.answers.filter(
+      answer => questions.find(question => question === answer.question.id) && answer.resultIsConverge
+    );
+    const diverge = application.answers.filter(
+      answer => questions.find(question => question === answer.question.id) && answer.resultIsDiverge
+    );
+
+    const imc = application.answers.filter(
+      answer => questions.find(question => question === answer.question.id) && answer.resultIsIMC
+    );
+    const imd = application.answers.filter(
+      answer => questions.find(question => question === answer.question.id) && answer.resultIsIMD
+    );
+
+    return {
+      imc: imc.length / questions.length * 100,
+      imd: imd.length / questions.length * 100,
+      converge: converge.length / questions.length * 100,
+      diverge: diverge.length / questions.length * 100
+    };
   }
 
   async onSubmit() {
