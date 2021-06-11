@@ -25,8 +25,8 @@ export class AccessDetailComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.loading = true;
     if (this.object.companyId) this.object._company = await this._company.getById(this.object.companyId);
+    this.object._assessments = [];
     for (const assessmentId of this.object.assessmentIds) {
-      this.object._assessments = [];
       const assessment = await this._assessment.getById(assessmentId);
       this.object._assessments.push(assessment);
     }

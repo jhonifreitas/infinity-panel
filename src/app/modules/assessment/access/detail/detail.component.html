@@ -43,7 +43,7 @@
         <mat-chip-list *ngIf="object._assessments">
           <mat-chip *ngFor="let assessment of object._assessments" color="primary" selected>{{ assessment.name }}</mat-chip>
         </mat-chip-list>
-        <div matLine class="info" *ngIf="!object._assessments">---</div>
+        <div matLine class="info" *ngIf="!object._assessments?.length">---</div>
       </div>
     </mat-list-item>
 

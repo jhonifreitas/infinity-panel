@@ -20,6 +20,16 @@
         <mat-header-cell mat-sort-header *matHeaderCellDef> Código </mat-header-cell>
         <mat-cell matRipple *matCellDef="let element" fxFlexAlign="stretch" (click)="openDetail(element)"> {{ element.code }} </mat-cell>
       </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell mat-sort-header *matHeaderCellDef> Quantidade </mat-header-cell>
+        <mat-cell matRipple *matCellDef="let element" (click)="openDetail(element)"> {{ element.quantity }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="used">
+        <mat-header-cell mat-sort-header *matHeaderCellDef> Usado </mat-header-cell>
+        <mat-cell matRipple *matCellDef="let element" (click)="openDetail(element)"> {{ element.used }} </mat-cell>
+      </ng-container>
   
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef fxFlex="10">  </mat-header-cell>

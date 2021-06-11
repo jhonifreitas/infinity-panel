@@ -26,7 +26,7 @@ export class AccessListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Access>;
-  displayedColumns: string[] = ['code', 'actions'];
+  displayedColumns: string[] = ['code', 'quantity', 'used', 'actions'];
 
   canAdd = this._permission.check(Page.AccessPage, PageRole.CanAdd);
   canView = this._permission.check(Page.AccessPage, PageRole.CanView);
