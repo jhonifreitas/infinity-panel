@@ -9,4 +9,8 @@ export class Genre {
       {id: 'other', name: 'Outro'},
     ] as Genre[];
   }
+
+  static getName(id: string) {
+    return Genre.all.find(genre => genre.id === id).name;
+  }
 }

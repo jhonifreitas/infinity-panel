@@ -10,4 +10,8 @@ export class CivilStatus {
       {id: 'widower', name: 'Viúvo(a)'}
     ] as CivilStatus[];
   }
+
+  static getName(id: string) {
+    return CivilStatus.all.find(status => status.id === id).name;
+  }
 }

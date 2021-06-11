@@ -1,5 +1,8 @@
-import { Base } from './base';
 import { differenceInYears } from 'date-fns';
+
+import { Base } from './base';
+import { Genre } from './default/genre';
+import { CivilStatus } from './default/civil-status';
 import { Company, Branch, Department, Area, Post } from './company';
 
 export class Student extends Base {
@@ -33,6 +36,16 @@ export class Student extends Base {
   constructor() {
     super();
     this.authType = 'email';
+  }
+
+  get getGenre() {
+    if (!this.genre) return null;
+    return Genre.getName(this.genre);
+  }
+
+  get getCivilStatus() {
+    if (!this.civilStatus) return null;
+    return CivilStatus.getName(this.civilStatus);
   }
 
   get getAge() {

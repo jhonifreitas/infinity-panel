@@ -71,10 +71,6 @@ export class Answer {
     return this.question.result === 'PA' && (this.getResultNeuro === 'PA' || this.getResultNeuro === 'PB');
   }
 
-  get resultIsDiverge() {
-    return this.question.result === 'NA' && (this.getResultNeuro === 'NA' || this.getResultNeuro === 'NB');
-  }
-
   get resultIsIMC() {
     return (this.question.result === 'PA' && this.getResultNeuro === 'PA') ||
       (this.question.result === 'NA' && this.getResultNeuro === 'NA');

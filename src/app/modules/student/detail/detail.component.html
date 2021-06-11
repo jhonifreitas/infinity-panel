@@ -13,12 +13,12 @@
     <mat-list-item>
       <mat-icon matListIcon>transgender</mat-icon>
       <div matLine><strong> Gênero </strong></div>
-      <div matLine class="info"> {{ object.genre || '---' }} </div>
+      <div matLine class="info"> {{ object.getGenre || '---' }} </div>
     </mat-list-item>
     <mat-list-item>
       <mat-icon matListIcon>wc</mat-icon>
       <div matLine><strong> Estado Civil </strong></div>
-      <div matLine class="info"> {{ object.civilStatus || '---' }} </div>
+      <div matLine class="info"> {{ object.getCivilStatus || '---' }} </div>
     </mat-list-item>
     <mat-list-item>
       <mat-icon matListIcon>school</mat-icon>

@@ -79,14 +79,14 @@ export class ReportAssessmentComponent implements OnInit {
     return application.answers.find(answ => answ.question.id === question.id)?.getResultNeuro;
   }
 
-  getPercentConvergeDiverge(group: Group, application: Application) {
+  getPercent(group: Group, application: Application) {
     const questions = group.questions;
 
     const converge = application.answers.filter(
       answer => questions.find(question => question === answer.question.id) && answer.resultIsConverge
     );
     const diverge = application.answers.filter(
-      answer => questions.find(question => question === answer.question.id) && answer.resultIsDiverge
+      answer => questions.find(question => question === answer.question.id) && !answer.resultIsConverge
     );
 
     const imc = application.answers.filter(
@@ -102,6 +102,44 @@ export class ReportAssessmentComponent implements OnInit {
       converge: converge.length / questions.length * 100,
       diverge: diverge.length / questions.length * 100
     };
+  }
+
+  async getProfile(studentId: string) {
+    const subscription = await this._subscription.getByAccessIdByStudentId(this.controls.accessId.value, studentId).catch(_ => {});
+    if (!subscription) return null;
+    let assessment: Assessment = null;
+    for (const assessmentId of subscription.assessmentIds) {
+      const assess = await this._assessment.getById(assessmentId);
+      if (assess.type === 'profile') assessment = assess;
+    }
+    if (!assessment) return null;
+    const application = (await this._application.getByAssementIdByStudentId(assessment.id, studentId))[0];
+    if (!application) return null;
+
+    let dog = 0;
+    let lion = 0;
+    let monkey = 0;
+    let peacock = 0;
+    const total = application.answers.length;
+    let type: 'dog' | 'lion' | 'monkey' | 'peacock' = 'monkey';
+
+    for (const answer of application.answers)
+      if (answer.alternative === 'dog') dog += 1;
+      else if (answer.alternative === 'lion') lion += 1;
+      else if (answer.alternative === 'monkey') monkey += 1;
+      else if (answer.alternative === 'peacock') peacock += 1;
+
+    if (dog > lion && dog > monkey && dog > peacock) type = 'dog';
+    else if (lion > monkey && lion > dog && lion > peacock) type = 'lion';
+    else if (peacock > monkey && lion > dog && peacock > lion) type = 'peacock';
+
+    const result = [
+      { type: 'dog', value: (dog / total) * 100 }, 
+      { type: 'lion', value: (lion / total) * 100 },
+      { type: 'monkey', value: (monkey / total) * 100 },
+      { type: 'peacock', value: (peacock / total) * 100 }
+    ];
+    return result.sort((a, b) => a.value - b.value);
   }
 
   async onSubmit() {
@@ -132,6 +170,7 @@ export class ReportAssessmentComponent implements OnInit {
       for (const application of applications) {
         application.answers = application.answers.map(answer => Object.assign(new Answer(), answer));
         application._student = Object.assign(new Student(), await this._student.getById(application.student.id));
+        application._student['profiles'] = await this.getProfile(application.student.id);
         if (application._student.company.companyId)
           application._student.company._company = await this._company.getById(application._student.company.companyId);
         if (application._student.company.branchId)
