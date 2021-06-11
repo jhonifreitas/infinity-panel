@@ -134,7 +134,7 @@ export class ReportAssessmentComponent implements OnInit {
     else if (peacock > monkey && lion > dog && peacock > lion) type = 'peacock';
 
     const result = [
-      { type: 'dog', value: (dog / total) * 100 }, 
+      { type: 'dog', value: (dog / total) * 100 },
       { type: 'lion', value: (lion / total) * 100 },
       { type: 'monkey', value: (monkey / total) * 100 },
       { type: 'peacock', value: (peacock / total) * 100 }
