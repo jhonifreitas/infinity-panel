@@ -104,8 +104,8 @@ export class ReportAssessmentComponent implements OnInit {
     };
   }
 
-  async getProfile(studentId: string) {
-    const subscription = await this._subscription.getByAccessIdByStudentId(this.controls.accessId.value, studentId).catch(_ => {});
+  async getProfile(studentId: string, accessId: string) {
+    const subscription = await this._subscription.getByAccessIdByStudentId(accessId, studentId).catch(_ => {});
     if (!subscription) return null;
     let assessment: Assessment = null;
     for (const assessmentId of subscription.assessmentIds) {
@@ -113,7 +113,7 @@ export class ReportAssessmentComponent implements OnInit {
       if (assess.type === 'profile') assessment = assess;
     }
     if (!assessment) return null;
-    const application = (await this._application.getByAssementIdByStudentId(assessment.id, studentId))[0];
+    const application = (await this._application.getByAssementIdByStudentIdByAccessId(assessment.id, studentId, accessId))[0];
     if (!application) return null;
 
     let dog = 0;
@@ -159,18 +159,11 @@ export class ReportAssessmentComponent implements OnInit {
       }
 
       // APPLICATION
-      let applications = await this._application.getByAssementId(assessment.id);
-      applications = applications.filter(async application => {
-        return await this._subscription.getByAccessIdByStudentIdByAssessmentId(
-          value.accessId,
-          application.student.id,
-          value.assessmentId
-        ).catch(_ => {});
-      });
+      const applications = await this._application.getByAssementIdByAccessId(assessment.id, value.accessId);
       for (const application of applications) {
         application.answers = application.answers.map(answer => Object.assign(new Answer(), answer));
         application._student = Object.assign(new Student(), await this._student.getById(application.student.id));
-        application._student['profiles'] = await this.getProfile(application.student.id);
+        application._student['profiles'] = await this.getProfile(application.student.id, value.accessId);
         if (application._student.company.companyId)
           application._student.company._company = await this._company.getById(application._student.company.companyId);
         if (application._student.company.branchId)

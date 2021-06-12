@@ -100,4 +100,5 @@ class Course {
 class Assessment {
   id: string;
   name: string;
+  accessId: string;
 }

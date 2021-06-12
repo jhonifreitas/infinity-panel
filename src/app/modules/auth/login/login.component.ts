@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { UtilService } from 'src/app/services/util.service';
@@ -17,6 +17,7 @@ export class LoginFormComponent implements OnInit {
   formGroup: FormGroup;
 
   constructor(
+    private ngZone: NgZone,
     private router: Router,
     private _util: UtilService,
     private _auth: AuthService,
@@ -41,7 +42,7 @@ export class LoginFormComponent implements OnInit {
       const value = this.formGroup.value;
       await this._auth.signIn(value.email, value.password).then(res => {
         this._storage.setUser(res);
-        this.router.navigateByUrl('/');
+        this.ngZone.run(_ => this.router.navigateByUrl('/'));
       }).catch(err => {
         this._util.message('E-mail ou senha inválido!', 'warn');
       });

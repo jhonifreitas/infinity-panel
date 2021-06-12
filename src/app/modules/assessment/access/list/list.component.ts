@@ -26,7 +26,7 @@ export class AccessListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Access>;
-  displayedColumns: string[] = ['code', 'quantity', 'used', 'actions'];
+  displayedColumns: string[] = ['code', 'quantity', 'used', 'active', 'actions'];
 
   canAdd = this._permission.check(Page.AccessPage, PageRole.CanAdd);
   canView = this._permission.check(Page.AccessPage, PageRole.CanView);
@@ -41,7 +41,7 @@ export class AccessListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._access.getAllActive();
+    const items = await this._access.getAll();
     this.dataSource = new MatTableDataSource<Access>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;

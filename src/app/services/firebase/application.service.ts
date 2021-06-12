@@ -17,15 +17,20 @@ export class ApplicationService extends FirebaseAbstract<Application> {
     super(db, ApplicationService.collectionName);
   }
 
-  async getByAssementId(assessmentId: string) {
-    return this.getWhere('assessment.id', '==', assessmentId);
+  async getByAssementIdByAccessId(assessmentId: string, accessId: string) {
+    const where = [
+      new FirebaseWhere('assessment.id', '==', assessmentId),
+      new FirebaseWhere('assessment.accessId', '==', accessId),
+    ];
+    return this.getWhereMany(where);
   }
 
-  async getByAssementIdByStudentId(assessmentId: string, studentId: string) {
+  async getByAssementIdByStudentIdByAccessId(assessmentId: string, studentId: string, accessId: string) {
     const where = [
       new FirebaseWhere('end', '!=', null),
       new FirebaseWhere('student.id', '==', studentId),
       new FirebaseWhere('assessment.id', '==', assessmentId),
+      new FirebaseWhere('assessment.accessId', '==', accessId),
     ];
     return this.getWhereMany(where);
   }
