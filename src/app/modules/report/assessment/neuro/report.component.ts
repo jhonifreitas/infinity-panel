@@ -110,7 +110,7 @@ export class ReportAssessmentComponent implements OnInit {
     return {
       converge: converge.length / assessment._questions.length * 100,
       diverge: diverge.length / assessment._questions.length * 100
-    }
+    };
   }
 
   async getProfile(studentId: string, accessId: string) {
@@ -177,7 +177,7 @@ export class ReportAssessmentComponent implements OnInit {
         application.answers = application.answers.map(answer => Object.assign(new Answer(), answer));
         application._student = Object.assign(new Student(), await this._student.getById(application.student.id));
         application._student['profiles'] = await this.getProfile(application.student.id, value.accessId);
-        
+
         const convergeDiverge = this.getAllConvergeDiverge(application, assessment);
         application._student['converge'] = convergeDiverge.converge;
         application._student['diverge'] = convergeDiverge.diverge;
