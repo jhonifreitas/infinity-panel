@@ -104,6 +104,15 @@ export class ReportAssessmentComponent implements OnInit {
     };
   }
 
+  getAllConvergeDiverge(application: Application, assessment: Assessment) {
+    const converge = application.answers.filter(answer => answer.resultIsConverge);
+    const diverge = application.answers.filter(answer => !answer.resultIsConverge);
+    return {
+      converge: converge.length / assessment._questions.length * 100,
+      diverge: diverge.length / assessment._questions.length * 100
+    }
+  }
+
   async getProfile(studentId: string, accessId: string) {
     const subscription = await this._subscription.getByAccessIdByStudentId(accessId, studentId).catch(_ => {});
     if (!subscription) return null;
@@ -150,20 +159,29 @@ export class ReportAssessmentComponent implements OnInit {
       // ASSESSMENT
       const assessment = this.assessments.find(assess => assess.id === value.assessmentId);
       assessment._groups = [];
+      assessment._questions = [];
       for (const groupId of assessment.groups) {
         const group = await this._group.getById(groupId);
         group._questions = [];
-        for (const questionId of group.questions)
-          group._questions.push(await this._question.getById(questionId));
+        for (const questionId of group.questions) {
+          const question = await this._question.getById(questionId);
+          group._questions.push(question);
+          assessment._questions.push(question);
+        }
         assessment._groups.push(group);
       }
 
       // APPLICATION
-      const applications = await this._application.getByAssementIdByAccessId(assessment.id, value.accessId);
+      let applications = await this._application.getByAssementIdByAccessId(assessment.id, value.accessId);
       for (const application of applications) {
         application.answers = application.answers.map(answer => Object.assign(new Answer(), answer));
         application._student = Object.assign(new Student(), await this._student.getById(application.student.id));
         application._student['profiles'] = await this.getProfile(application.student.id, value.accessId);
+        
+        const convergeDiverge = this.getAllConvergeDiverge(application, assessment);
+        application._student['converge'] = convergeDiverge.converge;
+        application._student['diverge'] = convergeDiverge.diverge;
+
         if (application._student.company.companyId)
           application._student.company._company = await this._company.getById(application._student.company.companyId);
         if (application._student.company.branchId)
@@ -173,6 +191,17 @@ export class ReportAssessmentComponent implements OnInit {
         if (application._student.company.postId)
           application._student.company._post = await this._post.getById(application._student.company.postId);
       }
+
+      const rankingConverge = applications.sort((a, b) => a['converge'] - b['converge']);
+      const rankingDiverge = applications.sort((a, b) => a['diverge'] - b['diverge']);
+
+      applications = applications.map(app => {
+        const rankConverge = rankingConverge.findIndex(x => x.student.id === app.student.id) + 1;
+        const rankDiverge = rankingDiverge.findIndex(x => x.student.id === app.student.id) + 1;
+        app._student['rankConverge'] = `${rankConverge}º`;
+        app._student['rankDiverge'] = `${rankDiverge}º`;
+        return app;
+      });
 
       if (!applications.length) this._util.message('Nenhuma aplicação encontrada!', 'warn');
       else this.result = {assessment, applications};
