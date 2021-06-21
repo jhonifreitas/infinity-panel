@@ -64,7 +64,7 @@ export class AssessmentInstructionFormComponent implements OnInit {
       Object.assign(this.data, value);
 
       await this._instruction.save(this.data).then(async id => {
-        if (id) this.data.id;
+        if (id) this.data.id = id;
         await this.uploadImages();
       });
 
