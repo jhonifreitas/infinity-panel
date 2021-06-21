@@ -101,26 +101,31 @@ export class AssessmentQuestionFormComponent implements OnInit {
     this.controlAlternatives.updateValueAndValidity();
   }
 
-  async onSubmit(): Promise<void> {
-    if (this.formGroup.valid) {
-      this.saving = true;
-      const value = this.formGroup.value;
-
-      const tagImgs: HTMLImageElement[] = [].slice.call(document.getElementsByClassName('ql-editor')[0].getElementsByTagName('img'));
+  async uploadImages() {
+    const tagImgs: HTMLImageElement[] = [].slice.call(document.getElementsByClassName('ql-editor')[0].getElementsByTagName('img'));
       for (let i = 0; i < tagImgs.length; i++) {
         const tag: HTMLImageElement = tagImgs[i];
         const src: string = tag.src;
         if (src.indexOf('base64') >= 0) {
           const file = await this._util.uploadCompress(src);
           const url = await this._question.uploadImage(i.toString(), file.file);
-          value.text = value.text.replace(src, url);
+          await this._question.update(this.data.id, {text: this.data.text.replace(src, url)});
         } else if (src.indexOf('firebasestorage.googleapis.com') >= 0 && this.data.text.indexOf(src) < 0)
           await this._question.deleteImageByURL(src);
       }
+  }
+
+  async onSubmit(): Promise<void> {
+    if (this.formGroup.valid) {
+      this.saving = true;
+      const value = this.formGroup.value;
 
       Object.assign(this.data, value);
 
-      await this._question.save(this.data);
+      await this._question.save(this.data).then(async id => {
+        if (id) this.data.id;
+        await this.uploadImages();
+      });
 
       this.saving = false;
       this._util.message('Questão salva com sucesso!', 'success');
