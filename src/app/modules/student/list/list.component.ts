@@ -11,6 +11,8 @@ import { StudentDetailComponent } from '../detail/detail.component';
 import { UtilService } from 'src/app/services/util.service';
 import { PermissionService } from 'src/app/services/permission.service';
 import { StudentService } from 'src/app/services/firebase/student.service';
+import { CompanyAreaService } from 'src/app/services/firebase/company/area.service';
+import { CompanyPostService } from 'src/app/services/firebase/company/post.service';
 
 @Component({
   selector: 'app-student-list',
@@ -25,7 +27,7 @@ export class StudentListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Student>;
-  displayedColumns: string[] = ['name', 'email', 'deletedAt', 'image', 'actions'];
+  displayedColumns: string[] = ['name', 'email', 'company._area.name', 'company._post.name', 'deletedAt', 'image', 'actions'];
 
   canAdd = this._permission.check(Page.StudentPage, PageRole.CanAdd);
   canView = this._permission.check(Page.StudentPage, PageRole.CanView);
@@ -35,13 +37,28 @@ export class StudentListComponent implements OnInit {
   constructor(
     private _util: UtilService,
     private _student: StudentService,
+    private _area: CompanyAreaService,
+    private _post: CompanyPostService,
     public _permission: PermissionService,
   ) { }
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
     const items = await this._student.getAll();
+    for (const item of items) {
+      if (item.company) {
+        if (item.company.areaId) item.company._area = await this._area.getById(item.company.areaId);
+        if (item.company.postId) item.company._post = await this._post.getById(item.company.postId);
+      }
+    }
     this.dataSource = new MatTableDataSource<Student>(items);
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'company._area.name': return item.company?._area?.name;
+        case 'company._post.name': return item.company?._post?.name;
+        default: return item[property];
+      }
+    };
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.loading = false;

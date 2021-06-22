@@ -26,6 +26,16 @@
         <mat-cell *matCellDef="let element"> {{ element.email }} </mat-cell>
       </ng-container>
 
+      <ng-container matColumnDef="company._area.name">
+        <mat-header-cell mat-sort-header *matHeaderCellDef> Área </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.company?._area?.name || '---' }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="company._post.name">
+        <mat-header-cell mat-sort-header *matHeaderCellDef> Cargo </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.company?._post?.name || '---' }} </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="deletedAt">
         <mat-header-cell mat-sort-header *matHeaderCellDef fxFlex="10" fxLayoutAlign="center center"> Ativo </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10" fxLayoutAlign="center center">
