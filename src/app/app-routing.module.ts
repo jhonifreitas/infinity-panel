@@ -20,12 +20,14 @@ import { CompanyPostListComponent } from './modules/company/post/list/list.compo
 import { CompanyAreaListComponent } from './modules/company/area/list/list.component';
 import { CompanyBranchListComponent } from './modules/company/branch/list/list.component';
 import { AssessmentGroupListComponent } from './modules/assessment/group/list/list.component';
-import { ReportAssessmentComponent } from './modules/report/assessment/neuro/report.component';
 import { CompanyDepartmentListComponent } from './modules/company/department/list/list.component';
+import { ReportAssessmentNeuroComponent } from './modules/report/assessment/neuro/report.component';
 import { PasswordResetFormComponent } from './modules/auth/password-reset/password-reset.component';
 import { AssessmentQuestionListComponent } from './modules/assessment/question/list/list.component';
 import { ForgotPasswordFormComponent } from './modules/auth/forgot-password/forgot-password.component';
 import { AssessmentInstructionListComponent } from './modules/assessment/instruction/list/list.component';
+import { ReportAssessmentStudentNeuroComponent } from './modules/report/assessment/student-neuro/report.component';
+import { ReportAssessmentStudentProfileComponent } from './modules/report/assessment/student-profile/report.component';
 
 const routes: Routes = [
 
@@ -134,9 +136,21 @@ const routes: Routes = [
       path: 'relatorios',
       children: [
         {
-          path: 'assessment',
+          path: 'assessment/neuro',
           canActivate: [PermissionGuard],
-          component: ReportAssessmentComponent,
+          component: ReportAssessmentNeuroComponent,
+          data: {permissions: [{page: Page.ReportAssessmentPage, role: PageRole.CanList}]},
+        },
+        {
+          path: 'assessment/individual/neuro',
+          canActivate: [PermissionGuard],
+          component: ReportAssessmentStudentNeuroComponent,
+          data: {permissions: [{page: Page.ReportAssessmentPage, role: PageRole.CanList}]},
+        },
+        {
+          path: 'assessment/individual/profile',
+          canActivate: [PermissionGuard],
+          component: ReportAssessmentStudentProfileComponent,
           data: {permissions: [{page: Page.ReportAssessmentPage, role: PageRole.CanList}]},
         }
       ]

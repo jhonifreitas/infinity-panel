@@ -45,9 +45,15 @@ export class SidebarComponent implements OnInit {
       },
     ]},
     { title: 'Relatórios', icon: 'receipt_long', hidden: false, subItems: [
-      { title: 'Assessment', url: '/relatorios/assessment', icon: 'gavel', hidden: false, permission: {
+      { title: 'Assessment Neuro', url: '/relatorios/assessment/neuro', icon: 'gavel', hidden: false, permission: {
         page: Page.ReportAssessmentPage, role: PageRole.CanList}
       },
+      { title: 'Individual Assessment Profile', url: '/relatorios/assessment/individual/profile', icon: 'gavel', hidden: false, permission: {
+        page: Page.ReportAssessmentPage, role: PageRole.CanList}
+      },
+      // { title: 'Individual Assessment Neuro', url: '/relatorios/assessment/individual/neuro', icon: 'gavel', hidden: false, permission: {
+      //   page: Page.ReportAssessmentPage, role: PageRole.CanList}
+      // },
     ]},
     { title: 'Alunos', url: '/alunos', icon: 'person', hidden: false, permission: {
       page: Page.UserPage, role: PageRole.CanList}

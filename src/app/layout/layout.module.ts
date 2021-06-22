@@ -88,7 +88,9 @@ import { AssessmentInstructionListComponent } from 'src/app/modules/assessment/i
 import { AssessmentInstructionFormComponent } from 'src/app/modules/assessment/instruction/form/form.component';
 import { AssessmentInstructionDetailComponent } from 'src/app/modules/assessment/instruction/detail/detail.component';
 
-import { ReportAssessmentComponent } from 'src/app/modules/report/assessment/neuro/report.component';
+import { ReportAssessmentNeuroComponent } from 'src/app/modules/report/assessment/neuro/report.component';
+import { ReportAssessmentStudentNeuroComponent } from 'src/app/modules/report/assessment/student-neuro/report.component';
+import { ReportAssessmentStudentProfileComponent } from 'src/app/modules/report/assessment/student-profile/report.component';
 
 import { DashboardComponent } from 'src/app/modules/dashboard/dashboard.component';
 import { DeleteComponent } from 'src/app/shared/components/delete/delete.component';
@@ -147,7 +149,6 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     CompanyPostFormComponent,
     CompanyAreaListComponent,
     CompanyAreaFormComponent,
-    ReportAssessmentComponent,
     AssessmentDetailComponent,
     CompanyAreaDetailComponent,
     CompanyPostDetailComponent,
@@ -156,6 +157,7 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     CompanyBranchDetailComponent,
     AssessmentGroupListComponent,
     AssessmentGroupFormComponent,
+    ReportAssessmentNeuroComponent,
     AssessmentGroupDetailComponent,
     CompanyDepartmentListComponent,
     CompanyDepartmentFormComponent,
@@ -165,7 +167,9 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     AssessmentQuestionDetailComponent,
     AssessmentInstructionListComponent,
     AssessmentInstructionFormComponent,
-    AssessmentInstructionDetailComponent
+    AssessmentInstructionDetailComponent,
+    ReportAssessmentStudentNeuroComponent,
+    ReportAssessmentStudentProfileComponent,
   ],
   imports: [
     FormsModule,

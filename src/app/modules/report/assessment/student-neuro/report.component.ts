@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Access } from 'src/app/models/access';
 import { Student } from 'src/app/models/student';
 import { Answer, Application } from 'src/app/models/application';
-import { Assessment, Group, Question } from 'src/app/models/assessment';
+import { Assessment, Question } from 'src/app/models/assessment';
 
 import { UtilService } from 'src/app/services/util.service';
 import { AccessService } from 'src/app/services/firebase/access.service';
@@ -12,7 +12,6 @@ import { StudentService } from 'src/app/services/firebase/student.service';
 import { ApplicationService } from 'src/app/services/firebase/application.service';
 import { CompanyService } from 'src/app/services/firebase/company/company.service';
 import { CompanyPostService } from 'src/app/services/firebase/company/post.service';
-import { SubscriptionService } from 'src/app/services/firebase/subscription.service';
 import { CompanyBranchService } from 'src/app/services/firebase/company/branch.service';
 import { AssessmentService } from 'src/app/services/firebase/assessment/assessment.service';
 import { AssessmentGroupService } from 'src/app/services/firebase/assessment/group.service';
@@ -24,13 +23,13 @@ import { AssessmentQuestionService } from 'src/app/services/firebase/assessment/
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.scss']
 })
-export class ReportAssessmentNeuroComponent implements OnInit {
+export class ReportAssessmentStudentNeuroComponent implements OnInit {
 
   loading = true;
   formGroup: FormGroup;
   result: {
     assessment: Assessment;
-    applications: Application[];
+    applications: Application;
   };
   accessList: Access[];
   assessments: Assessment[];
@@ -46,7 +45,6 @@ export class ReportAssessmentNeuroComponent implements OnInit {
     private _group: AssessmentGroupService,
     private _assessment: AssessmentService,
     private _application: ApplicationService,
-    private _subscription: SubscriptionService,
     private _question: AssessmentQuestionService,
     private _department: CompanyDepartmentService,
   ) {
@@ -68,7 +66,7 @@ export class ReportAssessmentNeuroComponent implements OnInit {
   }
 
   async getAssessments() {
-    this.assessments = await this._assessment.getWhere('type', '==', 'neuro');
+    this.assessments = await this._assessment.getWhere('type', '==', 'profile');
   }
 
   async getAccess() {
@@ -77,73 +75,6 @@ export class ReportAssessmentNeuroComponent implements OnInit {
 
   getResultByStudent(application: Application, question: Question) {
     return application.answers.find(answ => answ.question.id === question.id)?.getResultNeuro;
-  }
-
-  getPercent(group: Group, application: Application) {
-    const questions = group.questions;
-
-    const converge = application.answers.filter(
-      answer => questions.find(question => question === answer.question.id) && answer.resultIsConverge
-    );
-    const diverge = application.answers.filter(
-      answer => questions.find(question => question === answer.question.id) && !answer.resultIsConverge
-    );
-
-    const imc = application.answers.filter(
-      answer => questions.find(question => question === answer.question.id) && answer.resultIsIMC
-    );
-    const imd = application.answers.filter(
-      answer => questions.find(question => question === answer.question.id) && answer.resultIsIMD
-    );
-
-    return {
-      imc: imc.length / questions.length * 100,
-      imd: imd.length / questions.length * 100,
-      converge: converge.length / questions.length * 100,
-      diverge: diverge.length / questions.length * 100
-    };
-  }
-
-  getAllConvergeDiverge(application: Application, assessment: Assessment) {
-    const converge = application.answers.filter(answer => answer.resultIsConverge);
-    const diverge = application.answers.filter(answer => !answer.resultIsConverge);
-    return {
-      converge: converge.length / assessment._questions.length * 100,
-      diverge: diverge.length / assessment._questions.length * 100
-    };
-  }
-
-  async getProfile(studentId: string, accessId: string) {
-    const subscription = await this._subscription.getByAccessIdByStudentId(accessId, studentId).catch(_ => {});
-    if (!subscription) return null;
-    let assessment: Assessment = null;
-    for (const assessmentId of subscription.assessmentIds) {
-      const assess = await this._assessment.getById(assessmentId);
-      if (assess.type === 'profile') assessment = assess;
-    }
-    if (!assessment) return null;
-    const application = (await this._application.getByAssementIdByStudentIdByAccessId(assessment.id, studentId, accessId))[0];
-    if (!application) return null;
-
-    let dog = 0;
-    let lion = 0;
-    let monkey = 0;
-    let peacock = 0;
-    const total = application.answers.length;
-
-    for (const answer of application.answers)
-      if (answer.alternative === 'dog') dog += 1;
-      else if (answer.alternative === 'lion') lion += 1;
-      else if (answer.alternative === 'monkey') monkey += 1;
-      else if (answer.alternative === 'peacock') peacock += 1;
-
-    const result = [
-      { type: 'dog', value: (dog / total) * 100 },
-      { type: 'lion', value: (lion / total) * 100 },
-      { type: 'monkey', value: (monkey / total) * 100 },
-      { type: 'peacock', value: (peacock / total) * 100 }
-    ];
-    return result.sort((a, b) => b.value - a.value);
   }
 
   async onSubmit() {
@@ -171,11 +102,6 @@ export class ReportAssessmentNeuroComponent implements OnInit {
       for (const application of applications) {
         application.answers = application.answers.map(answer => Object.assign(new Answer(), answer));
         application._student = Object.assign(new Student(), await this._student.getById(application.student.id));
-        application._student['profiles'] = await this.getProfile(application.student.id, value.accessId);
-
-        const convergeDiverge = this.getAllConvergeDiverge(application, assessment);
-        application._student['converge'] = convergeDiverge.converge;
-        application._student['diverge'] = convergeDiverge.diverge;
 
         if (application._student.company.companyId)
           application._student.company._company = await this._company.getById(application._student.company.companyId);
@@ -187,25 +113,8 @@ export class ReportAssessmentNeuroComponent implements OnInit {
           application._student.company._post = await this._post.getById(application._student.company.postId);
       }
 
-      // RANKING
-      const rankingConverge = applications.sort((a, b) => a['converge'] - b['converge']);
-      const rankingDiverge = applications.sort((a, b) => a['diverge'] - b['diverge']);
-      applications = applications.map(app => {
-        const rankConverge = rankingConverge.findIndex(x => x.student.id === app.student.id) + 1;
-        const rankDiverge = rankingDiverge.findIndex(x => x.student.id === app.student.id) + 1;
-        app._student['rankConverge'] = `${rankConverge}º`;
-        app._student['rankDiverge'] = `${rankDiverge}º`;
-        return app;
-      });
-
-      // TEAM PORCENT
-      for (const application of applications) {
-        const teams = applications.filter(app => app._student.company.areaId === application._student.company.areaId);
-        
-      }
-
       if (!applications.length) this._util.message('Nenhuma aplicação encontrada!', 'warn');
-      else this.result = {assessment, applications};
+      // else this.result = {assessment, applications};
 
       this.loading = false;
     } else this._util.message('Verifique os dados antes de buscar!', 'warn');
