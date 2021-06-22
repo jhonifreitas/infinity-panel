@@ -27,7 +27,7 @@ export class CompanyPostListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Post>;
-  displayedColumns: string[] = ['name', '_area', 'level', 'actions'];
+  displayedColumns: string[] = ['name', '_area', 'level', 'deletedAt', 'actions'];
 
   canAdd = this._permission.check(Page.CompanyPage, PageRole.CanAdd);
   canView = this._permission.check(Page.CompanyPage, PageRole.CanView);
@@ -43,7 +43,7 @@ export class CompanyPostListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._post.getAllActive();
+    const items = await this._post.getAll();
     for (const item of items) item._area = await this._area.getById(item.areaId);
     this.dataSource = new MatTableDataSource<Post>(items);
     this.dataSource.sort = this.sort;
@@ -66,13 +66,13 @@ export class CompanyPostListComponent implements OnInit {
   }
 
   async delete(object: Post): Promise<void> {
-    await this._post.delete(object.id);
-    this._util.message('Cargo excluído com sucesso!', 'success');
+    await this._post.softDelete(object.id, !object.deletedAt);
+    this._util.message(`Cargo ${object.deletedAt ? 'ativado' : 'desativado'} com sucesso!`, 'success');
     this.ngOnInit();
   }
 
   confirmDelete(object: Post): void {
-    this._util.delete().then(async _ => {
+    this._util.delete(object.deletedAt ? 'enable' : 'disable').then(async _ => {
       this.delete(object);
     }).catch(_ => {});
   }

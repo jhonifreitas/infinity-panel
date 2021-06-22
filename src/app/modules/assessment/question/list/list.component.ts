@@ -26,7 +26,7 @@ export class AssessmentQuestionListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Question>;
-  displayedColumns: string[] = ['title', 'actions'];
+  displayedColumns: string[] = ['title', 'deletedAt', 'actions'];
 
   canAdd = this._permission.check(Page.AssessmentQuestionPage, PageRole.CanAdd);
   canView = this._permission.check(Page.AssessmentQuestionPage, PageRole.CanView);
@@ -41,7 +41,7 @@ export class AssessmentQuestionListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._question.getAllActive();
+    const items = await this._question.getAll();
     this.dataSource = new MatTableDataSource<Question>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -63,14 +63,14 @@ export class AssessmentQuestionListComponent implements OnInit {
   }
 
   async delete(object: Question): Promise<void> {
-    await this._question.delete(object.id);
+    await this._question.softDelete(object.id, !object.deletedAt);
     await this._question.deleteAllImages();
     this._util.message('Questão excluída com sucesso!', 'success');
     this.ngOnInit();
   }
 
   confirmDelete(object: Question): void {
-    this._util.delete().then(async _ => {
+    this._util.delete(object.deletedAt ? 'enable' : 'disable').then(async _ => {
       this.delete(object);
     }).catch(_ => {});
   }

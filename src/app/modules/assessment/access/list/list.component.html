@@ -31,7 +31,7 @@
         <mat-cell matRipple *matCellDef="let element" (click)="openDetail(element)"> {{ element.used }} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="active">
+      <ng-container matColumnDef="deletedAt">
         <mat-header-cell mat-sort-header *matHeaderCellDef fxFlex="10" fxLayoutAlign="center center"> Ativo </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10" fxLayoutAlign="center center">
           <mat-icon color="warn" *ngIf="element.deletedAt">cancel</mat-icon>
@@ -45,8 +45,8 @@
           <button mat-icon-button color="primary" (click)="openForm(element)" *ngIf="canUpdate">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="warn" (click)="confirmDelete(element)" *ngIf="canDelete">
-            <mat-icon>delete</mat-icon>
+          <button mat-icon-button [color]="element.deletedAt ? 'success' : 'warn'" (click)="confirmDelete(element)" *ngIf="canDelete">
+            <mat-icon>{{ element.deletedAt ? 'check_circle' : 'delete' }}</mat-icon>
           </button>
         </mat-cell>
       </ng-container>

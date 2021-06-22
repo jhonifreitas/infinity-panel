@@ -26,7 +26,7 @@ export class AssessmentInstructionListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Instruction>;
-  displayedColumns: string[] = ['title', 'actions'];
+  displayedColumns: string[] = ['title', 'deletedAt', 'actions'];
 
   canAdd = this._permission.check(Page.AssessmentInstructionPage, PageRole.CanAdd);
   canView = this._permission.check(Page.AssessmentInstructionPage, PageRole.CanView);
@@ -41,7 +41,7 @@ export class AssessmentInstructionListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._instruction.getAllActive();
+    const items = await this._instruction.getAll();
     this.dataSource = new MatTableDataSource<Instruction>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -63,14 +63,14 @@ export class AssessmentInstructionListComponent implements OnInit {
   }
 
   async delete(object: Instruction): Promise<void> {
-    await this._instruction.delete(object.id);
+    await this._instruction.softDelete(object.id, !object.deletedAt);
     await this._instruction.deleteAllImages();
     this._util.message('Instrução excluída com sucesso!', 'success');
     this.ngOnInit();
   }
 
   confirmDelete(object: Instruction): void {
-    this._util.delete().then(async _ => {
+    this._util.delete(object.deletedAt ? 'enable' : 'disable').then(async _ => {
       this.delete(object);
     }).catch(_ => {});
   }

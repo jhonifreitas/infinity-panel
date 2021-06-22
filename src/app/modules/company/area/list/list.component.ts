@@ -27,7 +27,7 @@ export class CompanyAreaListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Area>;
-  displayedColumns: string[] = ['name', '_department', 'actions'];
+  displayedColumns: string[] = ['name', '_department', 'deletedAt', 'actions'];
 
   canAdd = this._permission.check(Page.CompanyPage, PageRole.CanAdd);
   canView = this._permission.check(Page.CompanyPage, PageRole.CanView);
@@ -43,7 +43,7 @@ export class CompanyAreaListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._area.getAllActive();
+    const items = await this._area.getAll();
     for (const item of items) item._department = await this._department.getById(item.departmentId);
     this.dataSource = new MatTableDataSource<Area>(items);
     this.dataSource.sort = this.sort;
@@ -66,13 +66,13 @@ export class CompanyAreaListComponent implements OnInit {
   }
 
   async delete(object: Area): Promise<void> {
-    await this._area.delete(object.id);
-    this._util.message('Entidade excluído com sucesso!', 'success');
+    await this._area.softDelete(object.id, !object.deletedAt);
+    this._util.message(`Entidade ${object.deletedAt ? 'ativado' : 'desativado'} com sucesso!`, 'success');
     this.ngOnInit();
   }
 
   confirmDelete(object: Area): void {
-    this._util.delete().then(async _ => {
+    this._util.delete(object.deletedAt ? 'enable' : 'disable').then(async _ => {
       this.delete(object);
     }).catch(_ => {});
   }

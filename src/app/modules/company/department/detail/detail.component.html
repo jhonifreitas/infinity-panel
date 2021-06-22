@@ -23,5 +23,11 @@
       <div matLine><strong> Unidade </strong></div>
       <div matLine class="info"> {{ object._branch.name }} </div>
     </mat-list-item>
+
+    <mat-list-item>
+      <mat-icon matListIcon color="warn" *ngIf="object.deletedAt">cancel</mat-icon>
+      <mat-icon matListIcon color="success" *ngIf="!object.deletedAt">check_circle</mat-icon>
+      <div matLine><strong> Ativo </strong></div>
+    </mat-list-item>
   </mat-list>
 </div>

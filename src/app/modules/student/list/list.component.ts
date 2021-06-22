@@ -25,7 +25,7 @@ export class StudentListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Student>;
-  displayedColumns: string[] = ['name', 'email', 'active', 'image', 'actions'];
+  displayedColumns: string[] = ['name', 'email', 'deletedAt', 'image', 'actions'];
 
   canAdd = this._permission.check(Page.StudentPage, PageRole.CanAdd);
   canView = this._permission.check(Page.StudentPage, PageRole.CanView);
@@ -40,7 +40,7 @@ export class StudentListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._student.getAllActive();
+    const items = await this._student.getAll();
     this.dataSource = new MatTableDataSource<Student>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -57,13 +57,13 @@ export class StudentListComponent implements OnInit {
 
   async delete(object: Student): Promise<void> {
     if (object.image) await this._student.deleteImage(object.id);
-    await this._student.delete(object.id);
-    this._util.message('Aluno excluído com sucesso!', 'success');
+    await this._student.softDelete(object.id, !object.deletedAt);
+    this._util.message(`Aluno ${object.deletedAt ? 'ativado' : 'desativado'} com sucesso!`, 'success');
     this.ngOnInit();
   }
 
   confirmDelete(object: Student): void {
-    this._util.delete().then(async _ => {
+    this._util.delete(object.deletedAt ? 'enable' : 'disable').then(async _ => {
       this.delete(object);
     }).catch(_ => {});
   }

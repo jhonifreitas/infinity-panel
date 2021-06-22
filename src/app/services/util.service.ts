@@ -73,11 +73,12 @@ export class UtilService {
     });
   }
 
-  delete(): Promise<any> {
+  delete(action: 'enable' | 'disable' | 'delete'): Promise<any> {
     return new Promise(resolve => {
       const dialog = this.dialog.open(DeleteComponent, {
         maxWidth: '95vw',
         panelClass: 'dialog-delete',
+        data: {action}
       });
       dialog.afterClosed().subscribe(async (remove: boolean) => {
         if (remove) resolve(remove);

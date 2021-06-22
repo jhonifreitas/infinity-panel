@@ -113,7 +113,7 @@ export class UserFormComponent implements OnInit {
 
   async deleteImage(): Promise<void> {
     if (!this.image.new)
-      this._util.delete().then(async _ => {
+      this._util.delete('delete').then(async _ => {
         await this._user.deleteImage(this.data.id);
         this.image = null;
       }).catch(_ => {});

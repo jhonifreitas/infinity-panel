@@ -27,7 +27,7 @@ export class CompanyDepartmentListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Department>;
-  displayedColumns: string[] = ['name', '_branch', 'actions'];
+  displayedColumns: string[] = ['name', '_branch', 'deletedAt', 'actions'];
 
   canAdd = this._permission.check(Page.CompanyPage, PageRole.CanAdd);
   canView = this._permission.check(Page.CompanyPage, PageRole.CanView);
@@ -43,7 +43,7 @@ export class CompanyDepartmentListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._department.getAllActive();
+    const items = await this._department.getAll();
     for (const item of items) item._branch = await this._branch.getById(item.branchId);
     this.dataSource = new MatTableDataSource<Department>(items);
     this.dataSource.sort = this.sort;
@@ -66,13 +66,13 @@ export class CompanyDepartmentListComponent implements OnInit {
   }
 
   async delete(object: Department): Promise<void> {
-    await this._department.delete(object.id);
-    this._util.message('Entidade excluído com sucesso!', 'success');
+    await this._department.softDelete(object.id, !object.deletedAt);
+    this._util.message(`Entidade ${object.deletedAt ? 'ativado' : 'desativado'} com sucesso!`, 'success');
     this.ngOnInit();
   }
 
   confirmDelete(object: Department): void {
-    this._util.delete().then(async _ => {
+    this._util.delete(object.deletedAt ? 'enable' : 'disable').then(async _ => {
       this.delete(object);
     }).catch(_ => {});
   }

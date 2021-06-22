@@ -26,7 +26,7 @@ export class UserListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<User>;
-  displayedColumns: string[] = ['name', 'email', 'active', 'image', 'actions'];
+  displayedColumns: string[] = ['name', 'email', 'deletedAt', 'image', 'actions'];
 
   canAdd = this._permission.check(Page.UserPage, PageRole.CanAdd);
   canView = this._permission.check(Page.UserPage, PageRole.CanView);
@@ -65,12 +65,12 @@ export class UserListComponent implements OnInit {
   async delete(object: User): Promise<void> {
     if (object.image) await this._user.deleteImage(object.id);
     await this._user.delete(object.id, true);
-    this._util.message('Usuário excluído com sucesso!', 'success');
+    this._util.message(`Usuário ${object.deletedAt ? 'ativado' : 'desativado'} com sucesso!`, 'success');
     this.ngOnInit();
   }
 
   confirmDelete(object: User): void {
-    this._util.delete().then(async _ => {
+    this._util.delete(object.deletedAt ? 'enable' : 'disable').then(async _ => {
       this.delete(object);
     }).catch(_ => {});
   }

@@ -25,15 +25,23 @@
         <mat-header-cell mat-sort-header *matHeaderCellDef> Tipo </mat-header-cell>
         <mat-cell matRipple *matCellDef="let element" fxFlexAlign="stretch" (click)="openDetail(element)"> {{ element.type }} </mat-cell>
       </ng-container>
-  
+
+      <ng-container matColumnDef="deletedAt">
+        <mat-header-cell mat-sort-header *matHeaderCellDef fxFlex="10" fxLayoutAlign="center center"> Ativo </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="10" fxLayoutAlign="center center">
+          <mat-icon color="warn" *ngIf="element.deletedAt">cancel</mat-icon>
+          <mat-icon color="success" *ngIf="!element.deletedAt">check_circle</mat-icon>
+        </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef fxFlex="10">  </mat-header-cell>
         <mat-cell *matCellDef="let element" fxFlex="10">
           <button mat-icon-button color="primary" (click)="openForm(element)" *ngIf="canUpdate">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="warn" (click)="confirmDelete(element)" *ngIf="canDelete">
-            <mat-icon>delete</mat-icon>
+          <button mat-icon-button [color]="element.deletedAt ? 'success' : 'warn'" (click)="confirmDelete(element)" *ngIf="canDelete">
+            <mat-icon>{{ element.deletedAt ? 'check_circle' : 'delete' }}</mat-icon>
           </button>
         </mat-cell>
       </ng-container>

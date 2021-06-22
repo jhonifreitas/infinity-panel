@@ -26,7 +26,7 @@ export class CompanyListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Company>;
-  displayedColumns: string[] = ['name', 'actions'];
+  displayedColumns: string[] = ['name', 'deletedAt', 'actions'];
 
   canAdd = this._permission.check(Page.CompanyPage, PageRole.CanAdd);
   canView = this._permission.check(Page.CompanyPage, PageRole.CanView);
@@ -41,7 +41,7 @@ export class CompanyListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._company.getAllActive();
+    const items = await this._company.getAll();
     this.dataSource = new MatTableDataSource<Company>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -63,13 +63,13 @@ export class CompanyListComponent implements OnInit {
   }
 
   async delete(object: Company): Promise<void> {
-    await this._company.delete(object.id);
-    this._util.message('Empresa excluída com sucesso!', 'success');
+    await this._company.softDelete(object.id, !object.deletedAt);
+    this._util.message(`Empresa ${object.deletedAt ? 'ativada' : 'desativada'} com sucesso!`, 'success');
     this.ngOnInit();
   }
 
   confirmDelete(object: Company): void {
-    this._util.delete().then(async _ => {
+    this._util.delete(object.deletedAt ? 'enable' : 'disable').then(async _ => {
       this.delete(object);
     }).catch(_ => {});
   }

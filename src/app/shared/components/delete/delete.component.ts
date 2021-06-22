@@ -1,6 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormControl, FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
+
+// VALIDATOR
+export function confirmValidator(nameConfirm: string): ValidatorFn {
+  return (control: FormControl): ValidationErrors | null => {
+    return (control.value && control.value !== nameConfirm) ? {invalid: true} : null;
+  };
+}
 
 @Component({
   selector: 'app-delete-dialog',
@@ -9,26 +16,30 @@ import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 })
 export class DeleteComponent implements OnInit {
 
-  form: FormGroup;
+  formGroup: FormGroup;
+  placeholder: string;
 
   constructor(
-    private formGroup: FormBuilder,
+    private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<DeleteComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: {action: 'enable' | 'disable' | 'delete'},
   ) {
-    this.form = this.formGroup.group({
-      confirm: new FormControl('', [Validators.required, this.validatorConfirm]),
+    if (this.data.action === 'enable') this.placeholder = 'ATIVAR';
+    else if (this.data.action === 'disable') this.placeholder = 'DESATIVAR';
+    else if (this.data.action === 'delete') this.placeholder = 'EXCLUIR';
+
+    this.formGroup = this.formBuilder.group({
+      confirm: new FormControl('', [Validators.required, confirmValidator(this.placeholder)]),
     });
   }
 
   ngOnInit(): void { }
 
-  validatorConfirm(confirm: FormControl): {invalid: boolean} {
-    let result = null;
-    if (confirm.value !== 'SIM') result = {invalid: true};
-    return result;
+  get controls() {
+    return this.formGroup.controls as {confirm: FormControl};
   }
 
-  delete(): void {
+  onSubmit(): void {
     this.dialogRef.close(true);
   }
 }

@@ -26,7 +26,7 @@ export class AccessListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Access>;
-  displayedColumns: string[] = ['code', 'quantity', 'used', 'active', 'actions'];
+  displayedColumns: string[] = ['code', 'quantity', 'used', 'deletedAt', 'actions'];
 
   canAdd = this._permission.check(Page.AccessPage, PageRole.CanAdd);
   canView = this._permission.check(Page.AccessPage, PageRole.CanView);
@@ -63,13 +63,13 @@ export class AccessListComponent implements OnInit {
   }
 
   async delete(object: Access): Promise<void> {
-    await this._access.delete(object.id);
-    this._util.message('Cupom excluído com sucesso!', 'success');
+    await this._access.softDelete(object.id, !object.deletedAt);
+    this._util.message(`Cupom ${object.deletedAt ? 'ativado' : 'desativado'} com sucesso!`, 'success');
     this.ngOnInit();
   }
 
   confirmDelete(object: Access): void {
-    this._util.delete().then(async _ => {
+    this._util.delete(object.deletedAt ? 'enable' : 'disable').then(async _ => {
       this.delete(object);
     }).catch(_ => {});
   }

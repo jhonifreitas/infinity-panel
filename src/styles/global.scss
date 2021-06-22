@@ -43,6 +43,13 @@ app-sidebar {
   position: fixed;
 }
 
+.mat-icon-button.mat-success {
+  color: mat-color($success);
+}
+.mat-raised-button.mat-success {
+  background-color: mat-color($success);
+  color: mat-color($success, default-contrast);
+}
 mat-icon[color="success"] {
   color: mat-color($success);
 }

@@ -26,7 +26,7 @@ export class AssessmentGroupListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Group>;
-  displayedColumns: string[] = ['name', 'image', 'actions'];
+  displayedColumns: string[] = ['name', 'image', 'deletedAt', 'actions'];
 
   canAdd = this._permission.check(Page.AssessmentGroupPage, PageRole.CanAdd);
   canView = this._permission.check(Page.AssessmentGroupPage, PageRole.CanView);
@@ -41,7 +41,7 @@ export class AssessmentGroupListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.loading = true;
-    const items = await this._group.getAllActive();
+    const items = await this._group.getAll();
     this.dataSource = new MatTableDataSource<Group>(items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -64,13 +64,13 @@ export class AssessmentGroupListComponent implements OnInit {
 
   async delete(object: Group): Promise<void> {
     if (object.image) await this._group.deleteImage(object.id);
-    await this._group.delete(object.id);
-    this._util.message('Grupo excluído com sucesso!', 'success');
+    await this._group.softDelete(object.id, !object.deletedAt);
+    this._util.message(`Grupo ${object.deletedAt ? 'ativado' : 'desativado'} com sucesso!`, 'success');
     this.ngOnInit();
   }
 
   confirmDelete(object: Group): void {
-    this._util.delete().then(async _ => {
+    this._util.delete(object.deletedAt ? 'enable' : 'disable').then(async _ => {
       this.delete(object);
     }).catch(_ => {});
   }
