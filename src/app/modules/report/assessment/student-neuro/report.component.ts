@@ -98,7 +98,7 @@ export class ReportAssessmentStudentNeuroComponent implements OnInit {
       }
 
       // APPLICATION
-      let applications = await this._application.getByAssementIdByAccessId(assessment.id, value.accessId);
+      const applications = await this._application.getByAssementIdByAccessId(assessment.id, value.accessId);
       for (const application of applications) {
         application.answers = application.answers.map(answer => Object.assign(new Answer(), answer));
         application._student = Object.assign(new Student(), await this._student.getById(application.student.id));

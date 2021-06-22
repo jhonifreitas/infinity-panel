@@ -199,10 +199,9 @@ export class ReportAssessmentNeuroComponent implements OnInit {
       });
 
       // TEAM PORCENT
-      for (const application of applications) {
-        const teams = applications.filter(app => app._student.company.areaId === application._student.company.areaId);
-        
-      }
+      // for (const application of applications) {
+      //   const teams = applications.filter(app => app._student.company.areaId === application._student.company.areaId);
+      // }
 
       if (!applications.length) this._util.message('Nenhuma aplicação encontrada!', 'warn');
       else this.result = {assessment, applications};

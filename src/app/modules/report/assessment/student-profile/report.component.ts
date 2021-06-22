@@ -103,7 +103,7 @@ export class ReportAssessmentStudentProfileComponent implements OnInit {
       const value = this.formGroup.value;
 
       // STUDENT
-      const student = this.students.find(student => student.id === value.studentId);
+      const student = this.students.find(stud => stud.id === value.studentId);
 
       // ASSESSMENT
       const assessment = this.assessments.find(assess => assess.id === value.assessmentId);
