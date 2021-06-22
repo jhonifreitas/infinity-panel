@@ -207,7 +207,7 @@ export class ReportAssessmentNeuroComponent implements OnInit {
           const convergeDivergeLeader = this.getAllConvergeDivergeLeader(application, leader, assessment);
           application._student['leaderConverge'] = convergeDivergeLeader.converge;
           application._student['leaderDiverge'] = convergeDivergeLeader.diverge;
-        };
+        }
       }
 
       // RANKING
@@ -224,10 +224,10 @@ export class ReportAssessmentNeuroComponent implements OnInit {
       // TEAM RANKING
       for (const application of applications) {
         const teams = applications.filter(app => app._student.company.areaId === application._student.company.areaId);
-        const rankingConverge = teams.sort((a, b) => b['converge'] - a['converge']);
-        const rankingDiverge = teams.sort((a, b) => b['diverge'] - a['diverge']);
-        const rankConverge = rankingConverge.findIndex(x => x.student.id === application.student.id) + 1;
-        const rankDiverge = rankingDiverge.findIndex(x => x.student.id === application.student.id) + 1;
+        const rankingTeamConverge = teams.sort((a, b) => b['converge'] - a['converge']);
+        const rankingTeamDiverge = teams.sort((a, b) => b['diverge'] - a['diverge']);
+        const rankConverge = rankingTeamConverge.findIndex(x => x.student.id === application.student.id) + 1;
+        const rankDiverge = rankingTeamDiverge.findIndex(x => x.student.id === application.student.id) + 1;
         application._student['teamConverge'] = `${rankConverge}º`;
         application._student['teamDiverge'] = `${rankDiverge}º`;
       }
