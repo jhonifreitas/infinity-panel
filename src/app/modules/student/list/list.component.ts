@@ -45,12 +45,11 @@ export class StudentListComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.loading = true;
     const items = await this._student.getAll();
-    for (const item of items) {
+    for (const item of items)
       if (item.company) {
         if (item.company.areaId) item.company._area = await this._area.getById(item.company.areaId);
         if (item.company.postId) item.company._post = await this._post.getById(item.company.postId);
       }
-    }
     this.dataSource = new MatTableDataSource<Student>(items);
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
