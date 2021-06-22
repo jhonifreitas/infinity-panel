@@ -67,6 +67,10 @@ export class Answer {
     }
   }
 
+  static isConverge(a: 'NB' | 'NA' | 'PB' | 'PA', b: 'NB' | 'NA' | 'PB' | 'PA') {
+    return a === 'PA' && (b === 'PA' || b === 'PB');
+  }
+
   get resultIsConverge() {
     return this.question.result === 'PA' && (this.getResultNeuro === 'PA' || this.getResultNeuro === 'PB');
   }

@@ -23,17 +23,22 @@
 
       <ng-container matColumnDef="email">
         <mat-header-cell mat-sort-header *matHeaderCellDef> E-mail </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{ element.email }} </mat-cell>
+        <mat-cell matRipple *matCellDef="let element" fxFlexAlign="stretch" class="truncate" (click)="openDetail(element)"> {{ element.email }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="company._department.name">
+        <mat-header-cell mat-sort-header *matHeaderCellDef fxLayoutAlign="center center"> Entidade </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxLayoutAlign="center center"> {{ element.company?._department?.name || '---' }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="company._area.name">
-        <mat-header-cell mat-sort-header *matHeaderCellDef> Área </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{ element.company?._area?.name || '---' }} </mat-cell>
+        <mat-header-cell mat-sort-header *matHeaderCellDef fxLayoutAlign="center center"> Área </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxLayoutAlign="center center"> {{ element.company?._area?.name || '---' }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="company._post.name">
-        <mat-header-cell mat-sort-header *matHeaderCellDef> Cargo </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{ element.company?._post?.name || '---' }} </mat-cell>
+        <mat-header-cell mat-sort-header *matHeaderCellDef fxLayoutAlign="center center"> Cargo </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxLayoutAlign="center center"> {{ element.company?._post?.name || '---' }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="deletedAt">

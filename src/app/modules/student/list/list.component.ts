@@ -11,8 +11,11 @@ import { StudentDetailComponent } from '../detail/detail.component';
 import { UtilService } from 'src/app/services/util.service';
 import { PermissionService } from 'src/app/services/permission.service';
 import { StudentService } from 'src/app/services/firebase/student.service';
+import { CompanyService } from 'src/app/services/firebase/company/company.service';
 import { CompanyAreaService } from 'src/app/services/firebase/company/area.service';
 import { CompanyPostService } from 'src/app/services/firebase/company/post.service';
+import { CompanyBranchService } from 'src/app/services/firebase/company/branch.service';
+import { CompanyDepartmentService } from 'src/app/services/firebase/company/department.service';
 
 @Component({
   selector: 'app-student-list',
@@ -27,7 +30,8 @@ export class StudentListComponent implements OnInit {
   filter: string;
   loading = true;
   dataSource: MatTableDataSource<Student>;
-  displayedColumns: string[] = ['name', 'email', 'company._area.name', 'company._post.name', 'deletedAt', 'image', 'actions'];
+  displayedColumns: string[] = [
+    'name', 'email', 'company._department.name', 'company._area.name', 'company._post.name', 'deletedAt', 'image', 'actions'];
 
   canAdd = this._permission.check(Page.StudentPage, PageRole.CanAdd);
   canView = this._permission.check(Page.StudentPage, PageRole.CanView);
@@ -37,9 +41,12 @@ export class StudentListComponent implements OnInit {
   constructor(
     private _util: UtilService,
     private _student: StudentService,
+    private _company: CompanyService,
     private _area: CompanyAreaService,
     private _post: CompanyPostService,
     public _permission: PermissionService,
+    private _branch: CompanyBranchService,
+    private _department: CompanyDepartmentService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -49,12 +56,18 @@ export class StudentListComponent implements OnInit {
       if (item.company) {
         if (item.company.areaId) item.company._area = await this._area.getById(item.company.areaId);
         if (item.company.postId) item.company._post = await this._post.getById(item.company.postId);
+        if (item.company.branchId) item.company._branch = await this._branch.getById(item.company.branchId);
+        if (item.company.companyId) item.company._company = await this._company.getById(item.company.companyId);
+        if (item.company.departmentId) item.company._department = await this._department.getById(item.company.departmentId);
       }
     this.dataSource = new MatTableDataSource<Student>(items);
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
         case 'company._area.name': return item.company?._area?.name;
         case 'company._post.name': return item.company?._post?.name;
+        case 'company._branch.name': return item.company?._branch?.name;
+        case 'company._company.name': return item.company?._company?.name;
+        case 'company._department.name': return item.company?._department?.name;
         default: return item[property];
       }
     };

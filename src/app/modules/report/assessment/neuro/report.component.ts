@@ -113,6 +113,21 @@ export class ReportAssessmentNeuroComponent implements OnInit {
     };
   }
 
+  getAllConvergeDivergeLeader(application: Application, leader: Application, assessment: Assessment) {
+    const converge = application.answers.filter(answer => {
+      const leaderAnswer = leader.answers.find(answ => answ.question.id === answer.question.id);
+      return leaderAnswer && Answer.isConverge(leaderAnswer.getResultNeuro, answer.getResultNeuro);
+    });
+    const diverge = application.answers.filter(answer => {
+      const leaderAnswer = leader.answers.find(answ => answ.question.id === answer.question.id);
+      return leaderAnswer && !Answer.isConverge(leaderAnswer.getResultNeuro, answer.getResultNeuro);
+    });
+    return {
+      converge: converge.length / assessment._questions.length * 100,
+      diverge: diverge.length / assessment._questions.length * 100
+    };
+  }
+
   async getProfile(studentId: string, accessId: string) {
     const subscription = await this._subscription.getByAccessIdByStudentId(accessId, studentId).catch(_ => {});
     if (!subscription) return null;
@@ -149,6 +164,7 @@ export class ReportAssessmentNeuroComponent implements OnInit {
   async onSubmit() {
     if (this.formGroup.valid) {
       this.loading = true;
+      this.result = null;
       const value = this.formGroup.value;
 
       // ASSESSMENT
@@ -185,11 +201,18 @@ export class ReportAssessmentNeuroComponent implements OnInit {
           application._student.company._department = await this._department.getById(application._student.company.departmentId);
         if (application._student.company.postId)
           application._student.company._post = await this._post.getById(application._student.company.postId);
+
+        const leader = applications.find(x => x._student.company._post.level === application._student.company._post.level + 1);
+        if (leader) {
+          const convergeDivergeLeader = this.getAllConvergeDivergeLeader(application, leader, assessment);
+          application._student['leaderConverge'] = convergeDivergeLeader.converge;
+          application._student['leaderDiverge'] = convergeDivergeLeader.diverge;
+        };
       }
 
       // RANKING
-      const rankingConverge = applications.sort((a, b) => a['converge'] - b['converge']);
-      const rankingDiverge = applications.sort((a, b) => a['diverge'] - b['diverge']);
+      const rankingConverge = applications.sort((a, b) => b['converge'] - a['converge']);
+      const rankingDiverge = applications.sort((a, b) => b['diverge'] - a['diverge']);
       applications = applications.map(app => {
         const rankConverge = rankingConverge.findIndex(x => x.student.id === app.student.id) + 1;
         const rankDiverge = rankingDiverge.findIndex(x => x.student.id === app.student.id) + 1;
@@ -198,10 +221,16 @@ export class ReportAssessmentNeuroComponent implements OnInit {
         return app;
       });
 
-      // TEAM PORCENT
-      // for (const application of applications) {
-      //   const teams = applications.filter(app => app._student.company.areaId === application._student.company.areaId);
-      // }
+      // TEAM RANKING
+      for (const application of applications) {
+        const teams = applications.filter(app => app._student.company.areaId === application._student.company.areaId);
+        const rankingConverge = teams.sort((a, b) => b['converge'] - a['converge']);
+        const rankingDiverge = teams.sort((a, b) => b['diverge'] - a['diverge']);
+        const rankConverge = rankingConverge.findIndex(x => x.student.id === application.student.id) + 1;
+        const rankDiverge = rankingDiverge.findIndex(x => x.student.id === application.student.id) + 1;
+        application._student['teamConverge'] = `${rankConverge}º`;
+        application._student['teamDiverge'] = `${rankDiverge}º`;
+      }
 
       if (!applications.length) this._util.message('Nenhuma aplicação encontrada!', 'warn');
       else this.result = {assessment, applications};
