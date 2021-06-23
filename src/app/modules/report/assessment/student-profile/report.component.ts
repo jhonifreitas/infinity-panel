@@ -12,7 +12,6 @@ import { StudentService } from 'src/app/services/firebase/student.service';
 import { ApplicationService } from 'src/app/services/firebase/application.service';
 import { AssessmentService } from 'src/app/services/firebase/assessment/assessment.service';
 import { AssessmentGroupService } from 'src/app/services/firebase/assessment/group.service';
-import { AssessmentQuestionService } from 'src/app/services/firebase/assessment/question.service';
 
 @Component({
   selector: 'app-report-assessment-profile',
@@ -39,7 +38,6 @@ export class ReportAssessmentStudentProfileComponent implements OnInit {
     private _group: AssessmentGroupService,
     private _assessment: AssessmentService,
     private _application: ApplicationService,
-    private _question: AssessmentQuestionService,
   ) {
     this.formGroup = this.formBuilder.group({
       assessmentId: new FormControl('', Validators.required),
