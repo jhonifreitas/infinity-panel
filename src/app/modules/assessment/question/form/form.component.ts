@@ -130,7 +130,7 @@ export class AssessmentQuestionFormComponent implements OnInit {
 
       const tagImgs: HTMLImageElement[] = [].slice.call(document.getElementsByClassName('ql-editor')[0].getElementsByTagName('img'));
       const images: string[] = [];
-      if (tagImgs.length) {
+      if (tagImgs.length)
         for (let i = 0; i < tagImgs.length; i++) {
           const tag: HTMLImageElement = tagImgs[i];
           let base64 = null;
@@ -141,7 +141,6 @@ export class AssessmentQuestionFormComponent implements OnInit {
           } else this.data.text = this.data.text.replace(/&amp;/g, '&');
           images.push(base64);
         }
-      }
 
       await this._question.save(this.data).then(async id => {
         if (id) this.data.id = id;
