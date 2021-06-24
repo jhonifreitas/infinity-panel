@@ -228,28 +228,28 @@ export class StudentFormComponent implements OnInit {
 
   async companyChange() {
     const companyId = this.companyControls.companyId.value;
-    this.branches = await this._branch.getWhere('companyId', '==', companyId);
+    this.branches = await this._branch.getByCompanyId(companyId);
     if (this.branches.length) this.companyControls.branchId.enable();
     else this.companyControls.branchId.disable();
   }
 
   async branchChange() {
     const branchId = this.companyControls.branchId.value;
-    this.departments = await this._department.getWhere('branchId', '==', branchId);
+    this.departments = await this._department.getByBranchId(branchId);
     if (this.departments.length) this.companyControls.departmentId.enable();
     else this.companyControls.departmentId.disable();
   }
 
   async departmentChange() {
     const departmentId = this.companyControls.departmentId.value;
-    this.areas = await this._area.getWhere('departmentId', '==', departmentId);
+    this.areas = await this._area.getByDepartmentId(departmentId);
     if (this.areas.length) this.companyControls.areaId.enable();
     else this.companyControls.areaId.disable();
   }
 
   async areaChange() {
     const areaId = this.companyControls.areaId.value;
-    this.posts = await this._post.getWhere('areaId', '==', areaId);
+    this.posts = await this._post.getByAreaId(areaId);
     if (this.posts.length) this.companyControls.postId.enable();
     else this.companyControls.postId.disable();
   }
