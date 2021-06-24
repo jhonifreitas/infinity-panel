@@ -169,7 +169,7 @@ export class ReportAssessmentStudentNeuroComponent implements OnInit {
       if (application) {
         application.answers = application.answers.map(answer => Object.assign(new Answer(), answer));
         student['profiles'] = await this.getProfile(application.student.id, value.accessId);
-        
+
         // DURATION
         if (application.end) {
           const duration = intervalToDuration({start: application.init, end: application.end});
