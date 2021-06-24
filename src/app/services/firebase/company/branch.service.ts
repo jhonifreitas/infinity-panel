@@ -19,7 +19,7 @@ export class CompanyBranchService extends FirebaseAbstract<Branch> {
 
   getByCompanyId(companyId: string) {
     const where = [
-      new FirebaseWhere('deletedAt', '!=', null),
+      new FirebaseWhere('deletedAt', '==', null),
       new FirebaseWhere('companyId', '==', companyId)
     ];
     return this.getWhereMany(where);

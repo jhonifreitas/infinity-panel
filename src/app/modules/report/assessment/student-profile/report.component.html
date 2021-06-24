@@ -31,7 +31,8 @@
 
       <div class="text-center">
         <h4 class="mb-0"><b>Aluno:</b> {{ result.student.name || '---' }}</h4>
-        <h4><b>E-mail:</b> {{ result.student.email || '---' }}</h4>
+        <h4 class="mb-0"><b>E-mail:</b> {{ result.student.email || '---' }}</h4>
+        <h4><b>Duração:</b> {{ result.application._duration || '---' }}</h4>
       </div>
 
       <div class="table-responsive" *ngIf="!loading">

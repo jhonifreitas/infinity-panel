@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { intervalToDuration } from 'date-fns';
+
 import { Access } from 'src/app/models/access';
 import { Student } from 'src/app/models/student';
 import { Answer, Application } from 'src/app/models/application';
@@ -25,6 +27,7 @@ export class ReportAssessmentStudentProfileComponent implements OnInit {
   result: {
     groups: Group[];
     student: Student;
+    application: Application;
   };
   students: Student[];
   accessList: Access[];
@@ -98,6 +101,7 @@ export class ReportAssessmentStudentProfileComponent implements OnInit {
   async onSubmit() {
     if (this.formGroup.valid) {
       this.loading = true;
+      this.result = null;
       const value = this.formGroup.value;
 
       // STUDENT
@@ -115,6 +119,15 @@ export class ReportAssessmentStudentProfileComponent implements OnInit {
         const profiles = this.getProfile(application.answers);
         student['profiles'] = profiles.sort((a, b) => b.value - a.value);
 
+        // DURATION
+        if (application.end) {
+          const duration = intervalToDuration({start: application.init, end: application.end});
+          application._duration = '';
+          if (duration.days) application._duration += `${duration.days}d`;
+          if (duration.hours) application._duration += `${duration.hours}h`;
+          application._duration += `${duration.minutes}min`;
+        }
+
         // GROUP
         for (const groupId of assessment.groups) {
           const group = await this._group.getById(groupId);
@@ -123,9 +136,9 @@ export class ReportAssessmentStudentProfileComponent implements OnInit {
           group['result'] = this.getProfile(answers);
           groups.push(group);
         }
-      } else this._util.message('Nenhuma aplicação encontrada!', 'warn');
 
-      this.result = {groups, student};
+        this.result = {groups, student, application};
+      } else this._util.message('Nenhuma aplicação encontrada!', 'warn');
 
       this.loading = false;
     } else this._util.message('Verifique os dados antes de buscar!', 'warn');

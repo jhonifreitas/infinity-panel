@@ -33,6 +33,10 @@
       <h2 class="fw-bold">{{ result.student.name }}</h2>
       <div class="infos" fxLayout="row" fxLayoutGap="20px">
         <div fxFlex class="info">
+          <h4 class="fw-bold">Duração</h4>
+          {{ result.application._duration || '---' }}
+        </div>
+        <div fxFlex class="info">
           <h4 class="fw-bold">Escolaridade</h4>
           {{ result.student.scholarity || '---' }}
         </div>

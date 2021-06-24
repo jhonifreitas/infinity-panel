@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { intervalToDuration } from 'date-fns';
+
 import { Access } from 'src/app/models/access';
 import { Student } from 'src/app/models/student';
 import { Answer, Application } from 'src/app/models/application';
@@ -185,6 +187,15 @@ export class ReportAssessmentNeuroComponent implements OnInit {
       // APPLICATION
       let applications = await this._application.getByAssementIdByAccessId(assessment.id, value.accessId);
       for (const application of applications) {
+        // DURATION
+        if (application.end) {
+          const duration = intervalToDuration({start: application.init, end: application.end});
+          application._duration = '';
+          if (duration.days) application._duration += `${duration.days}d`;
+          if (duration.hours) application._duration += `${duration.hours}h`;
+          application._duration += `${duration.minutes}min`;
+        }
+
         application.answers = application.answers.map(answer => Object.assign(new Answer(), answer));
         application._student = Object.assign(new Student(), await this._student.getById(application.student.id));
         application._student['profiles'] = await this.getProfile(application.student.id, value.accessId);

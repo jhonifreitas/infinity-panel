@@ -13,6 +13,7 @@ export class Application extends Base {
   assessment?: Assessment;
 
   _student?: Student;
+  _duration?: string;
 
   constructor() {
     super();
