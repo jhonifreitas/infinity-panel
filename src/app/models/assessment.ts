@@ -63,9 +63,11 @@ export class Assessment extends Base {
 export class Instruction extends Base {
   title: string;
   text: string;
+  images: string[];
 
   constructor() {
     super();
+    this.images = [];
   }
 }
 
@@ -87,11 +89,13 @@ export class Question extends Base {
   text: string;
   point?: number;
   result?: string;
+  images: string[];
   alternatives?: Alternative[];
   type: 'neuro' | 'profile' | 'objective';
 
   constructor() {
     super();
+    this.images = [];
   }
 
   static get getTypes() {

@@ -101,17 +101,23 @@ export class AssessmentQuestionFormComponent implements OnInit {
     this.controlAlternatives.updateValueAndValidity();
   }
 
-  async uploadImages() {
-    const tagImgs: HTMLImageElement[] = [].slice.call(document.getElementsByClassName('ql-editor')[0].getElementsByTagName('img'));
-    for (let i = 0; i < tagImgs.length; i++) {
-      const tag: HTMLImageElement = tagImgs[i];
-      const src: string = tag.src;
-      if (src.indexOf('base64') >= 0) {
-        const file = await this._util.uploadCompress(src);
-        const url = await this._question.uploadImage(i.toString(), file.file);
-        await this._question.update(this.data.id, {text: this.data.text.replace(src, url)});
-      } else if (src.indexOf('firebasestorage.googleapis.com') >= 0 && this.data.text.indexOf(src) < 0)
-        await this._question.deleteImageByURL(src);
+  async uploadImages(images: string[]) {
+    for (let i = 0; i < images.length; i++) {
+      const base64 = images[i];
+      if (base64) {
+        const file = await this._util.uploadCompress(base64);
+        const url = await this._question.uploadImage(`${this.data.id}/${i.toString()}`, file.file);
+        this.data.images.push(url);
+        this.data.text = this.data.text.replace(`src="${i.toString()}"`, `src="${url}"`);
+        await this._question.update(this.data.id, this.data);
+      }
+    }
+    const deleteImages = this.data.images.filter(url => this.data.text.indexOf(url) < 0);
+    for (const imageUrl of deleteImages) {
+      const index = this.data.images.findIndex(url => url === imageUrl);
+      this.data.images.splice(index, 1);
+      await this._question.deleteImageByURL(imageUrl);
+      await this._question.update(this.data.id, this.data);
     }
   }
 
@@ -122,9 +128,24 @@ export class AssessmentQuestionFormComponent implements OnInit {
 
       Object.assign(this.data, value);
 
+      const tagImgs: HTMLImageElement[] = [].slice.call(document.getElementsByClassName('ql-editor')[0].getElementsByTagName('img'));
+      const images: string[] = [];
+      if (tagImgs.length) {
+        for (let i = 0; i < tagImgs.length; i++) {
+          const tag: HTMLImageElement = tagImgs[i];
+          let base64 = null;
+          const src: string = tag.src;
+          if (src.indexOf('base64') >= 0) {
+            this.data.text = this.data.text.replace(src, i.toString());
+            base64 = src;
+          } else this.data.text = this.data.text.replace(/&amp;/g, '&');
+          images.push(base64);
+        }
+      }
+
       await this._question.save(this.data).then(async id => {
         if (id) this.data.id = id;
-        await this.uploadImages();
+        await this.uploadImages(images);
       });
 
       this.saving = false;
