@@ -11,7 +11,7 @@
             <app-input label="Assessment" type="select" [items]="assessments" [control]="controls.assessmentId"></app-input>
           </div>
           <div fxFlex="30">
-            <app-input label="Estudante" type="select" [items]="students" [control]="controls.studentId"></app-input>
+            <app-input label="Estudante" type="select" [items]="students" selectName="email" [control]="controls.studentId"></app-input>
           </div>
           <div fxFlex="30">
             <app-input label="Código de acesso" type="select" [items]="accessList" selectName="code" [control]="controls.accessId"></app-input>
