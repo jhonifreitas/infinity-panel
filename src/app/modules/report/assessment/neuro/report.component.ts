@@ -204,20 +204,24 @@ export class ReportAssessmentNeuroComponent implements OnInit {
         application._student['converge'] = convergeDiverge.converge;
         application._student['diverge'] = convergeDiverge.diverge;
 
-        if (application._student.company.companyId)
-          application._student.company._company = await this._company.getById(application._student.company.companyId);
-        if (application._student.company.branchId)
-          application._student.company._branch = await this._branch.getById(application._student.company.branchId);
-        if (application._student.company.departmentId)
-          application._student.company._department = await this._department.getById(application._student.company.departmentId);
-        if (application._student.company.postId)
-          application._student.company._post = await this._post.getById(application._student.company.postId);
-
-        const leader = applications.find(x => x._student.company._post.level === application._student.company._post.level + 1);
-        if (leader) {
-          const convergeDivergeLeader = this.getAllConvergeDivergeLeader(application, leader, assessment);
-          application._student['leaderConverge'] = convergeDivergeLeader.converge;
-          application._student['leaderDiverge'] = convergeDivergeLeader.diverge;
+        if (application._student.company) {
+          if (application._student.company.companyId)
+            application._student.company._company = await this._company.getById(application._student.company.companyId);
+          if (application._student.company.branchId)
+            application._student.company._branch = await this._branch.getById(application._student.company.branchId);
+          if (application._student.company.departmentId)
+            application._student.company._department = await this._department.getById(application._student.company.departmentId);
+          if (application._student.company.postId) {
+            application._student.company._post = await this._post.getById(application._student.company.postId);
+            const leader = applications.find(x => 
+              x._student && x._student.company && x._student.company._post.level === application._student.company._post.level + 1
+            );
+            if (leader) {
+              const convergeDivergeLeader = this.getAllConvergeDivergeLeader(application, leader, assessment);
+              application._student['leaderConverge'] = convergeDivergeLeader.converge;
+              application._student['leaderDiverge'] = convergeDivergeLeader.diverge;
+            }
+          }
         }
       }
 
