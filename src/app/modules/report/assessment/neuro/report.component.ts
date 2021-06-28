@@ -213,7 +213,7 @@ export class ReportAssessmentNeuroComponent implements OnInit {
             application._student.company._department = await this._department.getById(application._student.company.departmentId);
           if (application._student.company.postId) {
             application._student.company._post = await this._post.getById(application._student.company.postId);
-            const leader = applications.find(x => 
+            const leader = applications.find(x =>
               x._student && x._student.company && x._student.company._post.level === application._student.company._post.level + 1
             );
             if (leader) {
