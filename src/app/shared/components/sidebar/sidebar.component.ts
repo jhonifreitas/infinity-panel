@@ -48,10 +48,10 @@ export class SidebarComponent implements OnInit {
       { title: 'Assessment Neuro', url: '/relatorios/assessment/neuro', icon: 'gavel', hidden: false, permission: {
         page: Page.ReportAssessmentPage, role: PageRole.CanList}
       },
-      { title: 'Individual Assessment Profile', url: '/relatorios/assessment/individual/profile',
+      { title: 'Mindset Profile Individual', url: '/relatorios/assessment/individual/profile',
         icon: 'gavel', hidden: false, permission: { page: Page.ReportAssessmentPage, role: PageRole.CanList }
       },
-      { title: 'Individual Assessment Neuro', url: '/relatorios/assessment/individual/neuro',
+      { title: 'Mindleader Individual', url: '/relatorios/assessment/individual/neuro',
         icon: 'gavel', hidden: false, permission: { page: Page.ReportAssessmentPage, role: PageRole.CanList }
       },
     ]},

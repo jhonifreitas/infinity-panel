@@ -70,7 +70,11 @@ export class ReportAssessmentStudentProfileComponent implements OnInit {
   }
 
   async getStudents() {
-    this.students = await this._student.getAll('name');
+    const students = await this._student.getAll('name');
+    this.students = students.map(student => {
+      student['nameEmail'] = `${student.name} - ${student.email}`;
+      return student;
+    });
   }
 
   getResultByStudent(application: Application, question: Question) {
