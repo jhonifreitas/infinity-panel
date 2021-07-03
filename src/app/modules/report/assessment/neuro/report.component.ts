@@ -226,8 +226,8 @@ export class ReportAssessmentNeuroComponent implements OnInit {
       }
 
       // RANKING
-      const rankingConverge = applications.sort((a, b) => b['converge'] - a['converge']);
-      const rankingDiverge = applications.sort((a, b) => b['diverge'] - a['diverge']);
+      const rankingConverge = applications.sort((a, b) => b._student['converge'] - a._student['converge']);
+      const rankingDiverge = applications.sort((a, b) => b._student['diverge'] - a._student['diverge']);
       applications = applications.map(app => {
         const rankConverge = rankingConverge.findIndex(x => x.student.id === app.student.id) + 1;
         const rankDiverge = rankingDiverge.findIndex(x => x.student.id === app.student.id) + 1;
@@ -246,6 +246,8 @@ export class ReportAssessmentNeuroComponent implements OnInit {
         application._student['teamConverge'] = `${rankConverge}º`;
         application._student['teamDiverge'] = `${rankDiverge}º`;
       }
+
+      applications.sort((a, b) => a.student.name.localeCompare(b.student.name));
 
       if (!applications.length) this._util.message('Nenhuma aplicação encontrada!', 'warn');
       else this.result = {assessment, applications};
