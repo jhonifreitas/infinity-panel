@@ -99,6 +99,20 @@
         </div>
       </div>
       
+      <table>
+        <tbody>
+          <ng-container *ngFor="let group of result.assessment._groups">
+            <tr *ngFor="let question of group._questions; index as questionIndex">
+              <td class="border vertical" [attr.rowspan]="group._questions.length" width="50" *ngIf="questionIndex === 0"><div class="vertical-content text-center">{{ group.name }}</div></td>
+              <td class="text-center border">{{ questionIndex + 1 }}</td>
+              <td class="border"> {{ question.text | removeHtml }} </td>
+              <td class="text-center border">{{ question.result }}</td>
+              <td class="text-center border">{{ getResultByStudent(result.application, question) || '---' }}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+      
     </mat-card-content>
   </mat-card>
 </div>
