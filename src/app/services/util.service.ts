@@ -123,4 +123,16 @@ export class UtilService {
       value = value.toLowerCase().replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
     return value;
   }
+
+  downloadCSV(name: string, content: string) {
+    const filename = `${name}.csv`;
+    const link = document.createElement('a');
+    link.style.display = 'none';
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(content));
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 }

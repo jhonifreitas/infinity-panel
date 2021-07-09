@@ -104,8 +104,6 @@ import { QuillModule } from 'ngx-quill';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 // COMPRESS
 import { NgxImageCompressService } from 'ngx-image-compress';
-// SELECT FILTER
-// import { MatSelectFilterModule } from 'mat-select-filter';
 // LOTTIE
 import { LottieModule } from 'ngx-lottie';
 export function playerFactory(): Promise<any> {
@@ -201,7 +199,6 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     ReactiveFormsModule,
     MatProgressBarModule,
     MatSlideToggleModule,
-    // MatSelectFilterModule,
     MatAutocompleteModule,
     QuillModule.forRoot(),
     NgxMaskModule.forRoot(),
@@ -209,6 +206,7 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     LottieModule.forRoot({player: playerFactory, useCache: true})
   ],
   providers: [
+    RemoveHtmlPipe,
     NgxImageCompressService,
     { provide: MatPaginatorIntl, useValue: translateMatPaginator() }
   ]

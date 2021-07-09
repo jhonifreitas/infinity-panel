@@ -9,6 +9,7 @@ import { Answer, Application } from 'src/app/models/application';
 import { Assessment, Group, Question } from 'src/app/models/assessment';
 
 import { UtilService } from 'src/app/services/util.service';
+import { RemoveHtmlPipe } from 'src/app/pipes/remove-html.pipe';
 import { AccessService } from 'src/app/services/firebase/access.service';
 import { StudentService } from 'src/app/services/firebase/student.service';
 import { ApplicationService } from 'src/app/services/firebase/application.service';
@@ -44,6 +45,7 @@ export class ReportAssessmentNeuroComponent implements OnInit {
     private _company: CompanyService,
     private _student: StudentService,
     private _post: CompanyPostService,
+    private _removeHtml: RemoveHtmlPipe,
     private _branch: CompanyBranchService,
     private _group: AssessmentGroupService,
     private _assessment: AssessmentService,
@@ -161,6 +163,92 @@ export class ReportAssessmentNeuroComponent implements OnInit {
       { type: 'peacock', value: (peacock / total) * 100 }
     ];
     return result.sort((a, b) => b.value - a.value);
+  }
+
+  downloadCSV() {
+    const csv = [];
+    const separator = ';';
+    for (const app of this.result.applications) {
+      csv.push(app._student.name);
+      
+      const row = [];
+      row.push('Duração');
+      row.push(app._duration || '---');
+      row.push('Perfil Principal');
+      if (app._student['profiles']) {
+        if (app._student['profiles'][0].type === 'lion') row.push('Leão');
+        else if (app._student['profiles'][0].type === 'dog') row.push('Cachorro');
+        else if (app._student['profiles'][0].type === 'monkey') row.push('Macaco');
+        else if (app._student['profiles'][0].type === 'peacock') row.push('Pavão');
+      } else row.push('---');
+      row.push('Perfil Secundário');
+      if (app._student['profiles']) {
+        if (app._student['profiles'][1].type === 'lion') row.push('Leão');
+        else if (app._student['profiles'][1].type === 'dog') row.push('Cachorro');
+        else if (app._student['profiles'][1].type === 'monkey') row.push('Macaco');
+        else if (app._student['profiles'][1].type === 'peacock') row.push('Pavão');
+      } else row.push('---');
+      row.push('Gênero');
+      row.push(app._student.genre || '---');
+      row.push('Idade');
+      row.push(app._student.getAge || '---');
+      row.push('Geração');
+      row.push(app._student.getGeneration || '---');
+      row.push('Filhos');
+      row.push(app._student.childrens || '---');
+      row.push('Empresa');
+      row.push(app._student.company._company.name || '---');
+      row.push('Entidade');
+      row.push(app._student.company._department.name || '---');
+      row.push('Cargo');
+      row.push(app._student.company._post.name || '---');
+      row.push('Setênio');
+      row.push(app._student.getSeven || '---');
+      row.push('Escolaridade');
+      row.push(app._student.scholarity || '---');
+      row.push('Ranking Convergência');
+      row.push(app._student['rankConverge'] || '---');
+      row.push('Ranking Divergência');
+      row.push(app._student['rankDiverge'] || '---');
+      row.push('Convergência Líder');
+      row.push(app._student['leaderConverge'] || '---');
+      row.push('Divergência Líder');
+      row.push(app._student['leaderDiverge'] || '---');
+      row.push('Convergência Equipe');
+      row.push(app._student['teamConverge'] || '---');
+      row.push('Divergência Equipe');
+      row.push(app._student['teamDiverge'] || '---');
+
+      csv.push(row.join(separator));
+      csv.push([`Questões ${this.result.assessment.name}`, '', '', 'Respostas Esperadas'].join(separator));
+      for (const group of this.result.assessment._groups) {
+        for (let i = 0; i < group._questions.length; i++) {
+          const row = [];
+          const question = group._questions[i];
+          row.push(i == 0 ? group.name : '');
+          row.push(i + 1);
+          row.push(this._removeHtml.transform(question.text));
+          row.push(question.result);
+          row.push(this.getResultByStudent(app, question) || '--');
+          csv.push(row.join(separator));
+        }
+
+        const row = ['', '', '', ''];
+        const percent = this.getPercent(group, app);
+        row.push('IMC');
+        row.push(`${percent.imc}%`);
+        row.push('C');
+        row.push(`${percent.converge}%`);
+        row.push('IMD');
+        row.push(`${percent.imd}%`);
+        row.push('D');
+        row.push(`${percent.diverge}%`);
+        csv.push(row.join(separator));
+      }
+      csv.push('');
+    }
+    const content = csv.join('\n');
+    this._util.downloadCSV(`assessment_neuro-${new Date().toJSON()}`, content);
   }
 
   async onSubmit() {

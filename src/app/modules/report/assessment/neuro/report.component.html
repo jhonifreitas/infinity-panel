@@ -26,6 +26,10 @@
     <mat-card-content class="p-3">
       <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 
+      <div class="text-end mb-3">
+        <button mat-raised-button color="primary" (click)="downloadCSV()">Download CSV</button>
+      </div>
+
       <div class="table-responsive" *ngIf="!loading">
         <table>
           <tbody>
@@ -128,7 +132,7 @@
               </ng-container>
             </tr>
             <tr>
-              <th colspan="3" class="text-center border">Questões Assessment {{ result.assessment.name }}</th>
+              <th colspan="3" class="text-center border">Questões {{ result.assessment.name }}</th>
               <th class="text-center border">Respostas Esperadas</th>
               <ng-container *ngFor="let application of result.applications; index as applicationIndex">
                 <th *ngIf="applicationIndex != 0"></th>
