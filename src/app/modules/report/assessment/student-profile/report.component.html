@@ -47,7 +47,7 @@
                 <ng-container *ngIf="profile.type === 'monkey'">Macaco</ng-container>
                 <ng-container *ngIf="profile.type === 'peacock'">Pavão</ng-container>
               </td>
-              <td class="text-center border">{{ profile.value }}%</td>
+              <td class="text-center border">{{ profile.value | number: '1.0-2' }}%</td>
             </tr>
 
             <!-- GROUPS -->
@@ -55,19 +55,19 @@
               <tr>
                 <td class="border vertical" rowspan="4" width="50"><div class="vertical-content text-center">{{ group.name }}</div></td>
                 <td class="text-center border">Cachorro</td>
-                <td class="text-center border">{{ group.result[0].value }}%</td>
+                <td class="text-center border">{{ group.result[0].value | number: '1.0-2' }}%</td>
               </tr>
               <tr>
                 <td class="text-center border">Leão</td>
-                <td class="text-center border">{{ group.result[1].value }}%</td>
+                <td class="text-center border">{{ group.result[1].value | number: '1.0-2' }}%</td>
               </tr>
               <tr>
                 <td class="text-center border">Macaco</td>
-                <td class="text-center border">{{ group.result[2].value }}%</td>
+                <td class="text-center border">{{ group.result[2].value | number: '1.0-2' }}%</td>
               </tr>
               <tr>
                 <td class="text-center border">Pavão</td>
-                <td class="text-center border">{{ group.result[3].value }}%</td>
+                <td class="text-center border">{{ group.result[3].value | number: '1.0-2' }}%</td>
               </tr>
             </ng-container>
           </tbody>
