@@ -170,24 +170,24 @@ export class ReportAssessmentNeuroComponent implements OnInit {
     const separator = ';';
     for (const app of this.result.applications) {
       csv.push(app._student.name);
-      
+
       let row = [];
       row.push('Duração');
       row.push(app._duration || '---');
       row.push('Perfil Principal');
-      if (app._student['profiles']) {
+      if (app._student['profiles'])
         if (app._student['profiles'][0].type === 'lion') row.push('Leão');
         else if (app._student['profiles'][0].type === 'dog') row.push('Cachorro');
         else if (app._student['profiles'][0].type === 'monkey') row.push('Macaco');
         else if (app._student['profiles'][0].type === 'peacock') row.push('Pavão');
-      } else row.push('---');
+      else row.push('---');
       row.push('Perfil Secundário');
-      if (app._student['profiles']) {
+      if (app._student['profiles'])
         if (app._student['profiles'][1].type === 'lion') row.push('Leão');
         else if (app._student['profiles'][1].type === 'dog') row.push('Cachorro');
         else if (app._student['profiles'][1].type === 'monkey') row.push('Macaco');
         else if (app._student['profiles'][1].type === 'peacock') row.push('Pavão');
-      } else row.push('---');
+      else row.push('---');
       row.push('Gênero');
       row.push(app._student.genre || '---');
       row.push('Idade');
@@ -227,9 +227,9 @@ export class ReportAssessmentNeuroComponent implements OnInit {
       csv.push([`Questões ${this.result.assessment.name}`, '', '', 'Respostas Esperadas'].join(separator));
       for (const group of this.result.assessment._groups) {
         for (let i = 0; i < group._questions.length; i++) {
-          const row = [];
+          row = [];
           const question = group._questions[i];
-          row.push(i == 0 ? group.name : '');
+          row.push(i === 0 ? group.name : '');
           row.push(i + 1);
           row.push(this._removeHtml.transform(question.text));
           row.push(question.result);
@@ -237,7 +237,7 @@ export class ReportAssessmentNeuroComponent implements OnInit {
           csv.push(row.join(separator));
         }
 
-        const row = ['', '', ''];
+        row = ['', '', ''];
         const percent = this.getPercent(group, app);
         row.push('IMC');
         row.push(`${percent.imc}%`);
