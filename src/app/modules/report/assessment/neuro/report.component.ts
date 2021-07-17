@@ -171,7 +171,7 @@ export class ReportAssessmentNeuroComponent implements OnInit {
     for (const app of this.result.applications) {
       csv.push(app._student.name);
       
-      const row = [];
+      let row = [];
       row.push('Duração');
       row.push(app._duration || '---');
       row.push('Perfil Principal');
@@ -194,6 +194,8 @@ export class ReportAssessmentNeuroComponent implements OnInit {
       row.push(app._student.getAge || '---');
       row.push('Geração');
       row.push(app._student.getGeneration || '---');
+      csv.push(row.join(separator));
+      row = [];
       row.push('Filhos');
       row.push(app._student.childrens || '---');
       row.push('Empresa');
@@ -206,6 +208,8 @@ export class ReportAssessmentNeuroComponent implements OnInit {
       row.push(app._student.getSeven || '---');
       row.push('Escolaridade');
       row.push(app._student.scholarity || '---');
+      csv.push(row.join(separator));
+      row = [];
       row.push('Ranking Convergência');
       row.push(app._student['rankConverge'] || '---');
       row.push('Ranking Divergência');
@@ -233,7 +237,7 @@ export class ReportAssessmentNeuroComponent implements OnInit {
           csv.push(row.join(separator));
         }
 
-        const row = ['', '', '', ''];
+        const row = ['', '', ''];
         const percent = this.getPercent(group, app);
         row.push('IMC');
         row.push(`${percent.imc}%`);
