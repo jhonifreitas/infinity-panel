@@ -73,10 +73,13 @@ export class Answer {
   }
 
   get resultIsConverge() {
-    return this.question.result === 'PA' && (
+    return (this.question.result === 'PA' && (
       this.getResultNeuro === 'PA' || this.getResultNeuro === 'Pa' ||
       this.getResultNeuro === 'PB' || this.getResultNeuro === 'Pb'
-    );
+    )) || (this.question.result === 'NA' && (
+      this.getResultNeuro === 'NA' || this.getResultNeuro === 'Na' ||
+      this.getResultNeuro === 'NB' || this.getResultNeuro === 'Nb'
+    ));
   }
 
   get resultIsIMC() {
