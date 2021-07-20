@@ -166,12 +166,23 @@ export class ReportAssessmentNeuroComponent implements OnInit {
   }
 
   downloadCSV() {
+    let row = [];
     const csv = [];
     const separator = ';';
-    for (const app of this.result.applications) {
-      csv.push(app._student.name);
 
-      let row = [];
+    row = ['', '', ''];
+    for (const app of this.result.applications) {
+      row.push('');
+      row.push(app._student.name);
+      row.push('');
+      row.push('');
+      row.push('');
+    }
+    csv.push(row.join(separator));
+
+    row = ['', '', ''];
+    for (const app of this.result.applications) {
+      row.push('');
       row.push('Duração');
       row.push(app._duration || '---');
       row.push('Perfil Principal');
@@ -181,6 +192,14 @@ export class ReportAssessmentNeuroComponent implements OnInit {
         else if (app._student['profiles'][0].type === 'monkey') row.push('Macaco');
         else if (app._student['profiles'][0].type === 'peacock') row.push('Pavão');
       else row.push('---');
+    }
+    csv.push(row.join(separator));
+
+    row = ['', '', ''];
+    for (const app of this.result.applications) {
+      row.push('');
+      row.push('Gênero');
+      row.push(app._student.genre || '---');
       row.push('Perfil Secundário');
       if (app._student['profiles'])
         if (app._student['profiles'][1].type === 'lion') row.push('Leão');
@@ -188,68 +207,118 @@ export class ReportAssessmentNeuroComponent implements OnInit {
         else if (app._student['profiles'][1].type === 'monkey') row.push('Macaco');
         else if (app._student['profiles'][1].type === 'peacock') row.push('Pavão');
       else row.push('---');
-      row.push('Gênero');
-      row.push(app._student.genre || '---');
+    }
+    csv.push(row.join(separator));
+
+    row = ['', '', ''];
+    for (const app of this.result.applications) {
+      row.push('');
       row.push('Idade');
       row.push(app._student.getAge || '---');
       row.push('Geração');
       row.push(app._student.getGeneration || '---');
-      csv.push(row.join(separator));
-      row = [];
+    }
+    csv.push(row.join(separator));
+
+    row = ['', '', ''];
+    for (const app of this.result.applications) {
+      row.push('');
       row.push('Filhos');
       row.push(app._student.childrens || '---');
-      row.push('Empresa');
-      row.push(app._student.company._company.name || '---');
-      row.push('Entidade');
-      row.push(app._student.company._department.name || '---');
-      row.push('Cargo');
-      row.push(app._student.company._post.name || '---');
-      row.push('Setênio');
-      row.push(app._student.getSeven || '---');
-      row.push('Escolaridade');
-      row.push(app._student.scholarity || '---');
-      csv.push(row.join(separator));
-      row = [];
       row.push('Ranking Convergência');
       row.push(app._student['rankConverge'] || '---');
+    }
+    csv.push(row.join(separator));
+
+    row = ['', '', ''];
+    for (const app of this.result.applications) {
+      row.push('');
+      row.push('Empresa');
+      row.push(app._student.company._company.name || '---');
       row.push('Ranking Divergência');
       row.push(app._student['rankDiverge'] || '---');
+    }
+    csv.push(row.join(separator));
+
+    row = ['', '', ''];
+    for (const app of this.result.applications) {
+      row.push('');
+      row.push('Entidade');
+      row.push(app._student.company._department.name || '---');
       row.push('Convergência Líder');
       row.push(app._student['leaderConverge'] || '---');
+    }
+    csv.push(row.join(separator));
+
+    row = ['', '', ''];
+    for (const app of this.result.applications) {
+      row.push('');
+      row.push('Cargo');
+      row.push(app._student.company._post.name || '---');
       row.push('Divergência Líder');
       row.push(app._student['leaderDiverge'] || '---');
+    }
+    csv.push(row.join(separator));
+
+    row = ['', '', ''];
+    for (const app of this.result.applications) {
+      row.push('');
+      row.push('Setênio');
+      row.push(app._student.getSeven || '---');
       row.push('Convergência Equipe');
       row.push(app._student['teamConverge'] || '---');
+    }
+    csv.push(row.join(separator));
+
+    row = [`Questões ${this.result.assessment.name}`, '', '', 'Respostas Esperadas'];
+    for (const app of this.result.applications) {
+      row.push('Escolaridade');
+      row.push(app._student.scholarity || '---');
       row.push('Divergência Equipe');
       row.push(app._student['teamDiverge'] || '---');
+      row.push('');
+    }
+    csv.push(row.join(separator));
 
-      csv.push(row.join(separator));
-      csv.push([`Questões ${this.result.assessment.name}`, '', '', 'Respostas Esperadas'].join(separator));
-      for (const group of this.result.assessment._groups) {
-        for (let i = 0; i < group._questions.length; i++) {
-          row = [];
-          const question = group._questions[i];
-          row.push(i === 0 ? group.name : '');
-          row.push(i + 1);
-          row.push(this._removeHtml.transform(question.text));
-          row.push(question.result);
+    for (const group of this.result.assessment._groups) {
+      for (const [index, question] of group._questions.entries()) {
+        row = [];
+        row.push(index === 0 ? group.name : '');
+        row.push(index + 1);
+        row.push(this._removeHtml.transform(question.text));
+        row.push(question.result);
+
+        for (const app of this.result.applications) {
           row.push(this.getResultByStudent(app, question) || '--');
-          csv.push(row.join(separator));
+          row.push('');
+          row.push('');
+          row.push('');
+          row.push('');
         }
-
-        row = ['', '', ''];
-        const percent = this.getPercent(group, app);
-        row.push('IMC');
-        row.push(`${percent.imc}%`);
-        row.push('C');
-        row.push(`${percent.converge}%`);
-        row.push('IMD');
-        row.push(`${percent.imd}%`);
-        row.push('D');
-        row.push(`${percent.diverge}%`);
         csv.push(row.join(separator));
       }
-      csv.push('');
+
+      row = ['', '', ''];
+      for (const app of this.result.applications) {
+        const percent = this.getPercent(group, app);
+        row.push('');
+        row.push('IMC');
+        row.push(`${percent.imc}%`);
+        row.push('IMD');
+        row.push(`${percent.imd}%`);
+      }
+      csv.push(row.join(separator));
+
+      row = ['', '', ''];
+      for (const app of this.result.applications) {
+        const percent = this.getPercent(group, app);
+        row.push('');
+        row.push('C');
+        row.push(`${percent.converge}%`);
+        row.push('D');
+        row.push(`${percent.diverge}%`);
+      }
+      csv.push(row.join(separator));
     }
     const content = csv.join('\n');
     this._util.downloadCSV(`assessment_neuro-${new Date().toJSON()}`, content);
