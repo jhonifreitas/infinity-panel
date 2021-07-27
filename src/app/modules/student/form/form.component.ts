@@ -120,7 +120,7 @@ export class StudentFormComponent implements OnInit {
         facebook: new FormControl(''),
         instagram: new FormControl(''),
       }),
-    }, {validators: !this.data.id ? this.validatorPassword : null});
+    });
   }
 
   async ngOnInit(): Promise<void> {
@@ -129,6 +129,7 @@ export class StudentFormComponent implements OnInit {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) await this.setData(id);
     else {
+      this.formGroup.setValidators(this.validatorPassword);
       this.controls.password.setValidators([
         Validators.required,
         Validators.minLength(6),

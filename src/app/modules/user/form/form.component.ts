@@ -40,7 +40,7 @@ export class UserFormComponent implements OnInit {
       permissions: new FormControl([]),
       password: new FormControl(''),
       confirmPass: new FormControl(''),
-    }, {validators: !this.data.id ? this.validatorPassword : null});
+    });
   }
 
   ngOnInit(): void {
@@ -48,6 +48,7 @@ export class UserFormComponent implements OnInit {
     this.getPermissions();
     if (this.data.id) this.setData();
     else {
+      this.formGroup.setValidators(this.validatorPassword);
       this.controls.password.setValidators([
         Validators.required,
         Validators.minLength(8),
@@ -132,10 +133,7 @@ export class UserFormComponent implements OnInit {
 
       await this._user.save(this.data).then(async id => {
         if (id) this.data.id = id;
-        if (this.image && this.image.new && this.image.file) {
-          const url = await this._user.uploadImage(this.data.id, this.image.file);
-          await this._user.update(this.data.id, {image: url});
-        }
+        if (this.image && this.image.new && this.image.file) await this._user.uploadImage(this.data.id, this.image.file);
       });
 
       this.saving = false;
