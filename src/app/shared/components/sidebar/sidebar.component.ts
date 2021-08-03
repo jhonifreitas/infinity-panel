@@ -54,6 +54,9 @@ export class SidebarComponent implements OnInit {
       { title: 'Mindleader Individual', url: '/relatorios/assessment/individual/neuro',
         icon: 'gavel', hidden: false, permission: { page: Page.ReportAssessmentPage, role: PageRole.CanList }
       },
+      { title: 'Alunos', url: '/relatorios/alunos',
+        icon: 'gavel', hidden: false, permission: { page: Page.ReportStudentPage, role: PageRole.CanList }
+      },
     ]},
     { title: 'Alunos', url: '/alunos', icon: 'person', hidden: false, permission: {
       page: Page.UserPage, role: PageRole.CanList}

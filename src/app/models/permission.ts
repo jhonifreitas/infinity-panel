@@ -69,9 +69,10 @@ export enum Page {
   StudentPage = 'student-page',
   CompanyPage = 'company-page',
   AssessmentPage = 'assessment-page',
+  ReportStudentPage = 'report-student-page',
   AssessmentGroupPage = 'assessment-group-page',
+  ReportAssessmentPage = 'report-assessment-page',
   AssessmentQuestionPage = 'assessment-question-page',
-  ReportAssessmentPage = 'report-assessment-neuro-page',
   AssessmentInstructionPage = 'assessment-instruction-page'
 }
 

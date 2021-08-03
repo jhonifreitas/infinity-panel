@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { intervalToDuration } from 'date-fns';
-
 import { Access } from 'src/app/models/access';
 import { Student } from 'src/app/models/student';
-import { Answer, Application } from 'src/app/models/application';
-import { Assessment, Group, Question } from 'src/app/models/assessment';
+import { Assessment } from 'src/app/models/assessment';
+import { Application } from 'src/app/models/application';
 
 import { UtilService } from 'src/app/services/util.service';
+import { RemoveHtmlPipe } from 'src/app/pipes/remove-html.pipe';
 import { AccessService } from 'src/app/services/firebase/access.service';
 import { StudentService } from 'src/app/services/firebase/student.service';
 import { ApplicationService } from 'src/app/services/firebase/application.service';
@@ -22,20 +21,18 @@ import { CompanyDepartmentService } from 'src/app/services/firebase/company/depa
 import { AssessmentQuestionService } from 'src/app/services/firebase/assessment/question.service';
 
 @Component({
-  selector: 'app-report-assessment-neuro',
+  selector: 'app-report-student',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.scss']
 })
-export class ReportAssessmentStudentNeuroComponent implements OnInit {
+export class ReportStudentComponent implements OnInit {
 
   loading = true;
   formGroup: FormGroup;
   result: {
-    student: Student;
     assessment: Assessment;
-    application: Application;
+    applications: Application[];
   };
-  students: Student[];
   accessList: Access[];
   assessments: Assessment[];
 
@@ -46,6 +43,7 @@ export class ReportAssessmentStudentNeuroComponent implements OnInit {
     private _company: CompanyService,
     private _student: StudentService,
     private _post: CompanyPostService,
+    private _removeHtml: RemoveHtmlPipe,
     private _branch: CompanyBranchService,
     private _group: AssessmentGroupService,
     private _assessment: AssessmentService,
@@ -56,7 +54,6 @@ export class ReportAssessmentStudentNeuroComponent implements OnInit {
   ) {
     this.formGroup = this.formBuilder.group({
       assessmentId: new FormControl('', Validators.required),
-      studentId: new FormControl('', Validators.required),
       accessId: new FormControl('', Validators.required),
     });
   }
@@ -64,7 +61,6 @@ export class ReportAssessmentStudentNeuroComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.loading = true;
     await this.getAccess();
-    await this.getStudents();
     await this.getAssessments();
     this.loading = false;
   }
@@ -79,35 +75,6 @@ export class ReportAssessmentStudentNeuroComponent implements OnInit {
 
   async getAccess() {
     this.accessList = await this._access.getAll();
-  }
-
-  async getStudents() {
-    const students = await this._student.getAll();
-    this.students = students.map(student => {
-      student['nameEmail'] = `${student.name} - ${student.email}`;
-      return student;
-    });
-  }
-
-  getResultByStudent(application: Application, question: Question) {
-    return application.answers.find(answ => answ.question.id === question.id)?.getResultNeuro;
-  }
-
-  getPercent(group: Group) {
-    const questions = group.questions;
-    const application = this.result.application;
-
-    const converge = application.answers.filter(
-      answer => questions.find(question => question === answer.question.id) && answer.resultIsConverge
-    );
-    const diverge = application.answers.filter(
-      answer => questions.find(question => question === answer.question.id) && !answer.resultIsConverge
-    );
-
-    return {
-      converge: converge.length / questions.length * 100,
-      diverge: diverge.length / questions.length * 100
-    };
   }
 
   async getProfile(studentId: string, accessId: string) {
@@ -149,51 +116,25 @@ export class ReportAssessmentStudentNeuroComponent implements OnInit {
       this.result = null;
       const value = this.formGroup.value;
 
-      // STUDENT
-      const student = Object.assign(new Student(), this.students.find(stud => stud.id === value.studentId));
-
       // ASSESSMENT
       const assessment = this.assessments.find(assess => assess.id === value.assessmentId);
-      assessment._groups = [];
-      assessment._questions = [];
-      for (const groupId of assessment.groups) {
-        const group = await this._group.getById(groupId);
-        group._questions = [];
-        for (const questionId of group.questions) {
-          const question = await this._question.getById(questionId);
-          group._questions.push(question);
-          assessment._questions.push(question);
-        }
-        assessment._groups.push(group);
-      }
 
       // APPLICATION
-      const applications = await this._application.getByAssementIdByStudentIdByAccessId(assessment.id, student.id, value.accessId);
-      const application = applications[0];
-      if (application) {
-        application.answers = application.answers.map(answer => Object.assign(new Answer(), answer));
-        student['profiles'] = await this.getProfile(application.student.id, value.accessId);
+      let applications = await this._application.getByAssementIdByAccessId(assessment.id, value.accessId);
+      for (const application of applications) {
+        application._student = Object.assign(new Student(), await this._student.getById(application.student.id));
+        application._student['profiles'] = await this.getProfile(application.student.id, value.accessId);
 
-        // DURATION
-        if (application.end) {
-          const duration = intervalToDuration({start: application.init, end: application.end});
-          application._duration = '';
-          if (duration.days) application._duration += `${duration.days}d`;
-          if (duration.hours) application._duration += `${duration.hours}h`;
-          application._duration += `${duration.minutes}min`;
+        if (application._student.company) {
+          if (application._student.company.departmentId)
+            application._student.company._department = await this._department.getById(application._student.company.departmentId);
         }
+      }
 
-        if (student.company.companyId)
-          student.company._company = await this._company.getById(student.company.companyId);
-        if (student.company.branchId)
-          student.company._branch = await this._branch.getById(student.company.branchId);
-        if (student.company.departmentId)
-          student.company._department = await this._department.getById(student.company.departmentId);
-        if (student.company.postId)
-          student.company._post = await this._post.getById(student.company.postId);
+      applications.sort((a, b) => a.student.name.localeCompare(b.student.name));
 
-        this.result = {assessment, student, application};
-      } else this._util.message('Nenhuma aplicação encontrada!', 'warn');
+      if (!applications.length) this._util.message('Nenhuma aplicação encontrada!', 'warn');
+      else this.result = {assessment, applications};
 
       this.loading = false;
     } else this._util.message('Verifique os dados antes de buscar!', 'warn');

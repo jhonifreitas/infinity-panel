@@ -88,6 +88,7 @@ import { AssessmentInstructionListComponent } from 'src/app/modules/assessment/i
 import { AssessmentInstructionFormComponent } from 'src/app/modules/assessment/instruction/form/form.component';
 import { AssessmentInstructionDetailComponent } from 'src/app/modules/assessment/instruction/detail/detail.component';
 
+import { ReportStudentComponent } from '../modules/report/student/report.component';
 import { ReportAssessmentNeuroComponent } from 'src/app/modules/report/assessment/neuro/report.component';
 import { ReportAssessmentStudentNeuroComponent } from 'src/app/modules/report/assessment/student-neuro/report.component';
 import { ReportAssessmentStudentProfileComponent } from 'src/app/modules/report/assessment/student-profile/report.component';
@@ -141,6 +142,7 @@ import { translateMatPaginator } from 'src/app/services/localization.service';
     CouponDetailComponent,
     StudentDetailComponent,
     CompanyDetailComponent,
+    ReportStudentComponent,
     AssessmentListComponent,
     AssessmentFormComponent,
     CompanyPostListComponent,

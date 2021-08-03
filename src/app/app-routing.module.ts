@@ -15,6 +15,7 @@ import { StudentListComponent } from './modules/student/list/list.component';
 import { StudentFormComponent } from './modules/student/form/form.component';
 import { CompanyListComponent } from './modules/company/list/list.component';
 import { AssessmentListComponent } from './modules/assessment/list/list.component';
+import { ReportStudentComponent } from './modules/report/student/report.component';
 import { AccessListComponent } from './modules/assessment/access/list/list.component';
 import { CompanyPostListComponent } from './modules/company/post/list/list.component';
 import { CompanyAreaListComponent } from './modules/company/area/list/list.component';
@@ -152,7 +153,13 @@ const routes: Routes = [
           canActivate: [PermissionGuard],
           component: ReportAssessmentStudentProfileComponent,
           data: {permissions: [{page: Page.ReportAssessmentPage, role: PageRole.CanList}]},
-        }
+        },
+        {
+          path: 'alunos',
+          canActivate: [PermissionGuard],
+          component: ReportStudentComponent,
+          data: {permissions: [{page: Page.ReportStudentPage, role: PageRole.CanList}]},
+        },
       ]
     },
 

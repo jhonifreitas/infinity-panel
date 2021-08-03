@@ -21,6 +21,10 @@ export class StudentService extends FirebaseAbstract<Student> {
     super(db, StudentService.collectionName);
   }
 
+  async getAll(): Promise<Student[]> {
+    return this._api.get('students').then(res => res.students);
+  }
+
   async add(data: Student): Promise<string> {
     return this._api.post('students', data).then(res => res.student.id);
   }
