@@ -120,15 +120,14 @@ export class ReportStudentComponent implements OnInit {
       const assessment = this.assessments.find(assess => assess.id === value.assessmentId);
 
       // APPLICATION
-      let applications = await this._application.getByAssementIdByAccessId(assessment.id, value.accessId);
+      const applications = await this._application.getByAssementIdByAccessId(assessment.id, value.accessId);
       for (const application of applications) {
         application._student = Object.assign(new Student(), await this._student.getById(application.student.id));
         application._student['profiles'] = await this.getProfile(application.student.id, value.accessId);
 
-        if (application._student.company) {
+        if (application._student.company)
           if (application._student.company.departmentId)
             application._student.company._department = await this._department.getById(application._student.company.departmentId);
-        }
       }
 
       applications.sort((a, b) => a.student.name.localeCompare(b.student.name));
